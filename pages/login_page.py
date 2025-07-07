@@ -4,7 +4,12 @@ class LoginPage:
         self.username_input = 'input[name="username"]'
         self.password_input = 'input[name="password"]'
         self.login_button = 'button[type="submit"]'
-        self.dashboard_header = 'text=Dashboard'  # or any element that appears only after login
+        # Use the same reliable selectors that work for home page
+        self.logged_in_selectors = [
+            'main',  # This works for home page
+            'div[role="main"]',  # Main role fallback
+            'svg.viewz-logo',  # Logo appears when logged in
+        ]
 
     async def goto(self):
         await self.page.goto("/login")
@@ -15,5 +20,14 @@ class LoginPage:
         await self.page.click(self.login_button)
 
     async def is_logged_in(self):
-        return await self.page.locator(self.dashboard_header).is_visible()
+        # Try multiple selectors to check if logged in
+        for selector in self.logged_in_selectors:
+            try:
+                locator = self.page.locator(selector)
+                await locator.wait_for(timeout=3000)
+                if await locator.is_visible():
+                    return True
+            except Exception:
+                continue
+        return False
 

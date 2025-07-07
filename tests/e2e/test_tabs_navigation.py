@@ -31,7 +31,24 @@ async def test_tab_navigation(perform_login, tab_selector, page_class):
     if await pin_button.is_visible():
         await pin_button.click()
 
-    # 🧭 בדיקת הטאב
-    await page.click(tab_selector)
-    page_obj = page_class(page)
-    assert await page_obj.is_loaded()
+    # 🧭 בדיקת הטאב with error handling
+    try:
+        await page.click(tab_selector)
+        await asyncio.sleep(2)  # Give time for page to load
+        page_obj = page_class(page)
+        
+        # Use a more robust check with timeout handling
+        try:
+            loaded = await page_obj.is_loaded()
+            assert loaded, f"Page {page_class.__name__} did not load properly"
+        except Exception as e:
+            # For debugging: print what we actually see on the page
+            print(f"\nDebugging {page_class.__name__}:")
+            print(f"Current URL: {page.url}")
+            print(f"Error: {str(e)}")
+            
+            # Re-raise the assertion error with more context
+            raise AssertionError(f"Tab {tab_selector} -> {page_class.__name__} failed to load: {str(e)}")
+            
+    except Exception as e:
+        pytest.fail(f"Tab navigation failed for {tab_selector}: {str(e)}")
