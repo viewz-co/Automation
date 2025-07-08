@@ -1,0 +1,36 @@
+{
+  "browser": {
+    "browserName": "chromium",
+    "isolated": false,
+    "userDataDir": "./mcp-browser-profile",
+    "launchOptions": {
+      "channel": "chrome",
+      "headless": false,
+      "args": ["--start-maximized"]
+    },
+    "contextOptions": {
+      "viewport": null
+    }
+  },
+  "server": {
+    "port": 8931,
+    "host": "localhost"
+  },
+  "capabilities": [
+    "core",
+    "tabs",
+    "pdf",
+    "history",
+    "wait",
+    "files",
+    "install",
+    "testing"
+  ],
+  "vision": false,
+  "outputDir": "./mcp-output",
+  "network": {
+    "allowedOrigins": ["https://viewz.co", "https://*.viewz.co"],
+    "blockedOrigins": []
+  },
+  "noImageResponses": false
+} 

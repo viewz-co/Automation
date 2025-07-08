@@ -121,14 +121,28 @@ def pytest_runtest_makereport(item, call):
         print(f"\n🔍 Processing test: {test_name}")
         
         case_mapping = {
-            'test_login': 345,  # C345: Login
-            'test_tab_navigation[text=Home-HomePage]': 346,  # C346: test tabs navigation
-            'test_tab_navigation[text=Vizion AI-VizionAIPage]': 346,  # C346: test tabs navigation
-            'test_tab_navigation[text=Reconciliation-ReconciliationPage]': 346,  # C346: test tabs navigation
-            'test_tab_navigation[text=Ledger-LedgerPage]': 346,  # C346: test tabs navigation
-            'test_tab_navigation[text=BI Analysis-BIAnalysisPage]': 346,  # C346: test tabs navigation
-            'test_tab_navigation[text=Connections-ConnectionPage]': 346,  # C346: test tabs navigation
-            'test_tabs_navigation_single_login': 347,  # C347: test tabs single login
+            # Login Tests - Using existing TestRail cases
+            'test_login': 345,  # C345: Login (existing case)
+            
+            # Navigation Tests - Using existing TestRail cases
+            'test_tab_navigation[text=Home-HomePage]': 346,  # C346: test tabs navigation (existing case)
+            'test_tab_navigation[text=Vizion AI-VizionAIPage]': 346,  # C346: test tabs navigation (existing case)
+            'test_tab_navigation[text=Reconciliation-ReconciliationPage]': 346,  # C346: test tabs navigation (existing case)
+            'test_tab_navigation[text=Ledger-LedgerPage]': 346,  # C346: test tabs navigation (existing case)
+            'test_tab_navigation[text=BI Analysis-BIAnalysisPage]': 346,  # C346: test tabs navigation (existing case)
+            'test_tab_navigation[text=Connections-ConnectionPage]': 346,  # C346: test tabs navigation (existing case)
+            'test_tabs_navigation_single_login': 347,  # C347: test tabs single login (existing case)
+            
+            # Logout Tests - Using existing logout case for now
+            'test_logout_after_2fa_login': 357,  # C357: Logout (existing case)
+            'test_logout_direct_method': 357,  # C357: Logout (existing case)
+            'test_logout_via_menu': 357,  # C357: Logout (existing case)
+            'test_logout_comprehensive_fallback': 357,  # C357: Logout (existing case)
+            'test_logout_session_validation': 357,  # C357: Logout (existing case)
+            
+            # Login Scenarios Tests - Map to existing login case for now
+            'test_scenario_1_valid_login': 345,  # C345: Login (existing case)
+            'test_scenario_2_logout_user': 357,  # C357: Logout (existing case)
         }
         
         case_id = case_mapping.get(test_name)
