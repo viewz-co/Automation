@@ -1,0 +1,21 @@
+{
+  "test_verify_invoice_list_is_displayed": "C401",
+  "test_upload_invoice_file": "C402",
+  "test_upload_invalid_file_type": "C403",
+  "test_delete_invoice_in_new_status": "C404",
+  "test_attempt_to_delete_invoice": "C405",
+  "test_menu_options_for_new_status": "C406",
+  "test_menu_options_for_matched_status": "C407",
+  "test_menu_options_for_reconciled_status": "C408",
+  "test_open_edit_popup_layout": "C409",
+  "test_mandatory_validation": "C410",
+  "test_line_totals_equal_before_validation": "C411",
+  "test_gl_account_dropdown": "C412",
+  "test_recognition_timing_single_date": "C413",
+  "test_recognition_timing_default": "C414",
+  "test_record_invoice_and_status": "C415",
+  "test_show_journal_entry_for_record": "C416",
+  "test_view_invoice_in_new_view": "C417",
+  "test_verify_je_amount_and_description": "C418",
+  "test_delete_invoice_dialog": "C419"
+}

@@ -143,6 +143,53 @@ def pytest_runtest_makereport(item, call):
             # Login Scenarios Tests - Map to existing login case for now
             'test_scenario_1_valid_login': 345,  # C345: Login (existing case)
             'test_scenario_2_logout_user': 357,  # C357: Logout (existing case)
+            
+            # ===== PAYABLES TESTS - MAPPED TO ACTUAL TESTRAIL CASES 428-447 =====
+            
+            # Basic Navigation & Display Tests
+            'test_verify_invoice_list_is_displayed': 428,  # Case 428: Verify invoices list is displayed
+            'test_view_invoice_in_new_view': 445,  # Case 445: View invoice in new tab
+            
+            # File Upload Tests
+            'test_upload_invoice_file': 429,  # Case 429: Upload a valid invoice file
+            'test_upload_invalid_file_type': 430,  # Case 430: Upload invalid file type
+            'test_upload_duplicate_invoice': 431,  # Case 431: Upload duplicate invoice
+            
+            # Delete Operations Tests
+            'test_delete_invoice_in_new_status': 432,  # Case 432: Delete invoice in New status
+            'test_attempt_to_delete_invoice': 433,  # Case 433: Attempt to delete invoice in Recorded status
+            'test_delete_invoice_dialog': 447,  # Case 447: Delete confirmation dialog actions
+            
+            # Menu & Context Operations Tests
+            'test_menu_options_for_new_status': 434,  # Case 434: Menu options for New status
+            'test_menu_options_for_matched_status': 435,  # Case 435: Menu options for Matched status
+            'test_menu_options_for_reconciled_status': 436,  # Case 436: Menu options for Recorded status
+            'test_payables_menu_operations': 434,  # Case 434: Menu options for New status (general menu test)
+            
+            # Form & Popup Operations Tests
+            'test_open_edit_popup_layout': 437,  # Case 437: Open Edit popup layout
+            'test_mandatory_validation': 438,  # Case 438: Mandatory fields validation in Edit popup
+            'test_payables_form_validation': 438,  # Case 438: Mandatory fields validation in Edit popup
+            'test_line_totals_equal_before_validation': 439,  # Case 439: Line totals equal Before VAT validation
+            'test_verify_je_amount_and_description': 446,  # Case 446: Verify JE amount and description fields are read-only
+            
+            # Dropdown & Selection Tests
+            'test_gl_account_dropdown': 440,  # Case 440: GL Account dropdown search
+            'test_recognition_timing_single_date': 441,  # Case 441: Recognition timing Single Date
+            'test_recognition_timing_default': 442,  # Case 442: Recognition timing Deferred Period
+            
+            # Record & Status Operations
+            'test_record_invoice_and_status': 443,  # Case 443: Record invoice and status change
+            'test_show_journal_entry_for_record': 444,  # Case 444: Show Journal Entry for Recorded invoice
+            
+            # Additional Payables Tests (using the new page object methods)
+            'test_payables_edit_delete_buttons': 432,  # Case 432: Delete invoice in New status (edit/delete buttons)
+            'test_payables_status_dropdowns': 434,  # Case 434: Menu options for New status (status dropdowns)
+            'test_payables_search_filter_options': 440,  # Case 440: GL Account dropdown search (search/filter)
+            
+            # ===== POTENTIAL FUTURE CSV TESTS =====
+            # Template for additional CSV-generated tests
+            # 'test_csv_generated_<functionality>': <appropriate_case_id>,
         }
         
         case_id = case_mapping.get(test_name)

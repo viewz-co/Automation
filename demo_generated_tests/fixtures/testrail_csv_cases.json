@@ -1,0 +1,311 @@
+{
+  "C401": {
+    "title": "Verify invoice list is displayed",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure invoice list is displayed",
+    "preconditions": "User is logged in",
+    "expected_result": "Confirm invoice list is displayed",
+    "steps": [
+      "Navigate to Payables section"
+    ],
+    "expected_steps": [
+      "Invoice list should be displayed"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 1
+  },
+  "C402": {
+    "title": "Upload invoice file",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure correct Row status is displayed",
+    "preconditions": "User is logged in",
+    "expected_result": "Ensure a PDF User is on the Payables section",
+    "steps": [
+      "Click Upload button",
+      "Select PDF file"
+    ],
+    "expected_steps": [
+      "File should be uploaded successfully"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 2
+  },
+  "C403": {
+    "title": "Upload invalid file type",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Prevent duplicate invoices",
+    "preconditions": "User is logged in",
+    "expected_result": "Verify system User is on the Payables section",
+    "steps": [
+      "Click Upload",
+      "Select invalid file type"
+    ],
+    "expected_steps": [
+      "Error message should be displayed"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 3
+  },
+  "C404": {
+    "title": "Delete invoice in New status",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure delete functionality works",
+    "preconditions": "User is logged in",
+    "expected_result": "Allow delete An invoice row is in New status",
+    "steps": [
+      "Click Delete button",
+      "Confirm deletion"
+    ],
+    "expected_steps": [
+      "Invoice should be deleted"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 4
+  },
+  "C405": {
+    "title": "Attempt to delete invoice",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Prevent accidental deletion",
+    "preconditions": "User is logged in",
+    "expected_result": "Prevent delete An invoice row is in Processed status",
+    "steps": [
+      "Click Delete button on processed invoice"
+    ],
+    "expected_steps": [
+      "Delete should be prevented"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 5
+  },
+  "C406": {
+    "title": "Menu options for New status",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure correct Row status is displayed",
+    "preconditions": "User is logged in",
+    "expected_result": "Ensure correct Row status is New",
+    "steps": [
+      "Right-click on New invoice"
+    ],
+    "expected_steps": [
+      "Context menu should appear"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 6
+  },
+  "C407": {
+    "title": "Menu options for Matched status",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure correct Row status is displayed",
+    "preconditions": "User is logged in",
+    "expected_result": "Ensure correct Row status is Matched",
+    "steps": [
+      "Right-click on Matched invoice"
+    ],
+    "expected_steps": [
+      "Context menu should appear"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 7
+  },
+  "C408": {
+    "title": "Menu options for Reconciled status",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure correct Row status is displayed",
+    "preconditions": "User is logged in",
+    "expected_result": "Ensure correct Row status is Reconciled",
+    "steps": [
+      "Right-click on Reconciled invoice"
+    ],
+    "expected_steps": [
+      "Context menu should appear"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 8
+  },
+  "C409": {
+    "title": "Open Edit popup layout",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure correct Edit popup opens",
+    "preconditions": "User is logged in",
+    "expected_result": "Validate time Invoice is in New status",
+    "steps": [
+      "Click Edit button"
+    ],
+    "expected_steps": [
+      "Edit popup should open"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 9
+  },
+  "C410": {
+    "title": "Mandatory validation",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure required Edit popup opens",
+    "preconditions": "User is logged in",
+    "expected_result": "Ensure required Edit popup opens",
+    "steps": [
+      "Leave mandatory fields empty",
+      "Click Save"
+    ],
+    "expected_steps": [
+      "Validation error should appear"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 10
+  },
+  "C411": {
+    "title": "Line totals equal Before Validation",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure GL Account is populated",
+    "preconditions": "User is logged in",
+    "expected_result": "Prevent main Edit popup opens",
+    "steps": [
+      "Enter line items"
+    ],
+    "expected_steps": [
+      "Line totals should equal header total"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 11
+  },
+  "C412": {
+    "title": "GL Account dropdown",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure GL Account dropdown works",
+    "preconditions": "User is logged in",
+    "expected_result": "Verify GL Account Edit popup opens",
+    "steps": [
+      "Click GL Account dropdown"
+    ],
+    "expected_steps": [
+      "Available accounts should be listed"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 12
+  },
+  "C413": {
+    "title": "Recognition timing Single Date",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Show correct Edit popup opens",
+    "preconditions": "User is logged in",
+    "expected_result": "Show correct Edit popup opens",
+    "steps": [
+      "Select Single Date option"
+    ],
+    "expected_steps": [
+      "Single date field should appear"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 13
+  },
+  "C414": {
+    "title": "Recognition timing Default",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Show correct Edit popup opens",
+    "preconditions": "User is logged in",
+    "expected_result": "Show correct Edit popup opens",
+    "steps": [
+      "Select Default option"
+    ],
+    "expected_steps": [
+      "Default timing should be applied"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 14
+  },
+  "C415": {
+    "title": "Record invoice and status",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure Record Invoice status is updated",
+    "preconditions": "User is logged in",
+    "expected_result": "Ensure Record Invoice status is updated",
+    "steps": [
+      "Click Record button"
+    ],
+    "expected_steps": [
+      "Invoice status should update"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 15
+  },
+  "C416": {
+    "title": "Show Journal Entry for Record",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Display Journal Entry for Record",
+    "preconditions": "User is logged in",
+    "expected_result": "Display Journal Entry for Record",
+    "steps": [
+      "Click Show Journal Entry"
+    ],
+    "expected_steps": [
+      "Journal entry should be displayed"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 16
+  },
+  "C417": {
+    "title": "View invoice in new view",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Ensure View in new view works",
+    "preconditions": "User is logged in",
+    "expected_result": "Ensure View in new view works",
+    "steps": [
+      "Click View in new view"
+    ],
+    "expected_steps": [
+      "Invoice should open in new view"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 17
+  },
+  "C418": {
+    "title": "Verify JE amount and description",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Prevent user Edit popup opens",
+    "preconditions": "User is logged in",
+    "expected_result": "Prevent user Edit popup opens",
+    "steps": [
+      "Check JE amount and description"
+    ],
+    "expected_steps": [
+      "Values should match expected"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 18
+  },
+  "C419": {
+    "title": "Delete invoice dialog",
+    "section": "WEB-244 - Navigation",
+    "priority": 2,
+    "description": "Confirm dialog Invoice is in New status",
+    "preconditions": "User is logged in",
+    "expected_result": "Confirm dialog Invoice is in New status",
+    "steps": [
+      "Click Delete",
+      "Confirm in dialog"
+    ],
+    "expected_steps": [
+      "Invoice should be deleted"
+    ],
+    "created_from_csv": true,
+    "csv_row_number": 19
+  }
+}
