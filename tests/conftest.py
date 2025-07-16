@@ -14,11 +14,30 @@ from pages.login_page import LoginPage
 from utils.testrail_integration import testrail, TestRailStatus
 from utils.screenshot_helper import screenshot_helper
 
+# ---------- PYTEST CONFIGURATION ---------- #
+def pytest_addoption(parser):
+    parser.addoption(
+        "--headless", 
+        action="store_true", 
+        default=False, 
+        help="Run tests in headless mode (without browser UI)"
+    )
+
+@pytest.fixture(scope="session")
+def headless_mode(request):
+    return request.config.getoption("--headless")
+
 # ---------- ENV CONFIG ---------- #
 def load_config():
-    env = os.getenv("ENV", "dev")  # export ENV=stage
     with open("configs/env_config.json") as f:
-        return json.load(f)[env]
+        config = json.load(f)
+        # Handle both flat config structure and environment-based structure
+        env = os.getenv("ENV", "dev")
+        if env in config:
+            return config[env]
+        else:
+            # Return the flat config directly
+            return config
 
 @pytest.fixture(scope="session")
 def env_config():
@@ -26,9 +45,19 @@ def env_config():
 
 # ---------- ASYNC PAGE FIXTURE ---------- #
 @pytest_asyncio.fixture
-async def page(env_config):
+async def page(env_config, headless_mode):
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=False, slow_mo=200, args=["--start-maximized"])
+        # Use headless_mode parameter, but keep slow_mo and args for non-headless
+        launch_options = {
+            "headless": headless_mode,
+        }
+        if not headless_mode:
+            launch_options.update({
+                "slow_mo": 200,
+                "args": ["--start-maximized"]
+            })
+        
+        browser = await p.chromium.launch(**launch_options)
         context = await browser.new_context(base_url=env_config["base_url"], viewport=None)
         page = await context.new_page()
         yield page
@@ -186,6 +215,58 @@ def pytest_runtest_makereport(item, call):
             'test_payables_edit_delete_buttons': 432,  # Case 432: Delete invoice in New status (edit/delete buttons)
             'test_payables_status_dropdowns': 434,  # Case 434: Menu options for New status (status dropdowns)
             'test_payables_search_filter_options': 440,  # Case 440: GL Account dropdown search (search/filter)
+            
+            # ===== API DATE FORMAT VALIDATION TESTS - UPDATED CASE IDs =====
+            # These tests validate that all API endpoints use YYYY-MM-DD date format
+            
+            # Date Format Validation Tests - Updated with C951-C957 mappings
+            'test_get_journal_entries_valid_date_format_request': 951,  # C951: Verify date format in GET /api/v2/accounting/getJournalEntries response
+            'test_create_journal_entry_valid_date_format': 952,  # C952: Verify date format in POST /api/v2/accounting/createJournalEntry request
+            'test_create_journal_entry_invalid_date_format': 953,  # C953: Validate rejection of invalid date format in POST /api/v2/accounting/createJournalEntry
+            'test_get_bank_uploaded_files_date_format': 954,  # C954: Verify date format in GET /api/v2/banks/getBankUploadedFiles
+            'test_get_bank_transactions_data_date_format': 955,  # C955: Verify date format in GET /api/v2/banks/getBankTransactionsData
+            'test_get_entity_documents_date_format': 956,  # C956: Verify date format in GET /api/v2/docs/getEntityDocuments
+            'test_get_accounting_uploaded_files_date_format': 957,  # C957: Verify date format in GET /api/v2/accounting/getAccountingUploadedFiles
+            
+            # ===== BANK OPERATIONS TESTS - NEW BANK FUNCTIONALITY =====
+            # Comprehensive tests for bank reconciliation functionality
+            
+            # Bank Navigation & Display Tests
+            'test_verify_bank_page_loads': 2173,  # C2173: Verify bank page loads correctly
+            'test_verify_transactions_display': 2175,  # C2175: Verify transaction table structure
+            
+            # Bank Account Management Tests
+            'test_bank_account_selection': 2192,  # C2192: Select different bank accounts
+            
+            # Transaction Management Tests
+            'test_transaction_filtering_by_date': 2178,  # C2178: Filter transactions by date range
+            'test_transaction_search': 2179,  # C2179: Search transactions by description/amount
+            
+            # Bank File Upload Tests
+            'test_verify_upload_area': 2182,  # C2182: Upload bank statement files (CSV, Excel, OFX)
+            'test_upload_statement_file_validation': 2183,  # C2183: Validate file format restrictions
+            
+            # Bank Reconciliation Tests
+            'test_reconciliation_status_display': 2188,  # C2188: Mark transactions as reconciled
+            'test_transaction_reconciliation': 2187,  # C2187: Match transactions with journal entries
+            
+            # Bank Action Buttons Tests
+            'test_transaction_action_buttons': 2190,  # C2190: Bulk reconciliation operations
+            
+            # Bank Workflow Tests
+            'test_complete_bank_workflow': 2190,  # C2190: Bulk reconciliation operations
+            'test_empty_state_handling': 2175,  # C2175: Verify transaction table structure
+            'test_bank_page_responsiveness': 2173,  # C2173: Verify bank page loads correctly
+            
+            # Additional Bank Test Cases - Mapped to specific TestRail cases
+            'test_check_bank_account_list_display': 2174,  # C2174: Check bank account list display
+            'test_view_bank_transactions_list': 2177,  # C2177: View bank transactions list
+            'test_sort_transactions_by_columns': 2180,  # C2180: Sort transactions by different columns
+            'test_handle_duplicate_uploads': 2184,  # C2184: Handle duplicate uploads
+            'test_process_uploaded_statements': 2185,  # C2185: Process uploaded statements
+            'test_handle_unmatched_transactions': 2189,  # C2189: Handle unmatched transactions
+            'test_view_account_balances': 2193,  # C2193: View account balances
+            'test_account_settings_configuration': 2194,  # C2194: Account settings and configuration
             
             # ===== POTENTIAL FUTURE CSV TESTS =====
             # Template for additional CSV-generated tests
