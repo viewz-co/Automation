@@ -9,6 +9,10 @@ import asyncio
 import traceback
 from datetime import datetime
 from pages.login_page import LoginPage
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Import TestRail integration
 from utils.testrail_integration import testrail, TestRailStatus
@@ -90,7 +94,9 @@ async def perform_login(page, login_data):
     await login.login(login_data["username"], login_data["password"])
 
     # הזנת OTP
-    secret = os.getenv('TEST_TOTP_SECRET')  # החלף אם צריך
+    secret = os.getenv('TEST_TOTP_SECRET')
+    if not secret:
+        raise ValueError("TEST_TOTP_SECRET environment variable is required")
     otp = pyotp.TOTP(secret).now()
 
     await page.wait_for_selector("text=Two-Factor Authentication", timeout=5000)
