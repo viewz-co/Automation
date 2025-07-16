@@ -1,3 +1,4 @@
+import os
 """
 Complete CSV-Generated Payables Tests
 All test cases from CSV data with proper TestRail mapping
@@ -30,7 +31,7 @@ class TestCompletePayablesOperations:
         try:
             await page.wait_for_selector("text=Two-Factor Authentication", timeout=3000)
             import pyotp
-            secret = "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ"
+            secret = os.getenv('TEST_TOTP_SECRET')
             otp = pyotp.TOTP(secret).now()
             await page.get_by_role("textbox").fill(otp)
             await page.wait_for_selector("text=SuccessOTP verified successfully", timeout=5000)

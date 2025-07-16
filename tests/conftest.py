@@ -90,7 +90,7 @@ async def perform_login(page, login_data):
     await login.login(login_data["username"], login_data["password"])
 
     # הזנת OTP
-    secret = "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ"  # החלף אם צריך
+    secret = os.getenv('TEST_TOTP_SECRET')  # החלף אם צריך
     otp = pyotp.TOTP(secret).now()
 
     await page.wait_for_selector("text=Two-Factor Authentication", timeout=5000)

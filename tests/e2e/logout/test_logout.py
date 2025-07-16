@@ -1,3 +1,4 @@
+import os
 import asyncio
 import pyotp
 import pytest
@@ -18,7 +19,7 @@ async def test_logout_after_2fa_login(page, login_data):
     screenshot_helper = ScreenshotHelper()
     
     # TOTP Secret (same as in test_login.py)
-    secret = "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ"
+    secret = os.getenv('TEST_TOTP_SECRET')
     
     print("🚀 Starting Login + Logout Test with 2FA")
     print("=" * 50)

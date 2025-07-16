@@ -1,3 +1,4 @@
+import os
 # TestRail Configuration
 TESTRAIL_ENABLED=false
 TESTRAIL_URL=https://viewz.testrail.io

@@ -1,3 +1,4 @@
+import os
 """
 Payables Operations Tests (CSV-Generated)
 Tests for payables functionality within the Reconciliation section
@@ -31,7 +32,7 @@ class TestPayablesOperations:
         try:
             await page.wait_for_selector("text=Two-Factor Authentication", timeout=3000)
             import pyotp
-            secret = "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ"
+            secret = os.getenv('TEST_TOTP_SECRET')
             otp = pyotp.TOTP(secret).now()
             await page.get_by_role("textbox").fill(otp)
             await page.wait_for_selector("text=SuccessOTP verified successfully", timeout=5000)
