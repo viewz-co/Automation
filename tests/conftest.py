@@ -33,15 +33,15 @@ def headless_mode(request):
 
 # ---------- ENV CONFIG ---------- #
 def load_config():
-    with open("configs/env_config.json") as f:
-        config = json.load(f)
-        # Handle both flat config structure and environment-based structure
-        env = os.getenv("ENV", "dev")
-        if env in config:
-            return config[env]
-        else:
-            # Return the flat config directly
-            return config
+    """Load configuration from environment variables"""
+    return {
+        "base_url": os.getenv("BASE_URL", "https://new.viewz.co"),
+        "username": os.getenv("TEST_USERNAME", ""),
+        "password": os.getenv("TEST_PASSWORD", ""),
+        "otp_secret": os.getenv("TEST_TOTP_SECRET", ""),
+        "api_base_url": os.getenv("API_BASE_URL", "https://new.viewz.co"),
+        "jwt_token": os.getenv("JWT_TOKEN", "")
+    }
 
 @pytest.fixture(scope="session")
 def env_config():
@@ -80,11 +80,11 @@ def sync_browser_context():
 # ---------- LOGIN DATA FIXTURE ---------- #
 @pytest.fixture
 def login_data():
-    fixture_path = os.path.join(
-        os.path.dirname(__file__), "../fixtures/test_data.json"
-    )
-    with open(fixture_path) as f:
-        return json.load(f)["login"]
+    """Load login data from environment variables"""
+    return {
+        "username": os.getenv("TEST_USERNAME", ""),
+        "password": os.getenv("TEST_PASSWORD", "")
+    }
 
 # ---------- PERFORM LOGIN WITH OTP FIXTURE ---------- #
 @pytest_asyncio.fixture
