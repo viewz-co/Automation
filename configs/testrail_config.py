@@ -48,6 +48,21 @@ class TestRailConfig:
             elif response.status_code == 401:
                 print("❌ Invalid credentials. Please verify username and API key.")
                 return None
+            elif response.status_code == 400:
+                error_msg = "❌ Bad Request (400). Possible causes:"
+                if 'add_result_for_case' in uri:
+                    error_msg += "\n   1. Test run is closed or doesn't exist"
+                    error_msg += "\n   2. Case ID is invalid for this run"
+                    error_msg += "\n   3. Invalid status ID or data format"
+                elif 'close_run' in uri:
+                    error_msg += "\n   1. Run is already closed"
+                    error_msg += "\n   2. Run ID doesn't exist"
+                else:
+                    error_msg += "\n   1. Invalid request format or parameters"
+                    error_msg += "\n   2. Missing required fields"
+                
+                print(error_msg)
+                return None
             
             response.raise_for_status()
             return response.json() if response.content else None
@@ -78,19 +93,48 @@ class TestRailConfig:
             comment: Optional comment
             elapsed: Optional elapsed time
         """
+        # Add small delay to prevent rapid API calls
+        import time
+        time.sleep(0.5)
+        
+        # First check if the run exists and is still open
+        run_info = self._send_request('GET', f'get_run/{run_id}')
+        if not run_info:
+            print(f"⚠️ TestRail run {run_id} not found, skipping result update")
+            return None
+        
+        if run_info.get('is_completed', False):
+            print(f"⚠️ TestRail run {run_id} is already closed, skipping result update for case {case_id}")
+            return None
+        
+        # Try to update the result
         data = {
             'status_id': status,
             'comment': comment
         }
-        
         if elapsed:
             data['elapsed'] = elapsed
-        
+            
         result = self._send_request('POST', f'add_result_for_case/{run_id}/{case_id}', data)
-        return result
+        if result:
+            print(f"✅ TestRail case {case_id} updated successfully")
+            return result
+        else:
+            print(f"❌ Failed to update TestRail case {case_id}")
+            return None
     
     def close_test_run(self, run_id):
         """Close test run in TestRail"""
+        # First check if the run exists and is still open
+        run_info = self._send_request('GET', f'get_run/{run_id}')
+        if not run_info:
+            print(f"⚠️ TestRail run {run_id} not found, cannot close")
+            return None
+        
+        if run_info.get('is_completed', False):
+            print(f"✅ TestRail run {run_id} is already closed")
+            return run_info
+        
         result = self._send_request('POST', f'close_run/{run_id}')
         if result:
             print(f"Test run {run_id} closed successfully")

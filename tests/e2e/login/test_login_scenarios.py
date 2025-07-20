@@ -4,18 +4,20 @@ Tests for Viewz login page validation scenarios
 """
 
 import pytest
+import pytest_asyncio
 from playwright.async_api import Page, expect
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from utils.screenshot_helper import ScreenshotHelper
 import json
 import os
+import asyncio
 
 
 class TestLoginScenarios:
     """Test suite for login page scenarios"""
     
-    @pytest.fixture(autouse=True)
+    @pytest_asyncio.fixture(autouse=True)
     async def setup(self, page: Page):
         """Setup for each test"""
         self.page = page
@@ -45,12 +47,36 @@ class TestLoginScenarios:
         await self._analyze_login_page_structure(page)
         
         # Get credentials from environment or discovered values
-        email = os.getenv("VALID_EMAIL", "automation@viewz.co")
-        password = os.getenv("VALID_PASSWORD", "ValidPassword123!")
+        email = os.getenv("VALID_EMAIL", "sharon_newdemo")
+        password = os.getenv("VALID_PASSWORD", "Sh@ron123$%^")
         
+        # TOTP Secret for 2FA (same as working login test)
+        secret = "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ"
+        
+        # Generate OTP for 2FA
+        import pyotp
+        otp = pyotp.TOTP(secret).now()
+        print(f"🔐 Generated OTP for 2FA: {otp}")
+
         # Execute login
         await self.login_page.login(email, password)
         
+        # Handle 2FA if present
+        try:
+            print("⏳ Checking for 2FA page...")
+            await page.wait_for_selector("text=Two-Factor Authentication", timeout=3000)
+            print("✅ 2FA page detected, entering OTP...")
+            
+            # Fill OTP
+            await page.get_by_role("textbox").fill(otp)
+            print(f"✅ OTP filled: {otp}")
+            
+            # Wait for 2FA processing
+            await asyncio.sleep(5)
+            
+        except Exception as e:
+            print(f"ℹ️ No 2FA required or different flow: {e}")
+
         # Wait for navigation after login
         await page.wait_for_load_state("networkidle")
         

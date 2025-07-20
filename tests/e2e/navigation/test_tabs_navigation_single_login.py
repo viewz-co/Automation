@@ -8,8 +8,8 @@ from pages.BI_analysis_page import BIAnalysisPage
 from pages.connection_page import ConnectionPage
 
 @pytest.mark.asyncio
-async def test_tabs_navigation_single_login(perform_login):
-    page = perform_login
+async def test_tabs_navigation_single_login(perform_login_with_entity):
+    page = perform_login_with_entity
 
     # 📌 פתיחת תפריט אם צריך
     await asyncio.sleep(3)

@@ -10,7 +10,7 @@ from playwright.async_api import Page, expect
 import asyncio
 from datetime import datetime
 
-from pages.csv_navigation_page import CSVNavigationPage
+from pages.payables_page import PayablesPage
 from pages.login_page import LoginPage
 from pages.reconciliation_page import ReconciliationPage
 from utils.testrail_integration import testrail_case
@@ -20,40 +20,17 @@ class TestPayablesOperations:
     """Test class for payables operations within reconciliation functionality"""
     
     @pytest_asyncio.fixture
-    async def payables_page(self, page: Page, login_data):
+    async def payables_page(self, perform_login_with_entity):
         """Initialize payables page object with login and navigation to reconciliation"""
-        # Perform login first
-        login = LoginPage(page)
-        await login.goto()
-        await login.login(login_data["username"], login_data["password"])
-        
-        # Handle 2FA if needed
-        try:
-            await page.wait_for_selector("text=Two-Factor Authentication", timeout=3000)
-            import pyotp
-            secret = "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ"
-            otp = pyotp.TOTP(secret).now()
-            await page.get_by_role("textbox").fill(otp)
-            await page.wait_for_selector("text=SuccessOTP verified successfully", timeout=5000)
-        except:
-            pass  # 2FA not required or already handled
-        
-        # Navigate to Reconciliation section
-        try:
-            await page.click("text=Reconciliation")
-            await page.wait_for_load_state("networkidle")
-            print("✅ Navigated to Reconciliation section")
-        except:
-            print("⚠️ Could not navigate to Reconciliation section, staying on current page")
+        page = perform_login_with_entity
         
         # Initialize page object
-        page_obj = CSVNavigationPage(page)
-        await page_obj.navigate_to_section()
-        await page_obj.wait_for_page_load()
+        page_obj = PayablesPage(page)
+        await page_obj.navigate_to_payables()
         return page_obj
     
     @pytest.mark.asyncio
-    async def test_verify_invoice_list_is_displayed(self, page: Page, payables_page: CSVNavigationPage):
+    async def test_verify_invoice_list_is_displayed(self, page: Page, payables_page: PayablesPage):
         """
         Test Case: Verify invoice list is displayed
         
@@ -105,7 +82,7 @@ class TestPayablesOperations:
             print(f"⏱️ Test duration: {duration:.2f}s")
 
     @pytest.mark.asyncio
-    async def test_upload_invoice_file(self, page: Page, payables_page: CSVNavigationPage):
+    async def test_upload_invoice_file(self, page: Page, payables_page: PayablesPage):
         """
         Test Case: Upload invoice file
         
@@ -138,11 +115,11 @@ class TestPayablesOperations:
             
             if upload_found:
                 # Try to upload file
-                upload_result = await payables_page.click_upload_button()
+                upload_result = await payables_page.verify_upload_area_visible()
                 
                 # If upload button found, try file upload
                 if upload_result:
-                    file_result = await payables_page.upload_invoice_file()
+                    file_result = await payables_page.upload_file("fixtures/test_invoice.pdf")
                     print(f"📁 File upload result: {file_result}")
             else:
                 print("⚠️ Upload functionality not found on this page")
@@ -160,7 +137,7 @@ class TestPayablesOperations:
             print(f"⏱️ Test duration: {duration:.2f}s")
 
     @pytest.mark.asyncio
-    async def test_payables_menu_operations(self, page: Page, payables_page: CSVNavigationPage):
+    async def test_payables_menu_operations(self, page: Page, payables_page: PayablesPage):
         """
         Test Case: Payables menu operations
         
@@ -215,7 +192,7 @@ class TestPayablesOperations:
             print(f"⏱️ Test duration: {duration:.2f}s")
 
     @pytest.mark.asyncio
-    async def test_payables_form_validation(self, page: Page, payables_page: CSVNavigationPage):
+    async def test_payables_form_validation(self, page: Page, payables_page: PayablesPage):
         """
         Test Case: Payables form validation
         

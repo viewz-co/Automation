@@ -8,7 +8,7 @@ class LogoutPage:
             'button:has-text("Log Out")',
             'button:has-text("Sign Out")',
             'a:has-text("Logout")',
-            'a:has-text("Log Out")',
+            'a:has-text("Log Out")',  
             'a:has-text("Sign Out")',
             '[data-testid="logout"]',
             '[data-testid="sign-out"]',
@@ -17,14 +17,30 @@ class LogoutPage:
             '.logout-button',
             'button[type="button"]:has-text("Logout")',
             'text=Logout',
-            'text=Log Out',
-            'text=Sign Out'
+            'text=Log Out', 
+            'text=Sign Out',
+            # Modern UI patterns
+            'svg.lucide-log-out',  # Lucide logout icon
+            'button:has(.lucide-log-out)',  # Button containing logout icon
+            '[title="Logout"]',
+            '[title="Log Out"]',
+            '[aria-label="Logout"]',
+            '[aria-label="Log Out"]',
+            # Menu item patterns
+            'div[role="menuitem"]:has-text("Logout")',
+            'div[role="menuitem"]:has-text("Log Out")',
+            'div[role="menuitem"]:has-text("Sign Out")',
+            # Dropdown menu patterns
+            '.dropdown-menu a:has-text("Logout")',
+            '.menu-item:has-text("Logout")',
+            'li:has-text("Logout")',
+            'li:has-text("Log Out")'
         ]
         
         # User menu selectors (for dropdown menus)
         self.user_menu_selectors = [
             '[data-testid="user-menu"]',
-            '[data-testid="user-dropdown"]',
+            '[data-testid="user-dropdown"]', 
             '[data-testid="profile-menu"]',
             '.user-menu',
             '.user-dropdown',
@@ -38,6 +54,14 @@ class LogoutPage:
             'div[role="button"]:has-text("Profile")',
             'svg + span:has-text("Profile")',  # Icon + text pattern
             'button[aria-expanded]',  # Dropdown button
+            # More specific patterns for modern UIs
+            'button:has(.lucide-user)',  # User icon button
+            'button:has(.lucide-settings)',  # Settings icon button
+            'button:has(.lucide-menu)',  # Menu icon button
+            '[data-testid*="user"]',  # Any user-related testid
+            '[data-testid*="profile"]',  # Any profile-related testid
+            'header button:last-child',  # Often the user menu is last in header
+            '.navbar button:last-child',  # Last button in navbar
         ]
         
         # Selectors that indicate successful logout

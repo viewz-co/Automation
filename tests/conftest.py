@@ -101,6 +101,37 @@ async def perform_login(page, login_data):
 
     return page
 
+# ---------- PERFORM LOGIN WITH ENTITY SELECTION FIXTURE ---------- #
+@pytest_asyncio.fixture
+async def perform_login_with_entity(page, login_data):
+    """Enhanced login fixture that includes entity selection after login"""
+    from pages.entity_selector_page import EntitySelectorPage
+    
+    login = LoginPage(page)
+    await login.goto()
+    await login.login(login_data["username"], login_data["password"])
+
+    # הזנת OTP
+    secret = "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ"  # החלף אם צריך
+    otp = pyotp.TOTP(secret).now()
+
+    await page.wait_for_selector("text=Two-Factor Authentication", timeout=5000)
+    await page.get_by_role("textbox").fill(otp)
+    await asyncio.sleep(1)
+    await page.wait_for_selector("text=SuccessOTP verified successfully", timeout=5000)
+
+    # Entity Selection Step
+    print("🏢 Starting entity selection...")
+    entity_selector = EntitySelectorPage(page)
+    entity_selected = await entity_selector.select_entity("Viewz Demo INC")
+    
+    if entity_selected:
+        print("✅ Entity selection completed successfully")
+    else:
+        print("⚠️ Entity selection failed or not required")
+    
+    return page
+
 # ---------- SCREENSHOT FIXTURE ---------- #
 @pytest.fixture
 def screenshot_on_failure(request):
@@ -355,14 +386,22 @@ def pytest_runtest_makereport(item, call):
             elapsed = f"{report.duration:.2f}s" if hasattr(report, 'duration') else None
             
             # Update TestRail
-            testrail.update_test_result(case_id, status, comment, elapsed)
+            result = testrail.update_test_result(case_id, status, comment, elapsed)
             screenshot_msg = "with screenshot" if status == TestRailStatus.FAILED and page else ""
-            print(f"📊 Updated TestRail case {case_id}: {status} {screenshot_msg}")
+            
+            # Only show success message if TestRail update actually worked
+            if result:
+                print(f"📊 Updated TestRail case {case_id}: {status} {screenshot_msg}")
+            else:
+                print(f"❌ Failed to update TestRail case {case_id}: {status} {screenshot_msg}")
         else:
             print(f"ℹ️ Test '{test_name}' not mapped to TestRail or TestRail disabled")
 
 def pytest_sessionfinish(session, exitstatus):
     """Finalize TestRail integration at the end of test session"""
     if testrail._is_enabled():
+        # Add a small delay to ensure all test results are processed
+        import time
+        time.sleep(2)
         testrail.finalize_test_run()
         print("🏁 TestRail test run completed")

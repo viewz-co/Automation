@@ -20,9 +20,9 @@ tab_test_data = [
 
 @pytest.mark.parametrize("text,page_class", tab_test_data, ids=[f"text={text}-{page_class.__name__}" for text, page_class in tab_test_data])
 @pytest.mark.asyncio
-async def test_tab_navigation(perform_login, text, page_class):
+async def test_tab_navigation(perform_login_with_entity, text, page_class):
     """Test navigation to different tabs and verify they load correctly"""
-    page = perform_login
+    page = perform_login_with_entity
     
     try:
         # 📌 פתיחת תפריט אם צריך

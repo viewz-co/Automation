@@ -19,23 +19,9 @@ class TestCompletePayablesOperations:
     """Complete test class for all CSV payables operations"""
     
     @pytest_asyncio.fixture
-    async def payables_page(self, page: Page, login_data):
+    async def payables_page(self, perform_login_with_entity):
         """Initialize payables page object with login and navigation to reconciliation > payables"""
-        # Perform login first
-        login = LoginPage(page)
-        await login.goto()
-        await login.login(login_data["username"], login_data["password"])
-        
-        # Handle 2FA if needed
-        try:
-            await page.wait_for_selector("text=Two-Factor Authentication", timeout=3000)
-            import pyotp
-            secret = "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ"
-            otp = pyotp.TOTP(secret).now()
-            await page.get_by_role("textbox").fill(otp)
-            await page.wait_for_selector("text=SuccessOTP verified successfully", timeout=5000)
-        except:
-            pass  # 2FA not required or already handled
+        page = perform_login_with_entity
         
         # Navigate to Payables section using the page object
         payables = PayablesPage(page)

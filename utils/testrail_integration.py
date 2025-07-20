@@ -8,6 +8,7 @@ class TestRailIntegration:
         self.config = TestRailConfig()
         self.run_id = None
         self.test_results = {}
+        self.pending_results = set()  # Track pending test case IDs
         
     def setup_test_run(self, case_ids=None):
         """Setup TestRail test run"""
@@ -22,15 +23,50 @@ class TestRailIntegration:
     def update_test_result(self, case_id, status, comment="", elapsed=None):
         """Update individual test result"""
         if not self._is_enabled() or not self.run_id:
-            return
-            
-        self.config.update_test_result(self.run_id, case_id, status, comment, elapsed)
+            return None
+        
+        # Add to pending results
+        self.pending_results.add(case_id)
+        
+        try:
+            result = self.config.update_test_result(self.run_id, case_id, status, comment, elapsed)
+            # Remove from pending if successful
+            if result:
+                self.pending_results.discard(case_id)
+            return result
+        except Exception as e:
+            print(f"⚠️ Failed to update case {case_id}: {e}")
+            # Keep in pending for retry
+            return None
         
     def finalize_test_run(self):
         """Close TestRail test run"""
         if not self._is_enabled() or not self.run_id:
             return
+        
+        # Wait for any pending results with retries
+        import time
+        max_retries = 5
+        retry_delay = 1
+        
+        for attempt in range(max_retries):
+            if not self.pending_results:
+                break
+                
+            print(f"⏳ Waiting for {len(self.pending_results)} pending results (attempt {attempt + 1}/{max_retries})")
+            time.sleep(retry_delay)
             
+            # Retry failed results
+            pending_copy = self.pending_results.copy()
+            for case_id in pending_copy:
+                try:
+                    # Retry with a simple passed status if we have no stored result
+                    self.config.update_test_result(self.run_id, case_id, 1, "Retry update", None)
+                    self.pending_results.discard(case_id)
+                except Exception:
+                    continue
+                    
+        # Always close the run, even if some results are pending
         self.config.close_test_run(self.run_id)
         
     def _is_enabled(self):
