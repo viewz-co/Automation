@@ -102,7 +102,7 @@ class TwoFactorLoginTest:
     
     def __init__(self):
         self.client = PlaywrightMCPClient()
-        self.totp_secret = "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ"  # From original test
+        self.totp_secret = os.getenv('TEST_TOTP_SECRET')  # From original test
         self.test_results = {
             "navigation": False,
             "login_form_filled": False,

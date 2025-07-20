@@ -173,7 +173,7 @@ class APIClient:
                 
                 # Generate OTP code
                 if not otp_secret:
-                    otp_secret = "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ"  # Default secret
+                    otp_secret = os.getenv('TEST_TOTP_SECRET')  # Default secret
                 
                 totp = pyotp.TOTP(otp_secret)
                 otp_code = totp.now()

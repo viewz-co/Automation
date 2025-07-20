@@ -1,3 +1,4 @@
+import os
 """
 Complete CSV-Generated Payables Tests
 All test cases from CSV data with proper TestRail mapping

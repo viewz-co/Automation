@@ -1,0 +1,31 @@
+# Environment Configuration Template
+# Copy this file to .env and fill in your actual values
+# NEVER commit the .env file to version control
+
+# Test Environment
+ENV=dev
+
+# Application URLs
+BASE_URL=https://new.viewz.co
+
+# Test Credentials (CHANGE THESE VALUES)
+TEST_USERNAME=your_username_here
+TEST_PASSWORD=your_secure_password_here
+TEST_TOTP_SECRET=your_totp_secret_here
+
+# TestRail Integration
+TESTRAIL_ENABLED=false
+TESTRAIL_URL=your_testrail_url
+TESTRAIL_USERNAME=your_testrail_email
+TESTRAIL_PASSWORD=your_testrail_api_key
+TESTRAIL_PROJECT_ID=your_project_id
+
+# API Configuration
+API_BASE_URL=https://new.viewz.co
+JWT_TOKEN=your_jwt_token_here
+
+# Security Note:
+# 1. Never commit actual secrets to git
+# 2. Use environment variables in production
+# 3. Rotate secrets regularly
+# 4. Use different secrets for different environments 
