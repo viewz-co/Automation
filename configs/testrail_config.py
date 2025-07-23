@@ -12,7 +12,7 @@ class TestRailConfig:
         
         # Project and suite configuration - Suite ID 4 from your URL
         self.project_id = int(os.getenv('TESTRAIL_PROJECT_ID', '1'))
-        self.suite_id = int(os.getenv('TESTRAIL_SUITE_ID', '4'))
+        self.suite_id = int(os.getenv('TESTRAIL_SUITE_ID', '139'))
         
         # Test run configuration
         self.run_name = os.getenv('TESTRAIL_RUN_NAME', 'Automated Test Run - Playwright Framework')

@@ -201,162 +201,43 @@ def pytest_runtest_makereport(item, call):
         print(f"\n🔍 Processing test: {test_name}")
         
         case_mapping = {
-        # ===== COMPLETE COMPREHENSIVE SUITE MAPPINGS =====
+        # ===== NEW COMPREHENSIVE SUITE MAPPINGS =====
         # Suite ID: 139
-        # Total Cases Mapped: 133
+        # Total Cases: 26
 
         # API Tests
-        'test_account_activity_report': 8024,  # C8024
-        'test_account_balance_display': 8017,  # C8017
-        'test_account_details_popup': 8018,  # C8018
-        'test_account_selection_functionality': 8016,  # C8016
-        'test_account_settings_configuration': 7973,  # C7973
         'test_all_endpoints_reject_invalid_date_formats': 7944,  # C7944
-        'test_api_response_times': 8059,  # C8059
-        'test_concurrent_user_simulation': 8058,  # C8058
         'test_create_journal_entry_invalid_date_format': 7939,  # C7939
         'test_create_journal_entry_valid_date_format': 7938,  # C7938
         'test_date_format_consistency_across_endpoints': 7945,  # C7945
         'test_date_format_validation_demo': 7946,  # C7946
-        'test_date_preset_functionality': 8042,  # C8042
-        'test_empty_state_handling': 7969,  # C7969
-        'test_export_functionality': 8025,  # C8025
         'test_get_accounting_uploaded_files_date_format': 7943,  # C7943
         'test_get_bank_transactions_data_date_format': 7941,  # C7941
         'test_get_bank_uploaded_files_date_format': 7940,  # C7940
         'test_get_entity_documents_date_format': 7942,  # C7942
-        'test_get_gross_profit_value': 8038,  # C8038
         'test_get_journal_entries_invalid_date_format_request': 7937,  # C7937
         'test_get_journal_entries_valid_date_format_request': 7936,  # C7936
-        'test_get_total_income_value': 8037,  # C8037
-        'test_gl_account_dropdown': 8001,  # C8001
-        'test_handle_unmatched_transactions': 7985,  # C7985
-        'test_journal_entries_filtering_by_account': 8020,  # C8020
-        'test_journal_entries_filtering_by_date': 8019,  # C8019
-        'test_journal_entries_search': 8021,  # C8021
-        'test_journal_entry_posting': 8029,  # C8029
-        'test_journal_entry_reversal': 8030,  # C8030
-        'test_journal_entry_validation': 8028,  # C8028
-        'test_large_dataset_handling': 8060,  # C8060
-        'test_line_totals_equal_before_validation': 7999,  # C7999
-        'test_mandatory_validation': 7998,  # C7998
-        'test_manual_journal_entry_creation': 8027,  # C8027
-        'test_menu_options_for_matched_status': 7995,  # C7995
-        'test_menu_options_for_new_status': 7994,  # C7994
-        'test_menu_options_for_reconciled_status': 7996,  # C7996
-        'test_no_data_states_handling': 8044,  # C8044
-        'test_open_edit_popup_layout': 7997,  # C7997
-        'test_password_requirements': 8053,  # C8053
-        'test_period_filter_impact': 8043,  # C8043
-        'test_period_selection': 8026,  # C8026
-        'test_period_selection_functionality': 8041,  # C8041
-        'test_recognition_timing_default': 8003,  # C8003
-        'test_recognition_timing_single_date': 8002,  # C8002
-        'test_reconciliation_status_display': 7983,  # C7983
-        'test_secure_headers': 8055,  # C8055
-        'test_session_timeout_handling': 8050,  # C8050
-        'test_show_journal_entry_for_record': 8005,  # C8005
-        'test_sort_transactions_by_columns': 7977,  # C7977
-        'test_transaction_action_buttons': 7978,  # C7978
-        'test_transaction_drill_down': 8022,  # C8022
-        'test_transaction_filtering_by_date': 7974,  # C7974
-        'test_transaction_reconciliation': 7984,  # C7984
-        'test_transaction_search': 7975,  # C7975
-        'test_trial_balance_display': 8023,  # C8023
-        'test_verify_account_hierarchy_display': 8013,  # C8013
-        'test_verify_filter_controls_display': 8036,  # C8036
-        'test_verify_je_amount_and_description': 8000,  # C8000
-        'test_verify_transactions_display': 7967,  # C7967
-        'test_view_account_balances': 7972,  # C7972
 
-        # Authentication Tests
-        'test_invalid_login_attempts': 8049,  # C8049
+        # Login Tests
         'test_login': 7947,  # C7947
         'test_logout_after_2fa_login': 7961,  # C7961
         'test_scenario_1_valid_login': 7948,  # C7948
-        'test_scenario_2_logout_user': 7949,  # C7949
         'test_tabs_navigation_single_login': 7956,  # C7956
-        'test_tabs_navigation_single_login_with_entity': 7959,  # C7959
 
         # Navigation Tests
-        'test_chart_of_accounts_navigation': 8015,  # C8015
-        'test_entity_selection_validation': 7958,  # C7958
         'test_tab_navigation[text=BI Analysis-BIAnalysisPage]': 7954,  # C7954
         'test_tab_navigation[text=Connections-ConnectionPage]': 7955,  # C7955
         'test_tab_navigation[text=Home-HomePage]': 7950,  # C7950
         'test_tab_navigation[text=Ledger-LedgerPage]': 7953,  # C7953
         'test_tab_navigation[text=Reconciliation-ReconciliationPage]': 7952,  # C7952
         'test_tab_navigation[text=Vizion AI-VizionAIPage]': 7951,  # C7951
-        'test_tab_navigation_with_entity[text=BI Analysis-BIAnalysisPage]': 7957,  # C7957
-        'test_tab_navigation_with_entity[text=Connections-ConnectionPage]': 7957,  # C7957
-        'test_tab_navigation_with_entity[text=Home-HomePage]': 7957,  # C7957
-        'test_tab_navigation_with_entity[text=Ledger-LedgerPage]': 7957,  # C7957
-        'test_tab_navigation_with_entity[text=Reconciliation-ReconciliationPage]': 7957,  # C7957
-        'test_tab_navigation_with_entity[text=Vizion AI-VizionAIPage]': 7957,  # C7957
 
         # Logout Tests
         'test_logout_comprehensive_workflow': 7965,  # C7965
         'test_logout_direct_method': 7962,  # C7962
         'test_logout_keyboard_method': 7964,  # C7964
         'test_logout_via_menu': 7963,  # C7963
-
-        # Bank Tests
-        'test_bank_account_selection': 7970,  # C7970
-        'test_bank_page_responsiveness': 7968,  # C7968
-        'test_bank_reconciliation_integration': 8031,  # C8031
-        'test_check_bank_account_list_display': 7971,  # C7971
-        'test_complete_bank_workflow': 7986,  # C7986
-        'test_verify_bank_page_loads': 7966,  # C7966
-        'test_view_bank_transactions_list': 7976,  # C7976
-
-        # Payables Tests
-        'test_attempt_to_delete_invoice': 8010,  # C8010
-        'test_delete_invoice_dialog': 8009,  # C8009
-        'test_payables_edit_delete_buttons': 8006,  # C8006
-        'test_payables_form_validation': 7993,  # C7993
-        'test_payables_integration': 8032,  # C8032
-        'test_payables_menu_operations': 7992,  # C7992
-        'test_payables_search_filter_options': 8008,  # C8008
-        'test_payables_status_dropdowns': 8007,  # C8007
-        'test_record_invoice_and_status': 8004,  # C8004
-        'test_upload_duplicate_invoice': 7990,  # C7990
-        'test_upload_invoice_file': 7988,  # C7988
-        'test_verify_invoice_list_is_displayed': 7987,  # C7987
-        'test_view_invoice_in_new_view': 7991,  # C7991
-
-        # Ledger Tests
-        'test_complete_dashboard_workflow': 8046,  # C8046
-        'test_complete_ledger_workflow': 8033,  # C8033
-        'test_dashboard_edge_cases': 8048,  # C8048
-        'test_dashboard_responsiveness': 8047,  # C8047
-        'test_dashboard_url_parameters': 8045,  # C8045
-        'test_get_all_kpi_values': 8039,  # C8039
-        'test_kpi_data_consistency': 8040,  # C8040
-        'test_ledger_page_responsiveness': 8014,  # C8014
-        'test_verify_financial_kpis_display': 8035,  # C8035
-        'test_verify_general_ledger_entries_display': 8012,  # C8012
-        'test_verify_ledger_dashboard_loads': 8034,  # C8034
-        'test_verify_ledger_page_loads': 8011,  # C8011
-
-        # Security Tests
-        'test_csrf_protection': 8054,  # C8054
-        'test_sql_injection_prevention': 8051,  # C8051
-        'test_xss_prevention': 8052,  # C8052
-
-        # Performance Tests
-        'test_handle_duplicate_uploads': 7981,  # C7981
-        'test_memory_usage_monitoring': 8057,  # C8057
-        'test_page_load_performance': 8056,  # C8056
-        'test_process_uploaded_statements': 7982,  # C7982
-        'test_upload_invalid_file_type': 7989,  # C7989
-        'test_upload_statement_file_validation': 7980,  # C7980
-        'test_verify_upload_area': 7979,  # C7979
-
-        # Compatibility Tests
-        'test_mobile_viewport_compatibility': 8062,  # C8062
-        'test_print_stylesheet_compatibility': 8065,  # C8065
-        'test_responsive_design_elements': 8063,  # C8063
-        'test_touch_interface_compatibility': 8064,  # C8064
+        'test_scenario_2_logout_user': 7949,  # C7949
         }
         
         case_id = case_mapping.get(test_name)

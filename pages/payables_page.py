@@ -87,18 +87,21 @@ class PayablesPage:
             # Handle menu opening with better error handling
             try:
                 logo = self.page.locator("svg.viewz-logo")
-                box = await logo.bounding_box()
-                if box:
-                    await self.page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
-                await asyncio.sleep(1)
+                logo_count = await logo.count()
+                if logo_count > 0:
+                    box = await logo.bounding_box()
+                    if box:
+                        await self.page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+                        await asyncio.sleep(1)
+                        print("✅ Logo hover completed")
 
                 # Try to click pin button with better handling
                 pin_button = self.page.locator("button:has(svg.lucide-pin)")
-                if await pin_button.is_visible():
-                    # Use force click to bypass interception issues
-                    await pin_button.click(force=True)
+                pin_count = await pin_button.count()
+                if pin_count > 0 and await pin_button.is_visible():
+                    await pin_button.click()
                     await asyncio.sleep(1)
-                    print("✅ Pin button clicked (forced)")
+                    print("✅ Pin button clicked")
                 else:
                     print("⚠️ Pin button not visible, trying to continue")
                     
