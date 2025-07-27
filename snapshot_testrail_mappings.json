@@ -1,0 +1,39 @@
+{
+  "section_id": 805,
+  "section_name": "\ud83d\udcf8 Snapshot Regression",
+  "test_cases": [
+    {
+      "title": "Visual Snapshots - Key Application Pages",
+      "case_id": 12865,
+      "testrail_id": "C12865"
+    },
+    {
+      "title": "DOM Snapshots - Critical Page Elements",
+      "case_id": 12866,
+      "testrail_id": "C12866"
+    },
+    {
+      "title": "API Response Snapshots",
+      "case_id": 12867,
+      "testrail_id": "C12867"
+    },
+    {
+      "title": "Component Snapshots - UI Components",
+      "case_id": 12868,
+      "testrail_id": "C12868"
+    },
+    {
+      "title": "Snapshot Comparison Workflow",
+      "case_id": 12869,
+      "testrail_id": "C12869"
+    }
+  ],
+  "conftest_mappings": {
+    "test_visual_snapshots_key_pages": 12865,
+    "test_dom_snapshots_critical_elements": 12866,
+    "test_api_response_snapshots": 12867,
+    "test_component_snapshots": 12868,
+    "test_snapshot_comparison_workflow": 12869
+  },
+  "created_at": "2025-07-24T17:09:04.791559"
+}

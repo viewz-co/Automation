@@ -357,6 +357,13 @@ def pytest_runtest_makereport(item, call):
         'test_print_stylesheet_compatibility': 8065,  # C8065
         'test_responsive_design_elements': 8063,  # C8063
         'test_touch_interface_compatibility': 8064,  # C8064
+
+        # Snapshot Tests
+        'test_visual_snapshots_key_pages': 12865,  # C12865
+        'test_dom_snapshots_critical_elements': 12866,  # C12866
+        'test_api_response_snapshots': 12867,  # C12867
+        'test_component_snapshots': 12868,  # C12868
+        'test_snapshot_comparison_workflow': 12869,  # C12869
         }
         
         case_id = case_mapping.get(test_name)
