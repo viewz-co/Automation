@@ -1,0 +1,7 @@
+# Ignore all uploaded test files except README.md
+*
+!README.md
+!.gitignore
+
+# This ensures user-uploaded test files are not committed to git
+# while preserving the directory structure and documentation 

@@ -1,0 +1,255 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [ main, develop, feature/* ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run tests daily at 6 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - upload
+          - login
+          - navigation
+          - ledger
+
+env:
+  # GitHub Container Registry
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # Build and cache Docker image
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image: ${{ steps.image.outputs.image }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          target: production
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Output image name
+        id: image
+        run: echo "image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" >> $GITHUB_OUTPUT
+
+  # Run tests in parallel
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        test-group:
+          - name: "Upload Tests"
+            path: "tests/e2e/payables/test_invoice_file_upload.py"
+            container: "upload-tests"
+          - name: "Login Tests" 
+            path: "tests/e2e/login/"
+            container: "login-tests"
+          - name: "Navigation Tests"
+            path: "tests/e2e/navigation/"
+            container: "navigation-tests"
+          - name: "Ledger Tests"
+            path: "tests/e2e/ledger/"
+            container: "ledger-tests"
+          - name: "API Tests"
+            path: "tests/api/"
+            container: "api-tests"
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create environment file
+        run: |
+          cat > .env << EOF
+          TEST_USERNAME=${{ secrets.TEST_USERNAME }}
+          TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}
+          TEST_TOTP_SECRET=${{ secrets.TEST_TOTP_SECRET }}
+          TESTRAIL_URL=${{ secrets.TESTRAIL_URL }}
+          TESTRAIL_USERNAME=${{ secrets.TESTRAIL_USERNAME }}
+          TESTRAIL_PASSWORD=${{ secrets.TESTRAIL_PASSWORD }}
+          TESTRAIL_PROJECT_ID=${{ secrets.TESTRAIL_PROJECT_ID }}
+          CI=true
+          HEADLESS=true
+          TESTRAIL_ENABLED=true
+          GITHUB_RUN_ID=${{ github.run_id }}
+          GITHUB_RUN_NUMBER=${{ github.run_number }}
+          EOF
+
+      - name: Run ${{ matrix.test-group.name }}
+        run: |
+          docker run --rm \
+            --env-file .env \
+            -v ${{ github.workspace }}/reports:/app/reports \
+            -v ${{ github.workspace }}/screenshots:/app/screenshots \
+            ${{ needs.build.outputs.image }} \
+            python -m pytest ${{ matrix.test-group.path }} -v --headless \
+            --html=reports/${{ matrix.test-group.container }}-report.html \
+            --json-report --json-report-file=reports/${{ matrix.test-group.container }}-report.json \
+            --maxfail=5
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.test-group.container }}-results
+          path: |
+            reports/
+            screenshots/
+          retention-days: 30
+
+      - name: Upload screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ${{ matrix.test-group.container }}-failure-screenshots
+          path: screenshots/
+          retention-days: 7
+
+  # Comprehensive test run
+  full-test-suite:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event.inputs.test_suite == 'all'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create environment file
+        run: |
+          cat > .env << EOF
+          TEST_USERNAME=${{ secrets.TEST_USERNAME }}
+          TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}
+          TEST_TOTP_SECRET=${{ secrets.TEST_TOTP_SECRET }}
+          TESTRAIL_URL=${{ secrets.TESTRAIL_URL }}
+          TESTRAIL_USERNAME=${{ secrets.TESTRAIL_USERNAME }}
+          TESTRAIL_PASSWORD=${{ secrets.TESTRAIL_PASSWORD }}
+          TESTRAIL_PROJECT_ID=${{ secrets.TESTRAIL_PROJECT_ID }}
+          CI=true
+          HEADLESS=true
+          TESTRAIL_ENABLED=true
+          GITHUB_RUN_ID=${{ github.run_id }}
+          GITHUB_RUN_NUMBER=${{ github.run_number }}
+          EOF
+
+      - name: Run full test suite
+        run: |
+          docker run --rm \
+            --env-file .env \
+            -v ${{ github.workspace }}/reports:/app/reports \
+            -v ${{ github.workspace }}/screenshots:/app/screenshots \
+            ${{ needs.build.outputs.image }} \
+            python -m pytest tests/ -v --headless \
+            --html=reports/full-suite-report.html \
+            --json-report --json-report-file=reports/full-suite-report.json \
+            -n auto --dist worksteal
+
+      - name: Upload full test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-suite-results
+          path: |
+            reports/
+            screenshots/
+          retention-days: 30
+
+  # Performance tests
+  performance:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create environment file
+        run: |
+          cat > .env << EOF
+          TEST_USERNAME=${{ secrets.TEST_USERNAME }}
+          TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}
+          TEST_TOTP_SECRET=${{ secrets.TEST_TOTP_SECRET }}
+          CI=true
+          HEADLESS=true
+          PERFORMANCE_TEST=true
+          EOF
+
+      - name: Run performance tests
+        run: |
+          docker run --rm \
+            --env-file .env \
+            -v ${{ github.workspace }}/reports:/app/reports \
+            ${{ needs.build.outputs.image }} \
+            python -m pytest tests/ -k "performance" -v --headless
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-results
+          path: reports/
+          retention-days: 30
+
+  # Notification
+  notify:
+    needs: [test, full-test-suite]
+    runs-on: ubuntu-latest
+    if: always() && (failure() || success())
+    
+    steps:
+      - name: Notify on success
+        if: needs.test.result == 'success'
+        run: |
+          echo "✅ All tests passed for commit ${{ github.sha }}"
+          
+      - name: Notify on failure
+        if: needs.test.result == 'failure'
+        run: |
+          echo "❌ Tests failed for commit ${{ github.sha }}"
+          echo "Check the artifacts and logs for details" 

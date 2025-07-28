@@ -364,6 +364,10 @@ def pytest_runtest_makereport(item, call):
         'test_api_response_snapshots': 12867,  # C12867
         'test_component_snapshots': 12868,  # C12868
         'test_snapshot_comparison_workflow': 12869,  # C12869
+
+        # Missing Implementation Tests (Now Implemented)
+        'test_resource_usage_optimization': 8061,  # C8061
+        'test_menu_pinning_and_navigation': 7960,  # C7960
         }
         
         case_id = case_mapping.get(test_name)

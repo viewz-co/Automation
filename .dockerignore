@@ -1,0 +1,88 @@
+# Version control
+.git
+.gitignore
+.github
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+venv
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# Playwright
+test-results/
+playwright-report/
+/ms-playwright/
+
+# Local development
+.env
+.env.local
+.env.*.local
+*~
+*.swp
+*.tmp
+
+# IDE
+.vscode
+.idea
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test artifacts
+reports/
+screenshots/
+mcp-output/
+mcp-browser-profile/
+
+# Local user files (keep these private)
+uploaded_test_files/*.pdf
+uploaded_test_files/*.doc
+uploaded_test_files/*.docx
+uploaded_test_files/*.jpg
+uploaded_test_files/*.png
+uploaded_test_files/*.txt
+!uploaded_test_files/README.md
+!uploaded_test_files/.gitignore
+
+# Documentation
+*.md
+!README.md
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# CI/CD
+.github/
+
+# Node.js (if any)
+node_modules
+npm-debug.log* 
