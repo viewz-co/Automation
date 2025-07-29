@@ -82,7 +82,7 @@ def scan_repository():
 def create_secure_config():
     """Create a secure configuration template"""
     secure_config = {
-        "base_url": "https://new.viewz.co",
+        "base_url": "https://app.viewz.co",
         "username": "${TEST_USERNAME}",
         "password": "${TEST_PASSWORD}",
         "otp_secret": "${TEST_TOTP_SECRET}",

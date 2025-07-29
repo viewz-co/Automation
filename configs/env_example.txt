@@ -10,7 +10,7 @@ TESTRAIL_RUN_NAME=Automated Test Run - Playwright Framework
 TESTRAIL_RUN_DESCRIPTION=Automated test execution from Playwright Python Framework
 
 # Test Configuration
-TEST_BASE_URL=https://new.viewz.co
+TEST_BASE_URL=https://app.viewz.co
 TEST_USERNAME=sharon_newdemo
 TEST_PASSWORD=Sh@ron123$%^
 TEST_TOTP_SECRET=HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ 

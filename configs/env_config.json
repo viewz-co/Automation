@@ -1,11 +1,11 @@
 {
-  "base_url": "https://new.viewz.co",
+      "base_url": "https://app.viewz.co",
   "username": "sharon_newdemo",
   "password": "Sh@ron123$%^",
   "otp_secret": "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ",
   "jwt_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzaGFyb24tbmV3ZGVtbyIsImV4cCI6MTcyMTIwNzQzNCwiaWF0IjoxNzIxMTIxMDM0fQ.z5H8KVHWBqh4y1mNxLk7Zj0eU2wPaQ3sT9rXvH4sK8N",
   "api": {
-    "base_url": "https://new.viewz.co/api",
+    "base_url": "https://app.viewz.co/api",
     "mock_mode": false,
     "timeout": 30,
     "verify_ssl": true

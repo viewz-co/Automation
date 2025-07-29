@@ -15,7 +15,7 @@ async def debug_payables_interface():
     """Debug the actual Payables page to find upload interface"""
     
     # Setup (using same env vars as tests)
-    base_url = os.getenv('BASE_URL', 'https://new.viewz.co')
+    base_url = os.getenv('BASE_URL', 'https://app.viewz.co')
     username = os.getenv('TEST_USERNAME')
     password = os.getenv('TEST_PASSWORD')
     totp_secret = os.getenv('TEST_TOTP_SECRET')

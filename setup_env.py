@@ -31,7 +31,7 @@ def create_env_file():
 ENV=dev
 
 # Application URLs  
-BASE_URL=https://new.viewz.co
+BASE_URL=https://app.viewz.co
 
 # NEW SECURE TEST CREDENTIALS
 TEST_USERNAME=sharon_newdemo_secure
@@ -46,7 +46,7 @@ TESTRAIL_PASSWORD=your_testrail_api_key
 TESTRAIL_PROJECT_ID=1
 
 # API Configuration
-API_BASE_URL=https://new.viewz.co
+API_BASE_URL=https://app.viewz.co
 JWT_TOKEN=WILL_BE_GENERATED_AFTER_LOGIN
 
 # SECURITY NOTES:

@@ -35,11 +35,11 @@ def headless_mode(request):
 def load_config():
     """Load configuration from environment variables"""
     return {
-        "base_url": os.getenv("BASE_URL", "https://new.viewz.co"),
+        "base_url": os.getenv("BASE_URL", "https://app.viewz.co"),
         "username": os.getenv("TEST_USERNAME", ""),
         "password": os.getenv("TEST_PASSWORD", ""),
         "otp_secret": os.getenv("TEST_TOTP_SECRET", ""),
-        "api_base_url": os.getenv("API_BASE_URL", "https://new.viewz.co"),
+        "api_base_url": os.getenv("API_BASE_URL", "https://app.viewz.co"),
         "jwt_token": os.getenv("JWT_TOKEN", "")
     }
 

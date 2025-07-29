@@ -1,5 +1,5 @@
 {
-  "base_url": "https://new.viewz.co",
+      "base_url": "https://app.viewz.co",
   "username": "${TEST_USERNAME}",
   "password": "${TEST_PASSWORD}",
   "otp_secret": "${TEST_TOTP_SECRET}",

@@ -16,7 +16,7 @@ module.exports = {
     video: 'retain-on-failure',
     
     // Snapshot testing settings
-    baseURL: process.env.BASE_URL || 'https://new.viewz.co',
+    baseURL: process.env.BASE_URL || 'https://app.viewz.co',
     
     // Browser settings for consistent snapshots
     viewport: { width: 1280, height: 720 },

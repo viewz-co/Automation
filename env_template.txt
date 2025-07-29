@@ -6,7 +6,7 @@
 ENV=dev
 
 # Application URLs
-BASE_URL=https://new.viewz.co
+BASE_URL=https://app.viewz.co
 
 # Test Credentials (CHANGE THESE VALUES)
 TEST_USERNAME=your_username_here
@@ -21,7 +21,7 @@ TESTRAIL_PASSWORD=your_testrail_api_key
 TESTRAIL_PROJECT_ID=your_project_id
 
 # API Configuration
-API_BASE_URL=https://new.viewz.co
+API_BASE_URL=https://app.viewz.co
 JWT_TOKEN=your_jwt_token_here
 
 # Security Note:
