@@ -26,7 +26,7 @@ class TestLoginScenarios:
         self.screenshot_helper = ScreenshotHelper()
         
         # Navigate to login page
-        await page.goto("https://new.viewz.co/login")
+        await page.goto("https://app.viewz.co/login")
         await page.wait_for_load_state("networkidle")
     
     @pytest.mark.asyncio
@@ -267,7 +267,7 @@ class TestLoginScenarios:
             lambda: "dashboard" in page.url.lower(),
             lambda: "home" in page.url.lower(),
             lambda: "app" in page.url.lower(),
-            lambda: page.url != "https://new.viewz.co/login",
+            lambda: page.url != "https://app.viewz.co/login",
             
             # Page elements
             lambda: page.locator("text=Welcome").is_visible(),
@@ -431,7 +431,7 @@ class TestLoginScenarios:
         
         # URL assertions
         current_url = page.url
-        assertions.append(f"expect(page.url).not.toBe('https://new.viewz.co/login')")
+        assertions.append(f"expect(page.url).not.toBe('https://app.viewz.co/login')")
         assertions.append(f"expect(page.url).toContain('{current_url.split('/')[2]}')")
         
         # Page title assertion

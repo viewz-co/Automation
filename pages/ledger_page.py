@@ -273,15 +273,45 @@ class LedgerPage:
     async def select_period(self, period: str):
         """Select time period (Y/Q/M)"""
         try:
-            period_button = self.page.locator(f"button:has-text('{period}')")
-            if await period_button.is_visible():
-                await period_button.click()
-                await asyncio.sleep(2)  # Wait for data to refresh
-                print(f"✅ Selected period: {period}")
-                return True
-            else:
-                print(f"⚠️ Period button '{period}' not found")
-                return False
+            # More specific selectors for period buttons to avoid strict mode violations
+            period_selectors = [
+                # Look for buttons in date/period controls context
+                f"button:has-text('{period}'):near([data-testid*='period'])",
+                f"button:has-text('{period}'):near(text=/period/i)",
+                f"button:has-text('{period}'):near(text=/date/i)",
+                # Look for buttons that are exactly the period text
+                f"button:text('{period}')",
+                # Look for buttons in filter/control areas
+                f".date-controls button:has-text('{period}')",
+                f".period-selector button:has-text('{period}')",
+                f".filter-controls button:has-text('{period}')",
+                # Look for toggle buttons or period selection
+                f"button[role='option']:has-text('{period}')",
+                f"button[data-value='{period}']",
+                # More contextual selectors
+                f"button:has-text('{period}'):not(:has-text('Journal')):not(:has-text('Create')):not(:has-text('Entry')):not(:has-text('Amount')):not(:has-text('Demo'))"
+            ]
+            
+            for selector in period_selectors:
+                try:
+                    period_button = self.page.locator(selector)
+                    count = await period_button.count()
+                    
+                    if count == 1:  # Exactly one match
+                        if await period_button.is_visible():
+                            await period_button.click()
+                            await asyncio.sleep(2)  # Wait for data to refresh
+                            print(f"✅ Selected period: {period} using selector: {selector}")
+                            return True
+                    elif count > 1:
+                        print(f"🔍 Selector '{selector}' found {count} matches for period '{period}' - trying next")
+                        continue
+                except Exception as e:
+                    # Continue to next selector if this one fails
+                    continue
+            
+            print(f"⚠️ Period button '{period}' not found with any specific selector")
+            return False
         except Exception as e:
             print(f"❌ Error selecting period {period}: {str(e)}")
             return False

@@ -136,7 +136,7 @@ class ViewzLoginScenariosViaMCP:
         print("📍 Scenario Setup: Navigate to login page")
         
         # Navigate to login page
-        result = await self.client.browser_navigate("https://new.viewz.co/login")
+        result = await self.client.browser_navigate("https://app.viewz.co/login")
         
         if "error" in result:
             print(f"❌ Navigation failed: {result['error']}")

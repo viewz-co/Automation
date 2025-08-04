@@ -84,7 +84,7 @@ class ViewzLoginScenarios:
         
         try:
             # Navigate to login page
-            await page.goto("https://new.viewz.co/login", wait_until="networkidle")
+            await page.goto("https://app.viewz.co/login", wait_until="networkidle")
             
             # Take initial screenshot
             filename, filepath = await self.screenshot_helper.capture_async_screenshot(
@@ -601,7 +601,7 @@ class ViewzLoginScenarios:
         
         # URL assertions
         assertions.append("# URL Assertions")
-        assertions.append("expect(page.url).not.toBe('https://new.viewz.co/login')")
+        assertions.append("expect(page.url).not.toBe('https://app.viewz.co/login')")
         assertions.append("expect(page.url).toContain('viewz.co')")
         assertions.append("")
         
