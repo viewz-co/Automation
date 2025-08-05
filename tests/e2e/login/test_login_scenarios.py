@@ -9,6 +9,7 @@ from playwright.async_api import Page, expect
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from utils.screenshot_helper import ScreenshotHelper
+from configs.environment import get_login_url
 import json
 import os
 import asyncio
@@ -26,7 +27,7 @@ class TestLoginScenarios:
         self.screenshot_helper = ScreenshotHelper()
         
         # Navigate to login page
-        await page.goto("https://app.viewz.co/login")
+        await page.goto(get_login_url())
         await page.wait_for_load_state("networkidle")
     
     @pytest.mark.asyncio
@@ -267,7 +268,7 @@ class TestLoginScenarios:
             lambda: "dashboard" in page.url.lower(),
             lambda: "home" in page.url.lower(),
             lambda: "app" in page.url.lower(),
-            lambda: page.url != "https://app.viewz.co/login",
+            lambda: page.url != get_login_url(),
             
             # Page elements
             lambda: page.locator("text=Welcome").is_visible(),
@@ -431,7 +432,7 @@ class TestLoginScenarios:
         
         # URL assertions
         current_url = page.url
-        assertions.append(f"expect(page.url).not.toBe('https://app.viewz.co/login')")
+        assertions.append(f"expect(page.url).not.toBe('{get_login_url()}')")
         assertions.append(f"expect(page.url).toContain('{current_url.split('/')[2]}')")
         
         # Page title assertion

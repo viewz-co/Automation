@@ -17,6 +17,13 @@ import sys
 from typing import Dict, Any, Optional
 import httpx
 from datetime import datetime
+from pathlib import Path
+
+# Add project root to Python path for imports
+sys.path.append(str(Path(__file__).parent.parent))
+
+# Import centralized configuration
+from configs.environment import get_login_url
 
 
 class PlaywrightMCPClient:
@@ -135,8 +142,8 @@ class ViewzLoginScenariosViaMCP:
         """Navigate to login page"""
         print("📍 Scenario Setup: Navigate to login page")
         
-        # Navigate to login page
-        result = await self.client.browser_navigate("https://app.viewz.co/login")
+        # Navigate to login page using centralized config
+        result = await self.client.browser_navigate(get_login_url())
         
         if "error" in result:
             print(f"❌ Navigation failed: {result['error']}")

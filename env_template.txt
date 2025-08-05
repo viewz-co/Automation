@@ -1,31 +1,57 @@
-# Environment Configuration Template
-# Copy this file to .env and fill in your actual values
-# NEVER commit the .env file to version control
+# Playwright Python Framework Environment Configuration
+# =====================================================
+# 
+# IMPORTANT: This framework now uses centralized environment configuration!
+# The configs/environment.py module provides smart defaults and multi-environment support.
+#
+# Environment variables override the defaults defined in configs/environment.py
+# Supported environments: production, staging, development, local
 
-# Test Environment
-ENV=dev
+# Environment Selection (optional)
+# Set this to switch between predefined environments
+# ENVIRONMENT=production  # Uses https://app.viewz.co (default)
+# ENVIRONMENT=staging     # Uses https://staging.viewz.co  
+# ENVIRONMENT=development # Uses https://dev.viewz.co
+# ENVIRONMENT=local       # Uses http://localhost:3000
 
-# Application URLs
+# URL Configuration (optional - uses smart defaults from environment.py)
+# Only set these if you need to override the default URLs for your environment
 BASE_URL=https://app.viewz.co
-
-# Test Credentials (CHANGE THESE VALUES)
-TEST_USERNAME=your_username_here
-TEST_PASSWORD=your_secure_password_here
-TEST_TOTP_SECRET=your_totp_secret_here
-
-# TestRail Integration
-TESTRAIL_ENABLED=false
-TESTRAIL_URL=your_testrail_url
-TESTRAIL_USERNAME=your_testrail_email
-TESTRAIL_PASSWORD=your_testrail_api_key
-TESTRAIL_PROJECT_ID=your_project_id
-
-# API Configuration
 API_BASE_URL=https://app.viewz.co
+
+# Authentication Credentials (required for testing)
+TEST_USERNAME=your_test_username
+TEST_PASSWORD=your_test_password
+TEST_TOTP_SECRET=your_2fa_secret_key
+
+# JWT Token (optional - for API testing)
 JWT_TOKEN=your_jwt_token_here
 
-# Security Note:
-# 1. Never commit actual secrets to git
-# 2. Use environment variables in production
-# 3. Rotate secrets regularly
-# 4. Use different secrets for different environments 
+# TestRail Integration (optional)
+TESTRAIL_URL=https://your-instance.testrail.io
+TESTRAIL_USERNAME=your_testrail_email
+TESTRAIL_PASSWORD=your_testrail_password
+TESTRAIL_PROJECT_ID=1
+
+# Browser Configuration (optional)
+HEADLESS=true
+BROWSER_TIMEOUT=30000
+VIEWPORT_WIDTH=1280
+VIEWPORT_HEIGHT=720
+
+# Test Configuration (optional)
+PARALLEL_WORKERS=2
+TEST_TIMEOUT=60000
+RETRY_COUNT=2
+
+# Logging and Debugging (optional)
+LOG_LEVEL=INFO
+DEBUG_MODE=false
+CAPTURE_SCREENSHOTS=true
+CAPTURE_VIDEOS=false
+
+# How to use:
+# 1. Copy this file to .env
+# 2. Update the values with your actual credentials
+# 3. The framework will automatically use centralized config with your overrides
+# 4. Switch environments by setting ENVIRONMENT variable 
