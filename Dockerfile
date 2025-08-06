@@ -55,6 +55,9 @@ RUN chmod +x scripts/*.sh 2>/dev/null || true
 # Production stage
 FROM base as production
 
+# Install production reporting dependencies (already in requirements.txt now)
+# These are needed for CI/CD pipeline reporting
+
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import playwright; print('Playwright ready')" || exit 1
@@ -65,9 +68,7 @@ CMD ["python", "-m", "pytest", "tests/", "-v", "--headless"]
 # Development stage
 FROM base as development
 
-# Install development dependencies
-RUN pip install --no-cache-dir pytest-xdist pytest-html pytest-json-report
-
+# Additional development dependencies are now in requirements.txt
 # Expose port for debugging
 EXPOSE 9222
 
