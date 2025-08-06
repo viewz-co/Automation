@@ -27,15 +27,20 @@ class TestRailConfig:
     
     def _send_request(self, method, uri, data=None):
         """Send request to TestRail API"""
+        # Validate URL format
+        if not self.url or not self.url.startswith(('http://', 'https://')):
+            print(f"⚠️ Invalid TestRail URL format: {self.url}")
+            return None
+            
         url = f"{self.url}/index.php?/api/v2/{uri}"
         
         try:
             if method == 'GET':
-                response = requests.get(url, headers=self.headers)
+                response = requests.get(url, headers=self.headers, timeout=10)
             elif method == 'POST':
-                response = requests.post(url, headers=self.headers, json=data)
+                response = requests.post(url, headers=self.headers, json=data, timeout=10)
             elif method == 'PUT':
-                response = requests.put(url, headers=self.headers, json=data)
+                response = requests.put(url, headers=self.headers, json=data, timeout=10)
             
             # Better error handling
             if response.status_code == 403:

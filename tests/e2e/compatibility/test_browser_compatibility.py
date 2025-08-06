@@ -122,15 +122,7 @@ class TestBrowserCompatibility:
         print(f"   📊 Overall compatibility: {compatibility_rate:.1%}")
         
         # Test passes if reasonable mobile compatibility
-        # Adjusted threshold for business applications (login forms may not be mobile-optimized)
-        assert compatibility_rate >= 0.3, f"Mobile compatibility severely limited: {compatibility_rate:.1%}"
-        
-        if compatibility_rate >= 0.6:
-            print("✅ Excellent mobile compatibility")
-        elif compatibility_rate >= 0.4:
-            print("✅ Acceptable mobile compatibility for business application")
-        else:
-            print("⚠️ Limited mobile compatibility - consider mobile optimization")
+        assert compatibility_rate >= 0.6, f"Mobile compatibility too low: {compatibility_rate:.1%}"
         
         print("✅ Mobile viewport compatibility test completed")
 
@@ -331,15 +323,7 @@ class TestBrowserCompatibility:
         total_touch_score = sum(touch_results.values())
         
         # Test passes if basic touch compatibility exists
-        # Adjusted threshold for business applications (may not be touch-optimized)
-        if total_touch_score >= 2:
-            print("✅ Good touch interface compatibility")
-        elif total_touch_score >= 1:
-            print("✅ Basic touch interface compatibility detected")
-            assert True  # Pass with basic compatibility
-        else:
-            print("⚠️ Limited touch interface - business app may rely on desktop interaction")
-            assert total_touch_score >= 0, f"Touch interface completely non-functional: {total_touch_score}"
+        assert total_touch_score >= 2, f"Touch interface compatibility too low: {total_touch_score}"
         
         print("✅ Touch interface compatibility test completed")
 

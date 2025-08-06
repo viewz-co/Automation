@@ -70,8 +70,22 @@ class TestRailIntegration:
         self.config.close_test_run(self.run_id)
         
     def _is_enabled(self):
-        """Check if TestRail integration is enabled"""
-        return os.getenv('TESTRAIL_ENABLED', 'false').lower() == 'true'
+        """Check if TestRail integration is enabled and properly configured"""
+        if os.getenv('TESTRAIL_ENABLED', 'false').lower() != 'true':
+            return False
+            
+        # Check if we have valid configuration (not placeholder values)
+        url = os.getenv('TESTRAIL_URL', '')
+        username = os.getenv('TESTRAIL_USERNAME', '')
+        password = os.getenv('TESTRAIL_PASSWORD', '')
+        
+        if (url in ['https://example.testrail.io', 'test_url', ''] or
+            username in ['test@example.com', 'test_user', ''] or
+            password in ['test_api_key', 'test_pass', '']):
+            print("⚠️ TestRail integration disabled: placeholder configuration detected")
+            return False
+            
+        return True
 
 # Global instance
 testrail = TestRailIntegration()

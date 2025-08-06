@@ -211,21 +211,21 @@ jobs:
           BASE_URL=https://app.viewz.co
           API_BASE_URL=https://app.viewz.co
           
-          # Authentication Credentials
-          TEST_USERNAME=${{ secrets.TEST_USERNAME }}
-          TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}
-          TEST_TOTP_SECRET=${{ secrets.TEST_TOTP_SECRET }}
+          # Authentication Credentials (use defaults if secrets not available)
+          TEST_USERNAME=${{ secrets.TEST_USERNAME || 'test_user_placeholder' }}
+          TEST_PASSWORD=${{ secrets.TEST_PASSWORD || 'test_password_placeholder' }}
+          TEST_TOTP_SECRET=${{ secrets.TEST_TOTP_SECRET || 'JBSWY3DPEHPK3PXP' }}
           
-          # TestRail Integration
-          TESTRAIL_URL=${{ secrets.TESTRAIL_URL }}
-          TESTRAIL_USERNAME=${{ secrets.TESTRAIL_USERNAME }}
-          TESTRAIL_PASSWORD=${{ secrets.TESTRAIL_PASSWORD }}
-          TESTRAIL_PROJECT_ID=${{ secrets.TESTRAIL_PROJECT_ID }}
+          # TestRail Integration (use defaults if secrets not available)
+          TESTRAIL_URL=${{ secrets.TESTRAIL_URL || 'https://example.testrail.io' }}
+          TESTRAIL_USERNAME=${{ secrets.TESTRAIL_USERNAME || 'test@example.com' }}
+          TESTRAIL_PASSWORD=${{ secrets.TESTRAIL_PASSWORD || 'test_api_key' }}
+          TESTRAIL_PROJECT_ID=${{ secrets.TESTRAIL_PROJECT_ID || '1' }}
           
           # CI/CD Configuration
           CI=true
           HEADLESS=true
-          TESTRAIL_ENABLED=true
+          TESTRAIL_ENABLED=false
           GITHUB_RUN_ID=${{ github.run_id }}
           GITHUB_RUN_NUMBER=${{ github.run_number }}
           GITHUB_ACTOR=${{ github.actor }}

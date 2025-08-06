@@ -171,7 +171,7 @@ class TwoFactorLoginTest:
         print("\n📍 Step 1: Navigate to login page")
         
         # Navigate to login page (using the URL from your existing test)
-        result = await self.client.browser_navigate("https://app.viewz.co/login")
+        result = await self.client.browser_navigate("https://new.viewz.co/login")
         
         if "error" in result:
             print(f"❌ Navigation failed: {result['error']}")

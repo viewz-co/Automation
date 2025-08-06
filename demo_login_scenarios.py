@@ -1,55 +1,68 @@
 #!/usr/bin/env python3
 """
-Demo Login Scenarios for Viewz Platform
+🎯 Quick Demo: Viewz Login Scenarios
 
-This demo script showcases login automation capabilities using the centralized
-environment configuration system.
+This is a simple demo script that shows how to run the login scenarios.
+Run this script to see the automation in action!
 
-Updated: Uses centralized environment configuration for URLs
+Usage:
+    python demo_login_scenarios.py
 """
 
-# Add project root to Python path for imports
+import os
 import sys
+import subprocess
 from pathlib import Path
-sys.path.append(str(Path(__file__).parent))
-
-# Import centralized configuration
-from configs.environment import get_login_url, get_environment_name, get_base_url
 
 def main():
-    """Main demo function"""
+    """Run the login scenarios demo"""
+    print("🎯 Viewz Login Scenarios Demo")
+    print("=" * 40)
+    
+    # Check if we're in the right directory
+    if not Path("scripts/run_login_scenarios.py").exists():
+        print("❌ Please run this script from the project root directory")
+        return
+    
     print("🚀 Starting login scenarios automation...")
     print("📍 This will:")
-    print(f"   1. Navigate to {get_login_url()}")
+    print("   1. Navigate to https://new.viewz.co/login")
     print("   2. Analyze the page structure")
     print("   3. Execute login and logout scenarios")
-    print("   4. Generate automated test assertions")
-    print("   5. Capture screenshots for verification")
-    print(f"🌍 Current Environment: {get_environment_name()}")
-    print(f"🔗 Base URL: {get_base_url()}")
+    print("   4. Generate screenshots and reports")
     print()
     
-    # Demo output for automation scenarios
-    print("📋 Available Login Scenarios:")
-    print("   1. ✅ Valid Login Scenario")
-    print("   2. ✅ Logout User Scenario") 
-    print("   3. ✅ Page Structure Analysis")
-    print("   4. ✅ Screenshot Capture")
-    print("   5. ✅ Test Assertion Generation")
-    print()
+    # Ask for confirmation
+    response = input("🤔 Continue? (y/N): ").strip().lower()
+    if response not in ['y', 'yes']:
+        print("❌ Demo cancelled")
+        return
     
-    print("🔧 To run the actual scenarios:")
-    print(f"   python scripts/run_login_scenarios.py")
-    print(f"   pytest tests/e2e/login/test_login_scenarios.py -v")
-    print()
+    print("\n🎬 Running demo...")
+    print("=" * 40)
     
-    print("⚙️ Configuration:")
-    print(f"   - Environment: {get_environment_name()}")
-    print(f"   - Login URL: {get_login_url()}")
-    print(f"   - Base URL: {get_base_url()}")
-    print()
-    
-    print("✅ Demo completed!")
+    try:
+        # Run the login scenarios script
+        result = subprocess.run([
+            sys.executable, 
+            "scripts/run_login_scenarios.py"
+        ], capture_output=False, text=True)
+        
+        print("\n" + "=" * 40)
+        if result.returncode == 0:
+            print("✅ Demo completed successfully!")
+            print("\n📁 Check these files for results:")
+            print("   📸 screenshots/ - All screenshots")
+            print("   📊 fixtures/test_report.json - Test results")
+            print("   🎯 fixtures/generated_assertions.txt - Generated assertions")
+            print("   🔧 fixtures/discovered_selectors.json - Found selectors")
+        else:
+            print("❌ Demo completed with some issues")
+            print("   Check the output above for details")
+            
+    except Exception as e:
+        print(f"❌ Error running demo: {str(e)}")
+        print("💡 Try running directly: python scripts/run_login_scenarios.py")
 
 if __name__ == "__main__":
     main() 

@@ -62,44 +62,45 @@ class TestMenuPinning:
             
             if pin_button_found and pin_button_selector:
                 # Test pin button interaction
-                pin_button = page.locator(pin_button_selector)
-                
-                # Check if button is visible with shorter timeout
                 try:
-                    await pin_button.wait_for(state='visible', timeout=5000)
-                    # Click the pin button with shorter timeout
-                    await pin_button.click(timeout=5000)
-                    await asyncio.sleep(1)
+                    pin_button = page.locator(pin_button_selector)
                     
-                    menu_tests['pin_button_functionality'] = True
-                    print("✅ Pin button clicked successfully")
-                    
-                    # Check if menu state changed
-                    # Look for indicators that menu is pinned
-                    pinned_indicators = [
-                        ".menu-pinned",
-                        "[data-pinned='true']",
-                        ".sidebar-pinned",
-                        ".nav-pinned"
-                    ]
-                    
-                    for indicator in pinned_indicators:
-                        try:
-                            if await page.locator(indicator).count() > 0:
-                                menu_tests['menu_state_persistence'] = True
-                                print(f"✅ Menu pinning state detected: {indicator}")
-                                break
-                        except:
-                            continue
-                    
-                    # If no specific indicator, assume pinning worked if button is still there
-                    if not menu_tests['menu_state_persistence']:
-                        menu_tests['menu_state_persistence'] = True
-                        print("✅ Menu pinning state assumed from button interaction")
+                    # Check if button is visible
+                    if await pin_button.is_visible():
+                        # Click the pin button
+                        await pin_button.click()
+                        await asyncio.sleep(1)
+                        
+                        menu_tests['pin_button_functionality'] = True
+                        print("✅ Pin button clicked successfully")
+                        
+                        # Check if menu state changed
+                        # Look for indicators that menu is pinned
+                        pinned_indicators = [
+                            ".menu-pinned",
+                            "[data-pinned='true']",
+                            ".sidebar-pinned",
+                            ".nav-pinned"
+                        ]
+                        
+                        for indicator in pinned_indicators:
+                            try:
+                                if await page.locator(indicator).count() > 0:
+                                    menu_tests['menu_state_persistence'] = True
+                                    print(f"✅ Menu pinning state detected: {indicator}")
+                                    break
+                            except:
+                                continue
+                        
+                        # If no specific indicator, assume pinning worked if button is still there
+                        if not menu_tests['menu_state_persistence']:
+                            menu_tests['menu_state_persistence'] = True
+                            print("✅ Menu pinning state assumed from button interaction")
+                    else:
+                        print("ℹ️ Pin button found but not visible")
+                        
                 except Exception as e:
-                    print(f"ℹ️ Pin button found but not visible or clickable within 5 seconds: {str(e)[:30]}")
-                    # Still mark as partial success since button was found
-                    menu_tests['pin_button_functionality'] = True
+                    print(f"⚠️ Pin button interaction issue: {str(e)[:50]}")
             else:
                 print("ℹ️ No pin button found - menu may be auto-pinned")
                 # If no pin button, assume menu is already in desired state
@@ -116,31 +117,23 @@ class TestMenuPinning:
                 try:
                     print(f"   🔍 Testing navigation to {nav_page}...")
                     
-                    # Try to navigate with shorter timeout
+                    # Try to navigate
                     nav_element = page.locator(f"text={nav_page}")
                     if await nav_element.count() > 0:
-                        # Check if element is visible first
-                        try:
-                            await nav_element.wait_for(state='visible', timeout=3000)
-                            await nav_element.click(timeout=5000)
-                            await asyncio.sleep(2)
-                            
-                            # Check if navigation was successful
-                            if nav_page.lower() in page.url.lower() or await page.locator("body").is_visible():
-                                successful_navigations += 1
-                                print(f"   ✅ Successfully navigated to {nav_page}")
-                            else:
-                                print(f"   ⚠️ Navigation to {nav_page} may not have completed")
-                        except Exception as nav_e:
-                            print(f"   ℹ️ Navigation element for {nav_page} not visible within 3 seconds: {str(nav_e)[:30]}")
+                        await nav_element.click()
+                        await asyncio.sleep(2)
+                        
+                        # Check if navigation was successful
+                        if nav_page.lower() in page.url.lower() or await page.locator("body").is_visible():
+                            successful_navigations += 1
+                            print(f"   ✅ Successfully navigated to {nav_page}")
+                        else:
+                            print(f"   ⚠️ Navigation to {nav_page} may not have completed")
                     else:
                         print(f"   ℹ️ Navigation element for {nav_page} not found")
                         
                 except Exception as e:
                     print(f"   ⚠️ Navigation error for {nav_page}: {str(e)[:50]}")
-                    # For timeout errors, still count as attempted
-                    if "timeout" in str(e).lower():
-                        print(f"   ℹ️ {nav_page} navigation timeout - element may exist but not be interactive")
             
             # Test passes if majority of navigations work
             if successful_navigations >= len(navigation_pages) // 2:
@@ -196,8 +189,7 @@ class TestMenuPinning:
         
         # Test passes if basic menu functionality is working
         # We're testing for functionality presence, not strict compliance
-        # Lower threshold since navigation elements may not be immediately visible
-        assert successful_tests >= 1, f"Menu pinning functionality insufficient: {successful_tests}/{total_tests} tests passed"
+        assert successful_tests >= 2, f"Menu pinning functionality insufficient: {successful_tests}/{total_tests} tests passed"
         
         print("✅ Menu pinning and navigation test completed")
 
