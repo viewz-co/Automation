@@ -91,7 +91,14 @@ class EnvironmentConfig:
                     if 'API_BASE_URL' not in os.environ and 'api_base_url' in secure_config:
                         self._config_cache['api_base_url'] = secure_config['api_base_url']
             except (json.JSONDecodeError, KeyError) as e:
-                print(f"⚠️ Warning: Could not load secure config: {e}")
+                # In CI environments, this is expected and not an error
+                if not self._is_ci_environment():
+                    print(f"⚠️ Warning: Could not load secure config: {e}")
+    
+    def _is_ci_environment(self) -> bool:
+        """Check if running in a CI environment"""
+        ci_indicators = ['CI', 'GITHUB_ACTIONS', 'JENKINS_URL', 'TRAVIS', 'CIRCLECI']
+        return any(os.getenv(indicator) for indicator in ci_indicators)
     
     def get_base_url(self) -> str:
         """Get the base URL for the current environment"""

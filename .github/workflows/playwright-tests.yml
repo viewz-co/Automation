@@ -1,26 +1,45 @@
-name: Playwright Tests
+name: Playwright Regression Tests
 
 on:
   push:
-    branches: [ main, develop, feature/* ]
+    branches: [ main, develop, feature/*, bugfix/*, hotfix/* ]
+    # Trigger on ALL developer pushes to any branch
   pull_request:
     branches: [ main, develop ]
+    # Run on pull requests to main branches
   schedule:
-    # Run tests daily at 6 AM UTC
+    # Run daily regression at 6 AM UTC
     - cron: '0 6 * * *'
   workflow_dispatch:
     inputs:
       test_suite:
         description: 'Test suite to run'
         required: false
-        default: 'all'
+        default: 'full-regression'
         type: choice
         options:
-          - all
-          - upload
-          - login
-          - navigation
-          - ledger
+          - full-regression
+          - smoke-tests
+          - critical-path
+          - upload-tests
+          - login-tests
+          - navigation-tests
+          - ledger-tests
+          - performance-tests
+      environment:
+        description: 'Target environment'
+        required: false
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+          - development
+      notify_teams:
+        description: 'Notify teams on failure'
+        required: false
+        default: true
+        type: boolean
 
 env:
   # GitHub Container Registry
@@ -83,45 +102,151 @@ jobs:
       fail-fast: false
       matrix:
         test-group:
-          - name: "Upload Tests"
-            path: "tests/e2e/payables/test_invoice_file_upload.py"
-            container: "upload-tests"
-          - name: "Login Tests" 
+          # Smoke Tests (Critical Path) - Fast execution for feature branches
+          - name: "Smoke Tests"
+            path: "tests/e2e/login/ tests/e2e/navigation/test_tabs_navigation.py"
+            container: "smoke-tests"
+            condition: "smoke-tests"
+          
+          # Core Regression Tests - Full execution for main/develop
+          - name: "Authentication & Login"
             path: "tests/e2e/login/"
             container: "login-tests"
-          - name: "Navigation Tests"
+            condition: "full-regression"
+          
+          - name: "Navigation & Menu"
             path: "tests/e2e/navigation/"
             container: "navigation-tests"
-          - name: "Ledger Tests"
+            condition: "full-regression"
+          
+          - name: "File Upload & Payables"
+            path: "tests/e2e/payables/"
+            container: "payables-tests"
+            condition: "full-regression"
+          
+          - name: "Reconciliation Operations"
+            path: "tests/e2e/reconciliation/"
+            container: "reconciliation-tests"
+            condition: "full-regression"
+          
+          - name: "Ledger & Financial"
             path: "tests/e2e/ledger/"
             container: "ledger-tests"
-          - name: "API Tests"
+            condition: "full-regression"
+          
+          - name: "API Integration"
             path: "tests/api/"
             container: "api-tests"
+            condition: "full-regression"
+          
+          - name: "Security & Compatibility"
+            path: "tests/e2e/security/ tests/e2e/compatibility/"
+            container: "security-tests"
+            condition: "full-regression"
+          
+          - name: "Performance & Load"
+            path: "tests/performance/"
+            container: "performance-tests"
+            condition: "full-regression"
+          
+          - name: "Snapshot & Regression"
+            path: "tests/e2e/snapshot/"
+            container: "snapshot-tests"
+            condition: "full-regression"
+          
+          # Critical Tests (Always run)
+          - name: "Critical Path"
+            path: "tests/e2e/login/test_login.py tests/e2e/payables/test_invoice_file_upload.py"
+            container: "critical-tests"
+            condition: "always"
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Determine test suite
+        id: test-suite
+        run: |
+          # Determine which test suite to run based on branch and input
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            TEST_SUITE="${{ github.event.inputs.test_suite }}"
+            TARGET_ENV="${{ github.event.inputs.environment }}"
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]] || [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            TEST_SUITE="full-regression"
+            TARGET_ENV="production"
+          elif [[ "${{ github.ref }}" == refs/heads/feature/* ]] || [[ "${{ github.ref }}" == refs/heads/bugfix/* ]]; then
+            TEST_SUITE="smoke-tests"
+            TARGET_ENV="production"
+          else
+            TEST_SUITE="critical-path"
+            TARGET_ENV="production"
+          fi
+          
+          echo "test_suite=$TEST_SUITE" >> $GITHUB_OUTPUT
+          echo "target_env=$TARGET_ENV" >> $GITHUB_OUTPUT
+          echo "🎯 Running test suite: $TEST_SUITE on environment: $TARGET_ENV"
+
+      - name: Check if test should run
+        id: should-run
+        run: |
+          CONDITION="${{ matrix.test-group.condition }}"
+          TEST_SUITE="${{ steps.test-suite.outputs.test_suite }}"
+          
+          SHOULD_RUN="false"
+          
+          if [[ "$CONDITION" == "always" ]]; then
+            SHOULD_RUN="true"
+          elif [[ "$CONDITION" == "$TEST_SUITE" ]]; then
+            SHOULD_RUN="true"
+          elif [[ "$TEST_SUITE" == "full-regression" ]] && [[ "$CONDITION" == "full-regression" ]]; then
+            SHOULD_RUN="true"
+          elif [[ "$TEST_SUITE" == "critical-path" ]] && [[ "$CONDITION" == "always" ]]; then
+            SHOULD_RUN="true"
+          fi
+          
+          echo "should_run=$SHOULD_RUN" >> $GITHUB_OUTPUT
+          echo "🔍 Test group '${{ matrix.test-group.name }}' should run: $SHOULD_RUN"
+
       - name: Create environment file
+        if: steps.should-run.outputs.should_run == 'true'
         run: |
           cat > .env << EOF
+          # Environment Configuration (for centralized config system)
+          ENVIRONMENT=${{ steps.test-suite.outputs.target_env }}
+          BASE_URL=https://app.viewz.co
+          API_BASE_URL=https://app.viewz.co
+          
+          # Authentication Credentials
           TEST_USERNAME=${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}
           TEST_TOTP_SECRET=${{ secrets.TEST_TOTP_SECRET }}
+          
+          # TestRail Integration
           TESTRAIL_URL=${{ secrets.TESTRAIL_URL }}
           TESTRAIL_USERNAME=${{ secrets.TESTRAIL_USERNAME }}
           TESTRAIL_PASSWORD=${{ secrets.TESTRAIL_PASSWORD }}
           TESTRAIL_PROJECT_ID=${{ secrets.TESTRAIL_PROJECT_ID }}
+          
+          # CI/CD Configuration
           CI=true
           HEADLESS=true
           TESTRAIL_ENABLED=true
           GITHUB_RUN_ID=${{ github.run_id }}
           GITHUB_RUN_NUMBER=${{ github.run_number }}
+          GITHUB_ACTOR=${{ github.actor }}
+          GITHUB_REF=${{ github.ref }}
           EOF
 
       - name: Run ${{ matrix.test-group.name }}
+        if: steps.should-run.outputs.should_run == 'true'
+        id: test-execution
         run: |
+          echo "🚀 Running ${{ matrix.test-group.name }} for ${{ github.actor }}"
+          echo "📍 Branch: ${{ github.ref }}"
+          echo "🎯 Test Suite: ${{ steps.test-suite.outputs.test_suite }}"
+          echo "🌍 Environment: ${{ steps.test-suite.outputs.target_env }}"
+          
+          # Run tests with enhanced reporting
           docker run --rm \
             --env-file .env \
             -v ${{ github.workspace }}/reports:/app/reports \
@@ -130,7 +255,32 @@ jobs:
             python -m pytest ${{ matrix.test-group.path }} -v --headless \
             --html=reports/${{ matrix.test-group.container }}-report.html \
             --json-report --json-report-file=reports/${{ matrix.test-group.container }}-report.json \
-            --maxfail=5
+            --maxfail=5 \
+            --tb=short
+          
+          echo "test_status=success" >> $GITHUB_OUTPUT
+
+      - name: Mark test as skipped
+        if: steps.should-run.outputs.should_run == 'false'
+        run: |
+          echo "⏭️ Skipping ${{ matrix.test-group.name }} - not required for ${{ steps.test-suite.outputs.test_suite }}"
+          mkdir -p reports
+          echo '{"skipped": true, "reason": "Test not required for this test suite"}' > reports/${{ matrix.test-group.container }}-skipped.json
+
+      - name: Generate test summary
+        if: always() && steps.should-run.outputs.should_run == 'true'
+        run: |
+          echo "## 📊 Test Results: ${{ matrix.test-group.name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Developer**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Test Suite**: ${{ steps.test-suite.outputs.test_suite }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment**: ${{ steps.test-suite.outputs.target_env }}" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "${{ job.status }}" == "success" ]]; then
+            echo "- **Status**: ✅ **PASSED**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- **Status**: ❌ **FAILED**" >> $GITHUB_STEP_SUMMARY
+          fi
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -163,13 +313,23 @@ jobs:
       - name: Create environment file
         run: |
           cat > .env << EOF
+          # Environment Configuration (for centralized config system)
+          ENVIRONMENT=production
+          BASE_URL=https://app.viewz.co
+          API_BASE_URL=https://app.viewz.co
+          
+          # Authentication Credentials
           TEST_USERNAME=${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}
           TEST_TOTP_SECRET=${{ secrets.TEST_TOTP_SECRET }}
+          
+          # TestRail Integration
           TESTRAIL_URL=${{ secrets.TESTRAIL_URL }}
           TESTRAIL_USERNAME=${{ secrets.TESTRAIL_USERNAME }}
           TESTRAIL_PASSWORD=${{ secrets.TESTRAIL_PASSWORD }}
           TESTRAIL_PROJECT_ID=${{ secrets.TESTRAIL_PROJECT_ID }}
+          
+          # CI/CD Configuration
           CI=true
           HEADLESS=true
           TESTRAIL_ENABLED=true
@@ -212,12 +372,28 @@ jobs:
       - name: Create environment file
         run: |
           cat > .env << EOF
+          # Environment Configuration (for centralized config system)
+          ENVIRONMENT=production
+          BASE_URL=https://app.viewz.co
+          API_BASE_URL=https://app.viewz.co
+          
+          # Authentication Credentials
           TEST_USERNAME=${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}
           TEST_TOTP_SECRET=${{ secrets.TEST_TOTP_SECRET }}
+          
+          # TestRail Integration
+          TESTRAIL_URL=${{ secrets.TESTRAIL_URL }}
+          TESTRAIL_USERNAME=${{ secrets.TESTRAIL_USERNAME }}
+          TESTRAIL_PASSWORD=${{ secrets.TESTRAIL_PASSWORD }}
+          TESTRAIL_PROJECT_ID=${{ secrets.TESTRAIL_PROJECT_ID }}
+          
+          # CI/CD Configuration
           CI=true
           HEADLESS=true
-          PERFORMANCE_TEST=true
+          TESTRAIL_ENABLED=true
+          GITHUB_RUN_ID=${{ github.run_id }}
+          GITHUB_RUN_NUMBER=${{ github.run_number }}
           EOF
 
       - name: Run performance tests
@@ -236,20 +412,155 @@ jobs:
           path: reports/
           retention-days: 30
 
-  # Notification
+  # Team Notifications & Reporting
   notify:
     needs: [test, full-test-suite]
     runs-on: ubuntu-latest
-    if: always() && (failure() || success())
+    if: always()
     
     steps:
-      - name: Notify on success
-        if: needs.test.result == 'success'
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Collect test results
+        id: results
         run: |
-          echo "✅ All tests passed for commit ${{ github.sha }}"
+          # Determine overall status
+          TEST_STATUS="success"
+          FAILED_JOBS=""
           
-      - name: Notify on failure
-        if: needs.test.result == 'failure'
+          if [[ "${{ needs.test.result }}" == "failure" ]]; then
+            TEST_STATUS="failure"
+            FAILED_JOBS="$FAILED_JOBS Regression-Tests"
+          fi
+          
+          if [[ "${{ needs.full-test-suite.result }}" == "failure" ]]; then
+            TEST_STATUS="failure"
+            FAILED_JOBS="$FAILED_JOBS Full-Suite"
+          fi
+          
+          echo "status=$TEST_STATUS" >> $GITHUB_OUTPUT
+          echo "failed_jobs=$FAILED_JOBS" >> $GITHUB_OUTPUT
+          
+          # Create summary
+          echo "## 🎯 Regression Test Results for ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit**: [\`${{ github.sha }}\`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch**: \`${{ github.ref }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Workflow**: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "$TEST_STATUS" == "success" ]]; then
+            echo "### ✅ All Tests Passed!" >> $GITHUB_STEP_SUMMARY
+            echo "Your code changes have passed all regression tests." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ❌ Tests Failed" >> $GITHUB_STEP_SUMMARY
+            echo "**Failed Jobs**: $FAILED_JOBS" >> $GITHUB_STEP_SUMMARY
+            echo "Please review the test results and fix any issues." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Post comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = '${{ steps.results.outputs.status }}';
+            const actor = '${{ github.actor }}';
+            const runId = '${{ github.run_id }}';
+            const failedJobs = '${{ steps.results.outputs.failed_jobs }}';
+            
+            let message = `## 🤖 Automated Regression Test Results\n\n`;
+            message += `**Developer**: @${actor}\n`;
+            message += `**Workflow**: [#${runId}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${runId})\n\n`;
+            
+            if (status === 'success') {
+              message += `### ✅ All Tests Passed!\n`;
+              message += `Your changes have successfully passed all regression tests.\n\n`;
+              message += `🎉 Ready for review and merge!`;
+            } else {
+              message += `### ❌ Tests Failed\n`;
+              message += `**Failed Jobs**: ${failedJobs}\n\n`;
+              message += `Please review the test results and fix any issues before merging.\n\n`;
+              message += `📋 **Next Steps**:\n`;
+              message += `1. Check the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${runId})\n`;
+              message += `2. Download test artifacts for detailed analysis\n`;
+              message += `3. Fix the failing tests\n`;
+              message += `4. Push your fixes to trigger a new test run`;
+            }
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
+
+      - name: Notify team on failure (Slack/Teams webhook)
+        if: failure() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
         run: |
-          echo "❌ Tests failed for commit ${{ github.sha }}"
-          echo "Check the artifacts and logs for details" 
+          # This would integrate with your team's Slack or Teams webhook
+          # Example webhook payload (replace with your team's webhook URL)
+          
+          WEBHOOK_URL="${{ secrets.TEAM_WEBHOOK_URL }}"
+          
+          if [[ -n "$WEBHOOK_URL" ]]; then
+            MESSAGE="{
+              \"text\": \"🚨 Regression Tests Failed on ${{ github.ref }}\",
+              \"attachments\": [
+                {
+                  \"color\": \"danger\",
+                  \"fields\": [
+                    {\"title\": \"Repository\", \"value\": \"${{ github.repository }}\", \"short\": true},
+                    {\"title\": \"Branch\", \"value\": \"${{ github.ref }}\", \"short\": true},
+                    {\"title\": \"Developer\", \"value\": \"${{ github.actor }}\", \"short\": true},
+                    {\"title\": \"Commit\", \"value\": \"${{ github.sha }}\", \"short\": true},
+                    {\"title\": \"Workflow\", \"value\": \"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\", \"short\": false}
+                  ]
+                }
+              ]
+            }"
+            
+            curl -X POST -H 'Content-type: application/json' --data "$MESSAGE" "$WEBHOOK_URL"
+            echo "📢 Team notified via webhook"
+          else
+            echo "⚠️ No webhook URL configured (set TEAM_WEBHOOK_URL secret)"
+          fi
+
+      - name: Create issue on repeated failures
+        if: failure() && github.ref == 'refs/heads/main'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'regression-failure,automated'
+            });
+            
+            if (issues.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🚨 Regression Tests Failing on Main Branch',
+                body: `## Automated Issue: Regression Test Failures
+            
+            The regression tests are failing on the main branch.
+            
+            **Details:**
+            - Workflow: [#${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            - Commit: ${{ github.sha }}
+            - Developer: ${{ github.actor }}
+            - Failed Jobs: ${{ steps.results.outputs.failed_jobs }}
+            
+            **Action Required:**
+            Please investigate and fix the failing tests as soon as possible to prevent blocking other developers.
+            
+            This issue was automatically created by the CI/CD system.`,
+                labels: ['regression-failure', 'automated', 'high-priority']
+              });
+              
+              console.log('📋 Created automated issue for regression failure');
+            } else {
+              console.log('📋 Issue already exists for regression failures');
+            } 
