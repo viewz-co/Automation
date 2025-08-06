@@ -108,17 +108,39 @@ async def perform_login(page, login_data):
     return page
 
 # ---------- PERFORM LOGIN WITH ENTITY SELECTION FIXTURE ---------- #
+def is_valid_credentials_for_entity():
+    """Check if we have valid credentials for entity login testing"""
+    username = os.getenv('TEST_USERNAME', '')
+    password = os.getenv('TEST_PASSWORD', '')
+    secret = os.getenv('TEST_TOTP_SECRET', '')
+    
+    # Skip if using placeholder values
+    if (username in ['test_user_placeholder', 'test_user', ''] or 
+        password in ['test_password_placeholder', 'test_pass', ''] or
+        secret in ['test_secret', '']):
+        return False
+        
+    # Validate TOTP secret format
+    try:
+        pyotp.TOTP(secret).now()
+        return True
+    except Exception:
+        return False
+
 @pytest_asyncio.fixture
 async def perform_login_with_entity(page, login_data):
     """Enhanced login fixture that includes entity selection after login"""
+    if not is_valid_credentials_for_entity():
+        pytest.skip("Valid credentials not available for entity login test")
+        
     from pages.entity_selector_page import EntitySelectorPage
     
     login = LoginPage(page)
     await login.goto()
     await login.login(login_data["username"], login_data["password"])
 
-    # הזנת OTP
-    secret = "HA2ECLBIKYUEEI2GPUUSMN3XIMXFETRQ"  # החלף אם צריך
+    # הזנת OTP - use environment variable instead of hardcoded
+    secret = os.getenv('TEST_TOTP_SECRET')
     otp = pyotp.TOTP(secret).now()
 
     await page.wait_for_selector("text=Two-Factor Authentication", timeout=5000)
