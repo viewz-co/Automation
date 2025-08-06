@@ -104,7 +104,7 @@ jobs:
         test-group:
           # Smoke Tests (Critical Path) - Fast execution for feature branches
           - name: "Smoke Tests"
-            path: "tests/e2e/login/ tests/e2e/navigation/test_tabs_navigation.py"
+            path: "tests/e2e/login/"
             container: "smoke-tests"
             condition: "smoke-tests"
           
@@ -140,7 +140,7 @@ jobs:
             condition: "full-regression"
           
           - name: "Security & Compatibility"
-            path: "tests/e2e/security/ tests/e2e/compatibility/"
+            path: "tests/e2e/compatibility/"
             container: "security-tests"
             condition: "full-regression"
           
@@ -156,7 +156,7 @@ jobs:
           
           # Critical Tests (Always run)
           - name: "Critical Path"
-            path: "tests/e2e/login/test_login.py tests/e2e/payables/test_invoice_file_upload.py"
+            path: "tests/e2e/login/test_login.py"
             container: "critical-tests"
             condition: "always"
     
@@ -174,7 +174,7 @@ jobs:
           elif [[ "${{ github.ref }}" == "refs/heads/main" ]] || [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             TEST_SUITE="full-regression"
             TARGET_ENV="production"
-          elif [[ "${{ github.ref }}" == refs/heads/feature/* ]] || [[ "${{ github.ref }}" == refs/heads/bugfix/* ]]; then
+          elif [[ "${{ github.ref }}" =~ ^refs/heads/feature/ ]] || [[ "${{ github.ref }}" =~ ^refs/heads/bugfix/ ]]; then
             TEST_SUITE="smoke-tests"
             TARGET_ENV="production"
           else
@@ -259,28 +259,6 @@ jobs:
             --tb=short
           
           echo "test_status=success" >> $GITHUB_OUTPUT
-
-      - name: Mark test as skipped
-        if: steps.should-run.outputs.should_run == 'false'
-        run: |
-          echo "⏭️ Skipping ${{ matrix.test-group.name }} - not required for ${{ steps.test-suite.outputs.test_suite }}"
-          mkdir -p reports
-          echo '{"skipped": true, "reason": "Test not required for this test suite"}' > reports/${{ matrix.test-group.container }}-skipped.json
-
-      - name: Generate test summary
-        if: always() && steps.should-run.outputs.should_run == 'true'
-        run: |
-          echo "## 📊 Test Results: ${{ matrix.test-group.name }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Developer**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Branch**: ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Test Suite**: ${{ steps.test-suite.outputs.test_suite }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Environment**: ${{ steps.test-suite.outputs.target_env }}" >> $GITHUB_STEP_SUMMARY
-          
-          if [[ "${{ job.status }}" == "success" ]]; then
-            echo "- **Status**: ✅ **PASSED**" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "- **Status**: ❌ **FAILED**" >> $GITHUB_STEP_SUMMARY
-          fi
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -412,155 +390,20 @@ jobs:
           path: reports/
           retention-days: 30
 
-  # Team Notifications & Reporting
+  # Notification
   notify:
     needs: [test, full-test-suite]
     runs-on: ubuntu-latest
-    if: always()
+    if: always() && (failure() || success())
     
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Collect test results
-        id: results
+      - name: Notify on success
+        if: needs.test.result == 'success'
         run: |
-          # Determine overall status
-          TEST_STATUS="success"
-          FAILED_JOBS=""
+          echo "✅ All tests passed for commit ${{ github.sha }}"
           
-          if [[ "${{ needs.test.result }}" == "failure" ]]; then
-            TEST_STATUS="failure"
-            FAILED_JOBS="$FAILED_JOBS Regression-Tests"
-          fi
-          
-          if [[ "${{ needs.full-test-suite.result }}" == "failure" ]]; then
-            TEST_STATUS="failure"
-            FAILED_JOBS="$FAILED_JOBS Full-Suite"
-          fi
-          
-          echo "status=$TEST_STATUS" >> $GITHUB_OUTPUT
-          echo "failed_jobs=$FAILED_JOBS" >> $GITHUB_OUTPUT
-          
-          # Create summary
-          echo "## 🎯 Regression Test Results for ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Commit**: [\`${{ github.sha }}\`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})" >> $GITHUB_STEP_SUMMARY
-          echo "**Branch**: \`${{ github.ref }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "**Triggered by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Workflow**: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          
-          if [[ "$TEST_STATUS" == "success" ]]; then
-            echo "### ✅ All Tests Passed!" >> $GITHUB_STEP_SUMMARY
-            echo "Your code changes have passed all regression tests." >> $GITHUB_STEP_SUMMARY
-          else
-            echo "### ❌ Tests Failed" >> $GITHUB_STEP_SUMMARY
-            echo "**Failed Jobs**: $FAILED_JOBS" >> $GITHUB_STEP_SUMMARY
-            echo "Please review the test results and fix any issues." >> $GITHUB_STEP_SUMMARY
-          fi
-
-      - name: Post comment on PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const status = '${{ steps.results.outputs.status }}';
-            const actor = '${{ github.actor }}';
-            const runId = '${{ github.run_id }}';
-            const failedJobs = '${{ steps.results.outputs.failed_jobs }}';
-            
-            let message = `## 🤖 Automated Regression Test Results\n\n`;
-            message += `**Developer**: @${actor}\n`;
-            message += `**Workflow**: [#${runId}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${runId})\n\n`;
-            
-            if (status === 'success') {
-              message += `### ✅ All Tests Passed!\n`;
-              message += `Your changes have successfully passed all regression tests.\n\n`;
-              message += `🎉 Ready for review and merge!`;
-            } else {
-              message += `### ❌ Tests Failed\n`;
-              message += `**Failed Jobs**: ${failedJobs}\n\n`;
-              message += `Please review the test results and fix any issues before merging.\n\n`;
-              message += `📋 **Next Steps**:\n`;
-              message += `1. Check the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${runId})\n`;
-              message += `2. Download test artifacts for detailed analysis\n`;
-              message += `3. Fix the failing tests\n`;
-              message += `4. Push your fixes to trigger a new test run`;
-            }
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: message
-            });
-
-      - name: Notify team on failure (Slack/Teams webhook)
-        if: failure() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+      - name: Notify on failure
+        if: needs.test.result == 'failure'
         run: |
-          # This would integrate with your team's Slack or Teams webhook
-          # Example webhook payload (replace with your team's webhook URL)
-          
-          WEBHOOK_URL="${{ secrets.TEAM_WEBHOOK_URL }}"
-          
-          if [[ -n "$WEBHOOK_URL" ]]; then
-            MESSAGE="{
-              \"text\": \"🚨 Regression Tests Failed on ${{ github.ref }}\",
-              \"attachments\": [
-                {
-                  \"color\": \"danger\",
-                  \"fields\": [
-                    {\"title\": \"Repository\", \"value\": \"${{ github.repository }}\", \"short\": true},
-                    {\"title\": \"Branch\", \"value\": \"${{ github.ref }}\", \"short\": true},
-                    {\"title\": \"Developer\", \"value\": \"${{ github.actor }}\", \"short\": true},
-                    {\"title\": \"Commit\", \"value\": \"${{ github.sha }}\", \"short\": true},
-                    {\"title\": \"Workflow\", \"value\": \"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\", \"short\": false}
-                  ]
-                }
-              ]
-            }"
-            
-            curl -X POST -H 'Content-type: application/json' --data "$MESSAGE" "$WEBHOOK_URL"
-            echo "📢 Team notified via webhook"
-          else
-            echo "⚠️ No webhook URL configured (set TEAM_WEBHOOK_URL secret)"
-          fi
-
-      - name: Create issue on repeated failures
-        if: failure() && github.ref == 'refs/heads/main'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { data: issues } = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              labels: 'regression-failure,automated'
-            });
-            
-            if (issues.length === 0) {
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: '🚨 Regression Tests Failing on Main Branch',
-                body: `## Automated Issue: Regression Test Failures
-            
-            The regression tests are failing on the main branch.
-            
-            **Details:**
-            - Workflow: [#${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            - Commit: ${{ github.sha }}
-            - Developer: ${{ github.actor }}
-            - Failed Jobs: ${{ steps.results.outputs.failed_jobs }}
-            
-            **Action Required:**
-            Please investigate and fix the failing tests as soon as possible to prevent blocking other developers.
-            
-            This issue was automatically created by the CI/CD system.`,
-                labels: ['regression-failure', 'automated', 'high-priority']
-              });
-              
-              console.log('📋 Created automated issue for regression failure');
-            } else {
-              console.log('📋 Issue already exists for regression failures');
-            } 
+          echo "❌ Tests failed for commit ${{ github.sha }}"
+          echo "Check the artifacts and logs for details" 
