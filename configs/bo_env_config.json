@@ -1,0 +1,10 @@
+{
+  "base_url": "https://bo.viewz.co",
+  "username": "sharonadmin",
+  "password": "V1ewz345%$#",
+  "otp_secret": "H5YH2NKOIJJSYJTGK5LGQSZGLVFFWSKJ",
+  "relogin_otp_secret": "${TEST_TOTP_SECRET}",
+  "jwt_token": "${JWT_TOKEN}",
+  "environment_name": "BO",
+  "description": "BO Environment Configuration for Admin Access"
+}

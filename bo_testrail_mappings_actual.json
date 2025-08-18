@@ -1,0 +1,35 @@
+{
+  "bo_suite_info": {
+    "suite_id": 139,
+    "section_id": 1860,
+    "project_id": 1,
+    "created_date": "2025-08-11T16:59:54.751950",
+    "total_bo_cases": 9,
+    "environment": "BO (https://bo.viewz.co)",
+    "framework": "Playwright + pytest + TestRail",
+    "status": "BO Snapshot TestRail cases created successfully",
+    "last_updated": "2025-08-11T17:01:39.631674"
+  },
+  "bo_testrail_cases": {
+    "test_bo_complete_workflow": "C30964",
+    "test_bo_login_only": "C30965",
+    "test_bo_accounts_navigation_only": "C30966",
+    "test_bo_account_relogin": "C30967",
+    "test_bo_relogin_sanity_comprehensive": "C30968",
+    "test_bo_visual_snapshots": "C30969",
+    "test_bo_dom_snapshots": "C30970",
+    "test_bo_workflow_snapshots": "C30971",
+    "test_bo_component_snapshots": "C30972"
+  },
+  "bo_framework_mappings": {
+    "test_bo_complete_workflow": "C30964",
+    "test_bo_login_only": "C30965",
+    "test_bo_accounts_navigation_only": "C30966",
+    "test_bo_account_relogin": "C30967",
+    "test_bo_relogin_sanity_comprehensive": "C30968",
+    "test_bo_visual_snapshots": "C30969",
+    "test_bo_dom_snapshots": "C30970",
+    "test_bo_workflow_snapshots": "C30971",
+    "test_bo_component_snapshots": "C30972"
+  }
+}

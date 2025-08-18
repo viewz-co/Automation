@@ -1,0 +1,12 @@
+{
+  "base_url": "https://app.stage.viewz.co",
+  "username": "sharon_stage",
+  "password": "Fuckyou43!",
+  "otp_secret": "F44VIIZ6FFLVUVCEIZHVAI2FIRZUWSCS",
+  "jwt_token": "${JWT_TOKEN}",
+  "environment": "stage",
+  "basic_auth": {
+    "username": "admin",
+    "password": "38Uo0tuxA3pj*b0F"
+  }
+}

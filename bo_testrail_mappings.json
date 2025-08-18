@@ -1,0 +1,45 @@
+{
+  "bo_suite_info": {
+    "suite_id": 139,
+    "project_id": 1,
+    "created_date": "2025-08-11T15:24:37.793540",
+    "total_bo_cases": 5,
+    "environment": "BO (https://bo.viewz.co)",
+    "framework": "Playwright + pytest + TestRail",
+    "status": "Ready for TestRail integration"
+  },
+  "bo_test_cases": {
+    "test_bo_complete_workflow": {
+      "case_id": "C_BO_001",
+      "title": "BO Complete Workflow - Login, Relogin, and Sanity Testing",
+      "goal": "Validate complete BO environment workflow including admin login with OTP, account relogin, and regression sanity testing"
+    },
+    "test_bo_login_only": {
+      "case_id": "C_BO_002",
+      "title": "BO Admin Login with OTP Authentication",
+      "goal": "Verify BO admin login functionality with username, password, and OTP verification"
+    },
+    "test_bo_accounts_navigation_only": {
+      "case_id": "C_BO_003",
+      "title": "BO Accounts Navigation and List Verification",
+      "goal": "Validate navigation to BO accounts page and verify account list display functionality"
+    },
+    "test_relogin_sanity_home_verification": {
+      "case_id": "C_BO_004",
+      "title": "BO Relogin Session - Home Page Verification",
+      "goal": "Validate that relogin session successfully loads main application home page"
+    },
+    "test_relogin_sanity_navigation": {
+      "case_id": "C_BO_005",
+      "title": "BO Relogin Session - Navigation Testing",
+      "goal": "Verify navigation functionality and menu accessibility in relogin session"
+    }
+  },
+  "bo_framework_mappings": {
+    "test_bo_complete_workflow": "C_BO_001",
+    "test_bo_login_only": "C_BO_002",
+    "test_bo_accounts_navigation_only": "C_BO_003",
+    "test_relogin_sanity_home_verification": "C_BO_004",
+    "test_relogin_sanity_navigation": "C_BO_005"
+  }
+}

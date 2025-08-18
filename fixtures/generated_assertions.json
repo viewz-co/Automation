@@ -1,5 +1,5 @@
 [
-  "expect(page.url).not.toBe('https://app.viewz.co/login')",
+  "expect(page.url).not.toMatch(/\\/login$/)",
   "expect(page.url).toContain('app.viewz.co')",
   "expect(await page.title()).toBe('Viewz - Home')",
   "expect(page.locator('text=Dashboard').first).toBeVisible()"

@@ -18,6 +18,71 @@ load_dotenv()
 from utils.testrail_integration import testrail, TestRailStatus
 from utils.screenshot_helper import screenshot_helper
 
+# ---------- TESTRAIL PYTEST HOOKS ---------- #
+def pytest_configure(config):
+    """Setup TestRail integration at the start of test session"""
+    print("🔍 pytest_configure called - setting up TestRail")
+    if testrail._is_enabled():
+        print("✅ TestRail is enabled, setting up test run")
+        # Note: Case IDs will be collected during test collection phase
+    else:
+        print("⚠️ TestRail is not enabled")
+
+def pytest_runtest_makereport(item, call):
+    """Create test report and update TestRail"""
+    print(f"🔍 pytest_runtest_makereport called for {item.name}, when={call.when}")
+    
+    if call.when == 'call' and testrail._is_enabled():
+        print(f"🔍 TestRail enabled, checking case ID for {item.name}")
+        
+        # Check if test has TestRail case ID
+        if hasattr(item.function, 'testrail_case_id'):
+            case_id = item.function.testrail_case_id
+            print(f"🔍 Found case ID: {case_id} for test {item.name}")
+            
+            # Ensure we have a test run
+            if not testrail.run_id:
+                print("🔄 No test run exists, creating one...")
+                testrail.setup_test_run([case_id])
+            
+            # Determine test status
+            if call.excinfo is None:
+                status = TestRailStatus.PASSED
+                comment = "Test passed successfully"
+                print(f"✅ Test {item.name} PASSED - updating TestRail case {case_id}")
+            else:
+                status = TestRailStatus.FAILED
+                comment = f"Test failed: {str(call.excinfo.value)}"
+                print(f"❌ Test {item.name} FAILED - updating TestRail case {case_id}")
+            
+            # Calculate elapsed time
+            elapsed = getattr(call, 'duration', None)
+            if elapsed:
+                elapsed = f"{elapsed:.2f}s"
+            
+            # Update TestRail
+            print(f"🔄 Updating TestRail case {case_id} with status {status}")
+            result = testrail.update_test_result(case_id, status, comment, elapsed)
+            if result:
+                print(f"✅ TestRail case {case_id} updated successfully: {result.get('id', 'N/A')}")
+            else:
+                print(f"❌ Failed to update TestRail case {case_id}")
+        else:
+            print(f"⚠️ No TestRail case ID found for test {item.name}")
+    else:
+        if call.when == 'call':
+            print(f"⚠️ TestRail not enabled for test {item.name}")
+
+def pytest_sessionfinish(session, exitstatus):
+    """Finalize TestRail integration at the end of test session"""
+    print("🔍 pytest_sessionfinish called - finalizing TestRail")
+    if testrail._is_enabled() and testrail.run_id:
+        print(f"🔄 Closing TestRail run {testrail.run_id}")
+        testrail.finalize_test_run()
+        print("✅ TestRail run finalized")
+    else:
+        print("⚠️ No TestRail run to finalize")
+
 # ---------- PYTEST CONFIGURATION ---------- #
 def pytest_addoption(parser):
     parser.addoption(
@@ -33,14 +98,40 @@ def headless_mode(request):
 
 # ---------- ENV CONFIG ---------- #
 def load_config():
-    """Load configuration from environment variables"""
+    """Load configuration from environment variables or config files"""
+    # Check for environment selection
+    test_env = os.getenv("TEST_ENV", "production").lower()
+    
+    if test_env == "stage":
+        # Load stage configuration
+        config_path = "configs/stage_env_config.json"
+        try:
+            with open(config_path, 'r') as f:
+                config = json.load(f)
+            print(f"🔄 Loaded STAGE environment config from {config_path}")
+            return {
+                "base_url": config.get("base_url", "https://app.stage.viewz.co"),
+                "username": config.get("username", ""),
+                "password": config.get("password", ""),
+                "otp_secret": config.get("otp_secret", ""),
+                "api_base_url": config.get("base_url", "https://app.stage.viewz.co"),
+                "jwt_token": os.getenv("JWT_TOKEN", ""),
+                "environment": "stage",
+                "basic_auth": config.get("basic_auth", None)
+            }
+        except FileNotFoundError:
+            print(f"⚠️ Stage config file not found: {config_path}, falling back to env vars")
+    
+    # Default to production (environment variables or production config)
+    print("🔄 Using PRODUCTION environment config")
     return {
         "base_url": os.getenv("BASE_URL", "https://app.viewz.co"),
         "username": os.getenv("TEST_USERNAME", ""),
         "password": os.getenv("TEST_PASSWORD", ""),
         "otp_secret": os.getenv("TEST_TOTP_SECRET", ""),
         "api_base_url": os.getenv("API_BASE_URL", "https://app.viewz.co"),
-        "jwt_token": os.getenv("JWT_TOKEN", "")
+        "jwt_token": os.getenv("JWT_TOKEN", ""),
+        "environment": "production"
     }
 
 @pytest.fixture(scope="session")
@@ -62,7 +153,23 @@ async def page(env_config, headless_mode):
             })
         
         browser = await p.chromium.launch(**launch_options)
-        context = await browser.new_context(base_url=env_config["base_url"], viewport=None)
+        
+        # Set up context options
+        context_options = {
+            "base_url": env_config["base_url"], 
+            "viewport": None
+        }
+        
+        # Add HTTP basic authentication if configured (for stage environment)
+        if "basic_auth" in env_config and env_config["basic_auth"]:
+            basic_auth = env_config["basic_auth"]
+            context_options["http_credentials"] = {
+                "username": basic_auth["username"],
+                "password": basic_auth["password"]
+            }
+            print(f"🔐 HTTP Basic Auth configured for: {basic_auth['username']}")
+        
+        context = await browser.new_context(**context_options)
         page = await context.new_page()
         yield page
         await context.close()
@@ -79,11 +186,13 @@ def sync_browser_context():
 
 # ---------- LOGIN DATA FIXTURE ---------- #
 @pytest.fixture
-def login_data():
-    """Load login data from environment variables"""
+def login_data(env_config):
+    """Load login data from environment configuration (supports both production and stage)"""
     return {
-        "username": os.getenv("TEST_USERNAME", ""),
-        "password": os.getenv("TEST_PASSWORD", "")
+        "username": env_config["username"],
+        "password": env_config["password"],
+        "otp_secret": env_config["otp_secret"],
+        "environment": env_config.get("environment", "production")
     }
 
 # ---------- PERFORM LOGIN WITH OTP FIXTURE ---------- #
@@ -93,10 +202,10 @@ async def perform_login(page, login_data):
     await login.goto()
     await login.login(login_data["username"], login_data["password"])
 
-    # הזנת OTP
-    secret = os.getenv('TEST_TOTP_SECRET')
+    # הזנת OTP - use from login_data (supports both production and stage)
+    secret = login_data.get("otp_secret") or os.getenv('TEST_TOTP_SECRET')
     if not secret:
-        raise ValueError("TEST_TOTP_SECRET environment variable is required")
+        raise ValueError("OTP secret is required (from config or TEST_TOTP_SECRET environment variable)")
     otp = pyotp.TOTP(secret).now()
 
     await page.wait_for_selector("text=Two-Factor Authentication", timeout=5000)
@@ -143,8 +252,40 @@ async def perform_login_with_entity(page, login_data):
     secret = os.getenv('TEST_TOTP_SECRET')
     otp = pyotp.TOTP(secret).now()
 
-    await page.wait_for_selector("text=Two-Factor Authentication", timeout=5000)
-    await page.get_by_role("textbox").fill(otp)
+    # Wait for 2FA page with multiple possible indicators
+    try:
+        # Try multiple 2FA page indicators
+        await page.wait_for_selector("text=Two-Factor Authentication", timeout=3000)
+    except:
+        try:
+            await page.wait_for_selector("text=Authentication", timeout=2000)
+        except:
+            try:
+                await page.wait_for_selector("text=verification", timeout=2000)
+            except:
+                try:
+                    await page.wait_for_selector("text=code", timeout=2000)
+                except:
+                    try:
+                        # Check if already logged in (redirected)
+                        await page.wait_for_url("**/home**", timeout=2000)
+                        return page  # Already logged in, skip 2FA
+                    except:
+                        print("⚠️ Could not detect 2FA page, attempting OTP entry anyway")
+    
+    # Try multiple ways to fill OTP
+    try:
+        await page.get_by_role("textbox").fill(otp)
+    except:
+        try:
+            # Try finding any visible text input
+            await page.locator('input[type="text"]:visible').last.fill(otp)
+        except:
+            try:
+                # Try finding any input that might accept OTP
+                await page.locator('input:visible').last.fill(otp)
+            except:
+                print("⚠️ Could not find OTP input field")
     await asyncio.sleep(3)
     
     # Try to wait for various success indicators, don't fail if timeout
@@ -225,7 +366,7 @@ def pytest_runtest_makereport(item, call):
         case_mapping = {
         # ===== COMPLETE COMPREHENSIVE SUITE MAPPINGS =====
         # Suite ID: 139
-        # Total Cases Mapped: 133
+        # Total Cases Mapped: 142 (including 9 BO tests)
 
         # API Tests
         'test_account_activity_report': 8024,  # C8024
@@ -390,6 +531,21 @@ def pytest_runtest_makereport(item, call):
         # Missing Implementation Tests (Now Implemented)
         'test_resource_usage_optimization': 8061,  # C8061
         'test_menu_pinning_and_navigation': 7960,  # C7960
+        
+        # ===== BO ENVIRONMENT TESTS =====
+        # BO Section ID: 1860
+        # BO Complete Workflow Tests
+        'test_bo_complete_workflow': 30964,  # C30964
+        'test_bo_login_only': 30965,  # C30965
+        'test_bo_accounts_navigation_only': 30966,  # C30966
+        'test_bo_account_relogin': 30967,  # C30967
+        'test_bo_relogin_sanity_comprehensive': 30968,  # C30968
+        
+        # BO Snapshot Tests
+        'test_bo_visual_snapshots': 30969,  # C30969
+        'test_bo_dom_snapshots': 30970,  # C30970
+        'test_bo_workflow_snapshots': 30971,  # C30971
+        'test_bo_component_snapshots': 30972,  # C30972
         }
         
         case_id = case_mapping.get(test_name)

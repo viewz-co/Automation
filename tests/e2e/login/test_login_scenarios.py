@@ -3,6 +3,7 @@ Login Scenarios Test Suite
 Tests for Viewz login page validation scenarios
 """
 
+import os
 import pytest
 import pytest_asyncio
 from playwright.async_api import Page, expect
@@ -26,7 +27,8 @@ class TestLoginScenarios:
         self.screenshot_helper = ScreenshotHelper()
         
         # Navigate to login page
-        await page.goto("https://new.viewz.co/login")
+        base_url = os.getenv("BASE_URL", "https://app.viewz.co")
+        await page.goto(f"{base_url}/login")
         await page.wait_for_load_state("networkidle")
     
     @pytest.mark.asyncio
@@ -267,7 +269,7 @@ class TestLoginScenarios:
             lambda: "dashboard" in page.url.lower(),
             lambda: "home" in page.url.lower(),
             lambda: "app" in page.url.lower(),
-            lambda: page.url != "https://new.viewz.co/login",
+                            lambda: not page.url.endswith("/login"),
             
             # Page elements
             lambda: page.locator("text=Welcome").is_visible(),
@@ -431,7 +433,7 @@ class TestLoginScenarios:
         
         # URL assertions
         current_url = page.url
-        assertions.append(f"expect(page.url).not.toBe('https://new.viewz.co/login')")
+        assertions.append(f"expect(page.url).not.toMatch(/\\/login$/)")
         assertions.append(f"expect(page.url).toContain('{current_url.split('/')[2]}')")
         
         # Page title assertion

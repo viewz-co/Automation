@@ -1,0 +1,12 @@
+{
+  "base_url": "https://bo.stage.viewz.co",
+  "username": "sharonadmin", 
+  "password": "$h@r0n1#02#",
+  "otp_secret": "ME2DIJTWJNSGEOJSKJDUI6LSNY3SC2C3",
+  "relogin_otp_secret": "F44VIIZ6FFLVUVCEIZHVAI2FIRZUWSCS",
+  "environment": "stage",
+  "basic_auth": {
+    "username": "admin",
+    "password": "RiBrsuk*8w4%08Dx"
+  }
+}

@@ -90,13 +90,16 @@ class TestRailIntegration:
 # Global instance
 testrail = TestRailIntegration()
 
-# Decorator for marking tests with TestRail case IDs
+# Decorator for marking tests with TestRail case IDs  
 def testrail_case(case_id):
     """Decorator to mark test with TestRail case ID"""
     def decorator(func):
         func.testrail_case_id = case_id
         return func
     return decorator
+
+# Prevent pytest from collecting this as a test
+testrail_case.__test__ = False
 
 # Pytest hooks for TestRail integration
 def pytest_configure(config):
@@ -113,18 +116,25 @@ def pytest_configure(config):
 
 def pytest_runtest_makereport(item, call):
     """Create test report and update TestRail"""
+    print(f"🔍 Hook called: pytest_runtest_makereport for {item.name}, when={call.when}")
+    
     if call.when == 'call' and testrail._is_enabled():
+        print(f"🔍 TestRail enabled, checking case ID for {item.name}")
+        
         # Check if test has TestRail case ID
         if hasattr(item.function, 'testrail_case_id'):
             case_id = item.function.testrail_case_id
+            print(f"🔍 Found case ID: {case_id} for test {item.name}")
             
             # Determine test status
             if call.excinfo is None:
                 status = TestRailStatus.PASSED
                 comment = "Test passed successfully"
+                print(f"✅ Test {item.name} PASSED - updating TestRail case {case_id}")
             else:
                 status = TestRailStatus.FAILED
                 comment = f"Test failed: {str(call.excinfo.value)}"
+                print(f"❌ Test {item.name} FAILED - updating TestRail case {case_id}")
             
             # Calculate elapsed time
             elapsed = getattr(call, 'duration', None)
@@ -132,7 +142,13 @@ def pytest_runtest_makereport(item, call):
                 elapsed = f"{elapsed:.2f}s"
             
             # Update TestRail
-            testrail.update_test_result(case_id, status, comment, elapsed)
+            result = testrail.update_test_result(case_id, status, comment, elapsed)
+            print(f"🔍 TestRail update result: {result}")
+        else:
+            print(f"⚠️ No TestRail case ID found for test {item.name}")
+    else:
+        if call.when == 'call':
+            print(f"⚠️ TestRail not enabled for test {item.name}")
 
 def pytest_sessionfinish(session, exitstatus):
     """Finalize TestRail integration at the end of test session"""

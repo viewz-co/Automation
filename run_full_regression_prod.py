@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+"""
+Full Regression Test Runner - Production Environment
+Run complete regression suite on production with TestRail integration
+"""
+
+import subprocess
+import sys
+import os
+from pathlib import Path
+
+def run_full_regression_prod():
+    """Run full regression tests on production environment"""
+    
+    print("🏭 Full Regression Test Runner - PRODUCTION")
+    print("Environment: Production (https://app.viewz.co)")
+    print("=" * 60)
+    
+    # Set production environment (default)
+    env = os.environ.copy()
+    env["TEST_ENV"] = "production"
+    
+    # Set TestRail environment
+    env["TESTRAIL_ENABLED"] = "true"
+    env["TESTRAIL_URL"] = "https://viewz.testrail.io"
+    env["TESTRAIL_USERNAME"] = "automation@viewz.co"
+    env["TESTRAIL_PASSWORD"] = "e.fJg:z5q5mnAdL"
+    
+    print("🚀 Running PRODUCTION Full Regression")
+    print("=" * 60)
+    
+    # Run all tests with TestRail integration
+    cmd = [
+        "python3", "-m", "pytest", 
+        "tests/", 
+        "-v", "-s", "--tb=short"
+    ]
+    
+    print(f"Executing: {' '.join(cmd)}")
+    print("-" * 60)
+    
+    try:
+        # Run the tests
+        result = subprocess.run(cmd, env=env, check=False)
+        
+        if result.returncode == 0:
+            print("\n✅ PRODUCTION Full Regression - COMPLETED SUCCESSFULLY!")
+        else:
+            print(f"\n⚠️ PRODUCTION Full Regression - COMPLETED WITH ISSUES (exit code: {result.returncode})")
+        
+        # Also run BO tests
+        print("\n" + "=" * 60)
+        print("🏢 Running BO PRODUCTION Tests")
+        print("=" * 60)
+        
+        bo_cmd = ["python3", "run_bo_tests.py", "all"]
+        print(f"Executing: {' '.join(bo_cmd)}")
+        print("-" * 60)
+        
+        bo_result = subprocess.run(bo_cmd, env=env, check=False)
+        
+        if bo_result.returncode == 0:
+            print("\n✅ BO PRODUCTION Tests - COMPLETED SUCCESSFULLY!")
+        else:
+            print(f"\n⚠️ BO PRODUCTION Tests - COMPLETED WITH ISSUES (exit code: {bo_result.returncode})")
+        
+        # Overall result
+        overall_success = result.returncode == 0 and bo_result.returncode == 0
+        
+        print("\n" + "=" * 60)
+        print("📊 PRODUCTION REGRESSION SUMMARY")
+        print("=" * 60)
+        print(f"Main App Tests: {'✅ PASSED' if result.returncode == 0 else '❌ FAILED'}")
+        print(f"BO Tests: {'✅ PASSED' if bo_result.returncode == 0 else '❌ FAILED'}")
+        print(f"Overall Result: {'✅ SUCCESS' if overall_success else '⚠️ ISSUES FOUND'}")
+        
+        return overall_success
+        
+    except Exception as e:
+        print(f"❌ Error running production regression: {str(e)}")
+        return False
+
+if __name__ == "__main__":
+    # Run the tests
+    success = run_full_regression_prod()
+    
+    # Exit with appropriate code
+    sys.exit(0 if success else 1)
