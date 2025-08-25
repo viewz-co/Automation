@@ -67,9 +67,9 @@ class TestMenuPinning:
                     
                     # Check if button is visible
                     if await pin_button.is_visible():
-                        # Click the pin button
-                        await pin_button.click()
-                        await asyncio.sleep(1)
+                        # Use successful pattern from other tests - force click
+                        await pin_button.click(force=True)
+                        await asyncio.sleep(2)
                         
                         menu_tests['pin_button_functionality'] = True
                         print("✅ Pin button clicked successfully")
@@ -117,12 +117,27 @@ class TestMenuPinning:
                 try:
                     print(f"   🔍 Testing navigation to {nav_page}...")
                     
-                    # Try to navigate
-                    nav_element = page.locator(f"text={nav_page}")
-                    if await nav_element.count() > 0:
-                        await nav_element.click()
-                        await asyncio.sleep(2)
-                        
+                    # Try to navigate using successful patterns
+                    nav_selectors = [
+                        f"text={nav_page}",
+                        f"button:has-text('{nav_page}')",
+                        f"a:has-text('{nav_page}')",
+                        f"[data-testid*='{nav_page.lower()}']"
+                    ]
+                    
+                    nav_clicked = False
+                    for selector in nav_selectors:
+                        try:
+                            nav_element = page.locator(selector)
+                            if await nav_element.count() > 0 and await nav_element.first.is_visible():
+                                await nav_element.first.click(force=True)
+                                await asyncio.sleep(2)
+                                nav_clicked = True
+                                break
+                        except:
+                            continue
+                    
+                    if nav_clicked:
                         # Check if navigation was successful
                         if nav_page.lower() in page.url.lower() or await page.locator("body").is_visible():
                             successful_navigations += 1

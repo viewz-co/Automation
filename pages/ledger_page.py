@@ -271,17 +271,38 @@ class LedgerPage:
     # ========== FILTER AND PERIOD METHODS ==========
     
     async def select_period(self, period: str):
-        """Select time period (Y/Q/M)"""
+        """Select time period (Y/Q/M) with improved selectors"""
         try:
-            period_button = self.page.locator(f"button:has-text('{period}')")
-            if await period_button.is_visible():
-                await period_button.click()
-                await asyncio.sleep(2)  # Wait for data to refresh
-                print(f"✅ Selected period: {period}")
-                return True
-            else:
-                print(f"⚠️ Period button '{period}' not found")
-                return False
+            # Try more specific selectors for period buttons
+            period_selectors = [
+                f"button:has-text('{period}'):not(:has-text('Create')):not(:has-text('Journal')):not(:has-text('Viewz'))",
+                f"[data-testid*='period-{period.lower()}']",
+                f"[aria-label*='period {period}' i]",
+                f"button[class*='period']:has-text('{period}')",
+                f".period-selector button:has-text('{period}')",
+                f"[role='button']:has-text('{period}'):not(:has-text('Account')):not(:has-text('Entry')):not(:has-text('Demo'))"
+            ]
+            
+            for selector in period_selectors:
+                try:
+                    period_button = self.page.locator(selector)
+                    count = await period_button.count()
+                    
+                    if count == 1 and await period_button.is_visible():
+                        await period_button.click()
+                        await asyncio.sleep(2)  # Wait for data to refresh
+                        print(f"✅ Selected period: {period} using selector: {selector}")
+                        return True
+                    elif count > 1:
+                        print(f"⚠️ Multiple matches for {selector} ({count}), trying next selector")
+                        continue
+                except Exception as e:
+                    print(f"⚠️ Failed selector {selector}: {str(e)}")
+                    continue
+            
+            print(f"⚠️ Period button '{period}' not found with specific selectors")
+            return False
+            
         except Exception as e:
             print(f"❌ Error selecting period {period}: {str(e)}")
             return False
