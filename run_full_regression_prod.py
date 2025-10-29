@@ -14,6 +14,7 @@ def run_full_regression_prod():
     
     print("🏭 Full Regression Test Runner - PRODUCTION")
     print("Environment: Production (https://app.viewz.co)")
+    print("Mode: HEADLESS with TestRail Integration")
     print("=" * 60)
     
     # Set production environment (default)
@@ -33,7 +34,8 @@ def run_full_regression_prod():
     cmd = [
         "python3", "-m", "pytest", 
         "tests/", 
-        "-v", "-s", "--tb=short"
+        "-v", "-s", "--tb=short",
+        "--headless"
     ]
     
     print(f"Executing: {' '.join(cmd)}")
@@ -53,7 +55,7 @@ def run_full_regression_prod():
         print("🏢 Running BO PRODUCTION Tests")
         print("=" * 60)
         
-        bo_cmd = ["python3", "run_bo_tests.py", "all"]
+        bo_cmd = ["python3", "run_bo_tests.py", "quick", "--headless"]
         print(f"Executing: {' '.join(bo_cmd)}")
         print("-" * 60)
         

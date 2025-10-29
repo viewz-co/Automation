@@ -8,12 +8,13 @@ import subprocess
 import sys
 import os
 
-def run_bo_tests(test_mode="complete"):
+def run_bo_tests(test_mode="complete", headless=False):
     """
     Run BO tests with different modes
     
     Args:
         test_mode: "complete", "login", "accounts", "quick", "snapshots", "visual", "workflow", "components", "dom"
+        headless: Run tests in headless mode
     """
     
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -22,69 +23,65 @@ def run_bo_tests(test_mode="complete"):
     print(f"🚀 Running BO Tests - Mode: {test_mode}")
     print("="*50)
     
+    # Base pytest options
+    base_opts = ["-v", "-s", "--tb=short"]
+    if headless:
+        base_opts.append("--headless")
+    
     if test_mode == "complete":
         # Run complete workflow test
         cmd = [
             "python3", "-m", "pytest", 
-            "tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_complete_workflow",
-            "-v", "-s", "--tb=short"
-        ]
+            "tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_complete_workflow"
+        ] + base_opts
     elif test_mode == "login":
         # Run login only test
         cmd = [
             "python3", "-m", "pytest", 
-            "tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_login_only",
-            "-v", "-s", "--tb=short"
-        ]
+            "tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_login_only"
+        ] + base_opts
     elif test_mode == "accounts":
         # Run accounts navigation test
         cmd = [
             "python3", "-m", "pytest", 
-            "tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_accounts_navigation_only",
-            "-v", "-s", "--tb=short"
-        ]
+            "tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_accounts_navigation_only"
+        ] + base_opts
     elif test_mode == "quick":
         # Run all BO tests
         cmd = [
             "python3", "-m", "pytest", 
-            "tests/e2e/bo/",
-            "-v", "-s", "--tb=short"
-        ]
+            "tests/e2e/bo/"
+        ] + base_opts
     elif test_mode == "snapshots":
         # Run all BO snapshot tests
         cmd = [
             "python3", "-m", "pytest", 
-            "tests/e2e/bo/test_bo_snapshots.py",
-            "-v", "-s", "--tb=short"
-        ]
+            "tests/e2e/bo/test_bo_snapshots.py"
+        ] + base_opts
     elif test_mode == "visual":
         # Run BO visual snapshots only
         cmd = [
             "python3", "-m", "pytest", 
-            "tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_visual_snapshots",
-            "-v", "-s", "--tb=short"
-        ]
+            "tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_visual_snapshots"
+        ] + base_opts
     elif test_mode == "workflow":
         # Run BO workflow snapshots
         cmd = [
             "python3", "-m", "pytest", 
-            "tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_workflow_snapshots",
-            "-v", "-s", "--tb=short"
-        ]
+            "tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_workflow_snapshots"
+        ] + base_opts
     elif test_mode == "components":
         # Run BO component snapshots
         cmd = [
             "python3", "-m", "pytest", 
-            "tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_component_snapshots",
-            "-v", "-s", "--tb=short"
-        ]
+            "tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_component_snapshots"
+        ] + base_opts
     elif test_mode == "dom":
         # Run BO DOM snapshots
         cmd = [
             "python3", "-m", "pytest", 
-            "tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_dom_snapshots",
-            "-v", "-s", "--tb=short"
-        ]
+            "tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_dom_snapshots"
+        ] + base_opts
     else:
         print(f"❌ Unknown test mode: {test_mode}")
         print("Available modes: complete, login, accounts, quick, snapshots, visual, workflow, components, dom")
@@ -107,12 +104,16 @@ def main():
     else:
         test_mode = "complete"
     
+    # Check for headless flag
+    headless = "--headless" in sys.argv
+    
     print("🎯 BO Test Runner")
     print(f"Environment: BO (https://bo.viewz.co)")
     print(f"Test Mode: {test_mode}")
+    print(f"Headless: {headless}")
     print("="*50)
     
-    success = run_bo_tests(test_mode)
+    success = run_bo_tests(test_mode, headless=headless)
     
     if success:
         print("\n✅ BO Tests - COMPLETED SUCCESSFULLY!")

@@ -487,6 +487,56 @@ def pytest_runtest_makereport(item, call):
         'test_verify_invoice_list_is_displayed': 7987,  # C7987
         'test_view_invoice_in_new_view': 7991,  # C7991
 
+        # Receivables Tests - Suite 139 (13 TestRail cases covering 26 test functions)
+        'test_verify_receivable_list_is_displayed': 63962,  # C63962 - Display verification
+        'test_upload_receivable_file': 63963,  # C63963 - Valid file upload
+        'test_upload_invalid_file_type': 63964,  # C63964 - Invalid file type
+        'test_upload_duplicate_receivable': 63965,  # C63965 - Duplicate prevention
+        'test_receivables_edit_delete_buttons': 63966,  # C63966 - Edit/Delete buttons
+        'test_receivables_status_dropdowns': 63967,  # C63967 - Status dropdowns
+        'test_receivables_search_filter_options': 63968,  # C63968 - Search & Filter
+        'test_receivables_menu_operations': 63968,  # C63968 - Menu operations (shares with search)
+        'test_receivables_open_edit_popup_layout': 63969,  # C63969 - Form validation group
+        'test_receivables_mandatory_validation': 63969,  # C63969 - Form validation group
+        'test_receivables_form_validation': 63969,  # C63969 - Form validation group
+        'test_receivables_line_totals_equal_before_validation': 63970,  # C63970 - Calculations & timing
+        'test_receivables_gl_account_dropdown': 63970,  # C63970 - Calculations & timing
+        'test_receivables_recognition_timing_single_date': 63970,  # C63970 - Calculations & timing
+        'test_receivables_recognition_timing_default': 63970,  # C63970 - Calculations & timing
+        'test_record_receivable_and_status': 63971,  # C63971 - Recording & JE
+        'test_receivables_show_journal_entry_for_record': 63971,  # C63971 - Recording & JE
+        'test_receivables_verify_je_amount_and_description': 63971,  # C63971 - Recording & JE
+        'test_delete_receivable_dialog': 63972,  # C63972 - Delete operations
+        'test_attempt_to_delete_receivable': 63972,  # C63972 - Delete operations
+        'test_view_receivable_in_new_view': 63973,  # C63973 - View operations
+        'test_receivables_menu_options_for_new_status': 63974,  # C63974 - Context menus
+        'test_receivables_menu_options_for_matched_status': 63974,  # C63974 - Context menus
+        'test_receivables_menu_options_for_reconciled_status': 63974,  # C63974 - Context menus
+
+        # Credit Cards Tests (Suite 139 - 22 TestRail cases)
+        'test_verify_credit_cards_page_loads_successfully': 51886,  # C51886 - Page load
+        'test_verify_credit_card_transactions_display': 51887,  # C51887 - Transaction display
+        'test_credit_card_selection_functionality': 51888,  # C51888 - Card selection
+        'test_credit_card_financial_information_display': 51889,  # C51889 - Financial info
+        'test_credit_card_transaction_filtering_by_date': 51890,  # C51890 - Date filtering
+        'test_credit_card_transaction_search_functionality': 51891,  # C51891 - Search
+        'test_verify_credit_card_statement_upload_area': 51892,  # C51892 - Upload area
+        'test_credit_card_statement_file_upload_validation': 51893,  # C51893 - Upload validation
+        'test_credit_card_reconciliation_status_display': 51894,  # C51894 - Recon status
+        'test_credit_card_transaction_reconciliation': 51895,  # C51895 - Reconciliation
+        'test_credit_card_transaction_action_buttons': 51896,  # C51896 - Action buttons
+        'test_complete_credit_cards_workflow': 51897,  # C51897 - Complete workflow
+        'test_credit_cards_empty_state_handling': 51898,  # C51898 - Empty state
+        'test_credit_cards_page_responsiveness': 51899,  # C51899 - Responsiveness
+        'test_credit_card_list_display': 51900,  # C51900 - Card list
+        'test_credit_card_transaction_sorting': 51901,  # C51901 - Sorting
+        'test_view_credit_card_transactions_list': 52141,  # C52141 - Transactions list
+        'test_handle_duplicate_credit_card_uploads': 52142,  # C52142 - Duplicate uploads
+        'test_process_uploaded_credit_card_statements': 52143,  # C52143 - Process statements
+        'test_handle_unmatched_credit_card_transactions': 52144,  # C52144 - Unmatched transactions
+        'test_credit_card_account_balances': 52145,  # C52145 - Account balances
+        'test_credit_card_settings_configuration': 52146,  # C52146 - Settings
+
         # Ledger Tests
         'test_complete_dashboard_workflow': 8046,  # C8046
         'test_complete_ledger_workflow': 8033,  # C8033
@@ -511,7 +561,7 @@ def pytest_runtest_makereport(item, call):
         'test_memory_usage_monitoring': 8057,  # C8057
         'test_page_load_performance': 8056,  # C8056
         'test_process_uploaded_statements': 7982,  # C7982
-        'test_upload_invalid_file_type': 7989,  # C7989
+        'test_upload_invalid_payable_file_type': 7989,  # C7989 - Payables
         'test_upload_statement_file_validation': 7980,  # C7980
         'test_verify_upload_area': 7979,  # C7979
 

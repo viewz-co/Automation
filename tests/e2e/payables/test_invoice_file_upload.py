@@ -1612,7 +1612,7 @@ Total: $10,714.40"""
         assert True, f"Delete attempt completed: {delete_message}"
 
     @pytest.mark.testrail_case(7989)  # Matches existing mapping
-    async def test_upload_invalid_file_type(self, perform_login_with_entity):
+    async def test_upload_invalid_payable_file_type(self, perform_login_with_entity):
         """
         C7989 - Test invalid file upload scenarios (complementary to C7988)
         """

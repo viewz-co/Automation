@@ -143,7 +143,7 @@ class TestCompletePayablesOperations:
             print(f"⏱️ Test duration: {duration:.2f}s")
 
     @pytest.mark.asyncio
-    async def test_upload_invalid_file_type(self, page: Page, payables_page: PayablesPage):
+    async def test_upload_invalid_payable_file_type(self, page: Page, payables_page: PayablesPage):
         """
         TestRail Case 430: Upload invalid file type
         Test uploading an invalid file type (non-PDF) to verify system rejects it

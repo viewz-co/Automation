@@ -1,0 +1,89 @@
+{
+  "suite_id": 139,
+  "section_id": 2588,
+  "total_cases": 13,
+  "case_ids": [
+    63962,
+    63963,
+    63964,
+    63965,
+    63966,
+    63967,
+    63968,
+    63969,
+    63970,
+    63971,
+    63972,
+    63973,
+    63974
+  ],
+  "mapping": {
+    "1": 63962,
+    "2": 63963,
+    "3": 63964,
+    "4": 63965,
+    "5": 63966,
+    "6": 63967,
+    "7": 63968,
+    "8": 63969,
+    "9": 63970,
+    "10": 63971,
+    "11": 63972,
+    "12": 63973,
+    "13": 63974
+  },
+  "cases": [
+    {
+      "testrail_id": 63962,
+      "title": "Verify Receivable List is Displayed"
+    },
+    {
+      "testrail_id": 63963,
+      "title": "Upload Valid Receivable File"
+    },
+    {
+      "testrail_id": 63964,
+      "title": "Upload Invalid File Type"
+    },
+    {
+      "testrail_id": 63965,
+      "title": "Upload Duplicate Receivable"
+    },
+    {
+      "testrail_id": 63966,
+      "title": "Edit/Delete Buttons Functionality"
+    },
+    {
+      "testrail_id": 63967,
+      "title": "Status Dropdowns"
+    },
+    {
+      "testrail_id": 63968,
+      "title": "Search/Filter and Menu Operations"
+    },
+    {
+      "testrail_id": 63969,
+      "title": "Form Validation"
+    },
+    {
+      "testrail_id": 63970,
+      "title": "Form Calculations and Recognition Timing"
+    },
+    {
+      "testrail_id": 63971,
+      "title": "Recording and Journal Entries"
+    },
+    {
+      "testrail_id": 63972,
+      "title": "Delete Operations"
+    },
+    {
+      "testrail_id": 63973,
+      "title": "View Operations"
+    },
+    {
+      "testrail_id": 63974,
+      "title": "Context Menu by Status"
+    }
+  ]
+}

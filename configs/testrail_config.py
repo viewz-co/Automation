@@ -10,7 +10,7 @@ class TestRailConfig:
         self.username = os.getenv('TESTRAIL_USERNAME', 'automation@viewz.co')
         self.password = os.getenv('TESTRAIL_PASSWORD', 'e.fJg:z5q5mnAdL')  # Updated TestRail password
         
-        # Project and suite configuration - Suite ID 4 from your URL
+        # Project and suite configuration - Suite ID 139 from your URL
         self.project_id = int(os.getenv('TESTRAIL_PROJECT_ID', '1'))
         self.suite_id = int(os.getenv('TESTRAIL_SUITE_ID', '139'))
         
@@ -81,8 +81,7 @@ class TestRailConfig:
             'suite_id': self.suite_id,
             'name': self.run_name,
             'description': self.run_description,
-            'include_all': True if not case_ids else False,
-            'case_ids': case_ids if case_ids else []
+            'include_all': True,  # Always include all cases from Suite 139
         }
         
         result = self._send_request('POST', f'add_run/{self.project_id}', data)

@@ -1,0 +1,182 @@
+{
+  "receivables_test_mapping": {
+    "description": "TestRail Case Mapping for Receivables Tests",
+    "total_testrail_cases": 13,
+    "total_test_functions": 26,
+    "case_range": "C8066-C8078",
+    "mappings": [
+      {
+        "testrail_case": "C8066",
+        "testrail_id": 8066,
+        "title": "Verify Receivable List is Displayed",
+        "test_functions": [
+          "test_verify_receivable_list_is_displayed"
+        ],
+        "count": 2,
+        "files": [
+          "test_receivables_operations.py",
+          "test_complete_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8067",
+        "testrail_id": 8067,
+        "title": "Upload Valid Receivable File",
+        "test_functions": [
+          "test_upload_receivable_file"
+        ],
+        "count": 2,
+        "files": [
+          "test_receivables_operations.py",
+          "test_complete_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8068",
+        "testrail_id": 8068,
+        "title": "Upload Invalid File Type",
+        "test_functions": [
+          "test_upload_invalid_file_type"
+        ],
+        "count": 1,
+        "files": [
+          "test_complete_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8069",
+        "testrail_id": 8069,
+        "title": "Upload Duplicate Receivable",
+        "test_functions": [
+          "test_upload_duplicate_receivable"
+        ],
+        "count": 1,
+        "files": [
+          "test_complete_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8070",
+        "testrail_id": 8070,
+        "title": "Edit/Delete Buttons Functionality",
+        "test_functions": [
+          "test_receivables_edit_delete_buttons"
+        ],
+        "count": 1,
+        "files": [
+          "test_complete_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8071",
+        "testrail_id": 8071,
+        "title": "Status Dropdowns",
+        "test_functions": [
+          "test_receivables_status_dropdowns"
+        ],
+        "count": 1,
+        "files": [
+          "test_complete_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8072",
+        "testrail_id": 8072,
+        "title": "Search/Filter and Menu Operations",
+        "test_functions": [
+          "test_receivables_search_filter_options",
+          "test_receivables_menu_operations"
+        ],
+        "count": 2,
+        "files": [
+          "test_complete_receivables_operations.py",
+          "test_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8073",
+        "testrail_id": 8073,
+        "title": "Form Validation",
+        "test_functions": [
+          "test_open_edit_popup_layout",
+          "test_mandatory_validation",
+          "test_receivables_form_validation"
+        ],
+        "count": 3,
+        "files": [
+          "test_complete_receivables_operations.py",
+          "test_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8074",
+        "testrail_id": 8074,
+        "title": "Form Calculations and Recognition Timing",
+        "test_functions": [
+          "test_line_totals_equal_before_validation",
+          "test_gl_account_dropdown",
+          "test_recognition_timing_single_date",
+          "test_recognition_timing_default"
+        ],
+        "count": 4,
+        "files": [
+          "test_complete_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8075",
+        "testrail_id": 8075,
+        "title": "Recording and Journal Entries",
+        "test_functions": [
+          "test_record_receivable_and_status",
+          "test_show_journal_entry_for_record",
+          "test_verify_je_amount_and_description"
+        ],
+        "count": 3,
+        "files": [
+          "test_complete_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8076",
+        "testrail_id": 8076,
+        "title": "Delete Operations",
+        "test_functions": [
+          "test_delete_receivable_dialog",
+          "test_attempt_to_delete_receivable"
+        ],
+        "count": 2,
+        "files": [
+          "test_complete_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8077",
+        "testrail_id": 8077,
+        "title": "View Operations",
+        "test_functions": [
+          "test_view_receivable_in_new_view"
+        ],
+        "count": 1,
+        "files": [
+          "test_complete_receivables_operations.py"
+        ]
+      },
+      {
+        "testrail_case": "C8078",
+        "testrail_id": 8078,
+        "title": "Context Menu by Status",
+        "test_functions": [
+          "test_menu_options_for_new_status",
+          "test_menu_options_for_matched_status",
+          "test_menu_options_for_reconciled_status"
+        ],
+        "count": 3,
+        "files": [
+          "test_complete_receivables_operations.py"
+        ]
+      }
+    ]
+  }
+}
+

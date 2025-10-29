@@ -1,0 +1,1540 @@
+{
+  "suite_id": 139,
+  "total_cases": 179,
+  "with_automation": 179,
+  "without_automation": 0,
+  "sections": {
+    " API Tests": {
+      "section_id": 529,
+      "total_cases": 11,
+      "cases": [
+        {
+          "id": 7936,
+          "title": "GET Journal Entries - Valid Date Format",
+          "has_automation": true,
+          "test_functions": [
+            "test_get_journal_entries_valid_date_format_request"
+          ]
+        },
+        {
+          "id": 7937,
+          "title": "GET Journal Entries - Invalid Date Format",
+          "has_automation": true,
+          "test_functions": [
+            "test_get_journal_entries_invalid_date_format_request"
+          ]
+        },
+        {
+          "id": 7938,
+          "title": "POST Create Journal Entry - Valid Date Format",
+          "has_automation": true,
+          "test_functions": [
+            "test_create_journal_entry_valid_date_format"
+          ]
+        },
+        {
+          "id": 7939,
+          "title": "POST Create Journal Entry - Invalid Date Format",
+          "has_automation": true,
+          "test_functions": [
+            "test_create_journal_entry_invalid_date_format"
+          ]
+        },
+        {
+          "id": 7940,
+          "title": "GET Bank Uploaded Files - Date Format",
+          "has_automation": true,
+          "test_functions": [
+            "test_get_bank_uploaded_files_date_format"
+          ]
+        },
+        {
+          "id": 7941,
+          "title": "GET Bank Transactions Data - Date Format",
+          "has_automation": true,
+          "test_functions": [
+            "test_get_bank_transactions_data_date_format"
+          ]
+        },
+        {
+          "id": 7942,
+          "title": "GET Entity Documents - Date Format",
+          "has_automation": true,
+          "test_functions": [
+            "test_get_entity_documents_date_format"
+          ]
+        },
+        {
+          "id": 7943,
+          "title": "GET Accounting Uploaded Files - Date Format",
+          "has_automation": true,
+          "test_functions": [
+            "test_get_accounting_uploaded_files_date_format"
+          ]
+        },
+        {
+          "id": 7944,
+          "title": "All Endpoints Reject Invalid Date Formats",
+          "has_automation": true,
+          "test_functions": [
+            "test_all_endpoints_reject_invalid_date_formats"
+          ]
+        },
+        {
+          "id": 7945,
+          "title": "Date Format Consistency Across Endpoints",
+          "has_automation": true,
+          "test_functions": [
+            "test_date_format_consistency_across_endpoints"
+          ]
+        },
+        {
+          "id": 7946,
+          "title": "Date Format Validation Demo",
+          "has_automation": true,
+          "test_functions": [
+            "test_date_format_validation_demo"
+          ]
+        }
+      ]
+    },
+    " Authentication & Login": {
+      "section_id": 530,
+      "total_cases": 3,
+      "cases": [
+        {
+          "id": 7947,
+          "title": "Basic Login Functionality",
+          "has_automation": true,
+          "test_functions": [
+            "test_login"
+          ]
+        },
+        {
+          "id": 7948,
+          "title": "Valid Login Scenario with 2FA",
+          "has_automation": true,
+          "test_functions": [
+            "test_scenario_1_valid_login"
+          ]
+        },
+        {
+          "id": 7949,
+          "title": "Login then Logout Workflow",
+          "has_automation": true,
+          "test_functions": [
+            "test_scenario_2_logout_user"
+          ]
+        }
+      ]
+    },
+    " Navigation": {
+      "section_id": 531,
+      "total_cases": 11,
+      "cases": [
+        {
+          "id": 7950,
+          "title": "Navigate to Home Page",
+          "has_automation": true,
+          "test_functions": [
+            "test_tab_navigation[text=Home-HomePage]"
+          ]
+        },
+        {
+          "id": 7951,
+          "title": "Navigate to Vizion AI Page",
+          "has_automation": true,
+          "test_functions": [
+            "test_tab_navigation[text=Vizion AI-VizionAIPage]"
+          ]
+        },
+        {
+          "id": 7952,
+          "title": "Navigate to Reconciliation Page",
+          "has_automation": true,
+          "test_functions": [
+            "test_tab_navigation[text=Reconciliation-ReconciliationPage]"
+          ]
+        },
+        {
+          "id": 7953,
+          "title": "Navigate to Ledger Page",
+          "has_automation": true,
+          "test_functions": [
+            "test_tab_navigation[text=Ledger-LedgerPage]"
+          ]
+        },
+        {
+          "id": 7954,
+          "title": "Navigate to BI Analysis Page",
+          "has_automation": true,
+          "test_functions": [
+            "test_tab_navigation[text=BI Analysis-BIAnalysisPage]"
+          ]
+        },
+        {
+          "id": 7955,
+          "title": "Navigate to Connections Page",
+          "has_automation": true,
+          "test_functions": [
+            "test_tab_navigation[text=Connections-ConnectionPage]"
+          ]
+        },
+        {
+          "id": 7956,
+          "title": "All Tabs Navigation in Single Session",
+          "has_automation": true,
+          "test_functions": [
+            "test_tabs_navigation_single_login"
+          ]
+        },
+        {
+          "id": 7957,
+          "title": "Navigation with Entity Context",
+          "has_automation": true,
+          "test_functions": [
+            "test_tab_navigation_with_entity[text=BI Analysis-BIAnalysisPage]",
+            "test_tab_navigation_with_entity[text=Connections-ConnectionPage]",
+            "test_tab_navigation_with_entity[text=Home-HomePage]",
+            "test_tab_navigation_with_entity[text=Ledger-LedgerPage]",
+            "test_tab_navigation_with_entity[text=Reconciliation-ReconciliationPage]",
+            "test_tab_navigation_with_entity[text=Vizion AI-VizionAIPage]"
+          ]
+        },
+        {
+          "id": 7958,
+          "title": "Entity Selection Validation",
+          "has_automation": true,
+          "test_functions": [
+            "test_entity_selection_validation"
+          ]
+        },
+        {
+          "id": 7959,
+          "title": "Single Login with Entity Selection",
+          "has_automation": true,
+          "test_functions": [
+            "test_tabs_navigation_single_login_with_entity"
+          ]
+        },
+        {
+          "id": 7960,
+          "title": "Menu Pinning and Navigation",
+          "has_automation": true,
+          "test_functions": [
+            "test_menu_pinning_and_navigation"
+          ]
+        }
+      ]
+    },
+    " Logout": {
+      "section_id": 532,
+      "total_cases": 5,
+      "cases": [
+        {
+          "id": 7961,
+          "title": "Logout After 2FA Authentication",
+          "has_automation": true,
+          "test_functions": [
+            "test_logout_after_2fa_login"
+          ]
+        },
+        {
+          "id": 7962,
+          "title": "Direct Logout Button Method",
+          "has_automation": true,
+          "test_functions": [
+            "test_logout_direct_method"
+          ]
+        },
+        {
+          "id": 7963,
+          "title": "Logout via User Menu",
+          "has_automation": true,
+          "test_functions": [
+            "test_logout_via_menu"
+          ]
+        },
+        {
+          "id": 7964,
+          "title": "Logout via Keyboard Shortcuts",
+          "has_automation": true,
+          "test_functions": [
+            "test_logout_keyboard_method"
+          ]
+        },
+        {
+          "id": 7965,
+          "title": "Comprehensive Logout Workflow",
+          "has_automation": true,
+          "test_functions": [
+            "test_logout_comprehensive_workflow"
+          ]
+        }
+      ]
+    },
+    " Bank Operations": {
+      "section_id": 533,
+      "total_cases": 21,
+      "cases": [
+        {
+          "id": 7966,
+          "title": "Bank Page Loading Verification",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_bank_page_loads"
+          ]
+        },
+        {
+          "id": 7967,
+          "title": "Bank Transactions Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_transactions_display"
+          ]
+        },
+        {
+          "id": 7968,
+          "title": "Bank Page Performance",
+          "has_automation": true,
+          "test_functions": [
+            "test_bank_page_responsiveness"
+          ]
+        },
+        {
+          "id": 7969,
+          "title": "Empty State Handling",
+          "has_automation": true,
+          "test_functions": [
+            "test_empty_state_handling"
+          ]
+        },
+        {
+          "id": 7970,
+          "title": "Bank Account Selection",
+          "has_automation": true,
+          "test_functions": [
+            "test_bank_account_selection"
+          ]
+        },
+        {
+          "id": 7971,
+          "title": "Bank Account List Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_check_bank_account_list_display"
+          ]
+        },
+        {
+          "id": 7972,
+          "title": "Account Balance Viewing",
+          "has_automation": true,
+          "test_functions": [
+            "test_view_account_balances"
+          ]
+        },
+        {
+          "id": 7973,
+          "title": "Account Settings Configuration",
+          "has_automation": true,
+          "test_functions": [
+            "test_account_settings_configuration"
+          ]
+        },
+        {
+          "id": 7974,
+          "title": "Transaction Date Range Filtering",
+          "has_automation": true,
+          "test_functions": [
+            "test_transaction_filtering_by_date"
+          ]
+        },
+        {
+          "id": 7975,
+          "title": "Transaction Search Functionality",
+          "has_automation": true,
+          "test_functions": [
+            "test_transaction_search"
+          ]
+        },
+        {
+          "id": 7976,
+          "title": "Transaction List Viewing",
+          "has_automation": true,
+          "test_functions": [
+            "test_view_bank_transactions_list"
+          ]
+        },
+        {
+          "id": 7977,
+          "title": "Transaction Column Sorting",
+          "has_automation": true,
+          "test_functions": [
+            "test_sort_transactions_by_columns"
+          ]
+        },
+        {
+          "id": 7978,
+          "title": "Transaction Action Buttons",
+          "has_automation": true,
+          "test_functions": [
+            "test_transaction_action_buttons"
+          ]
+        },
+        {
+          "id": 7979,
+          "title": "Bank Statement Upload Area",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_upload_area"
+          ]
+        },
+        {
+          "id": 7980,
+          "title": "Statement File Format Validation",
+          "has_automation": true,
+          "test_functions": [
+            "test_upload_statement_file_validation"
+          ]
+        },
+        {
+          "id": 7981,
+          "title": "Duplicate Upload Handling",
+          "has_automation": true,
+          "test_functions": [
+            "test_handle_duplicate_uploads"
+          ]
+        },
+        {
+          "id": 7982,
+          "title": "Uploaded Statement Processing",
+          "has_automation": true,
+          "test_functions": [
+            "test_process_uploaded_statements"
+          ]
+        },
+        {
+          "id": 7983,
+          "title": "Reconciliation Status Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_reconciliation_status_display"
+          ]
+        },
+        {
+          "id": 7984,
+          "title": "Transaction Reconciliation Process",
+          "has_automation": true,
+          "test_functions": [
+            "test_transaction_reconciliation"
+          ]
+        },
+        {
+          "id": 7985,
+          "title": "Unmatched Transaction Handling",
+          "has_automation": true,
+          "test_functions": [
+            "test_handle_unmatched_transactions"
+          ]
+        },
+        {
+          "id": 7986,
+          "title": "Complete Bank Reconciliation Workflow",
+          "has_automation": true,
+          "test_functions": [
+            "test_complete_bank_workflow"
+          ]
+        }
+      ]
+    },
+    " Payables Operations": {
+      "section_id": 534,
+      "total_cases": 24,
+      "cases": [
+        {
+          "id": 7987,
+          "title": "Invoice List Display Verification",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_invoice_list_is_displayed"
+          ]
+        },
+        {
+          "id": 7988,
+          "title": "Valid Invoice File Upload",
+          "has_automation": true,
+          "test_functions": [
+            "test_upload_invoice_file"
+          ]
+        },
+        {
+          "id": 7989,
+          "title": "Invalid File Type Upload Handling",
+          "has_automation": true,
+          "test_functions": [
+            "test_upload_invalid_payable_file_type"
+          ]
+        },
+        {
+          "id": 7990,
+          "title": "Duplicate Invoice Upload Prevention",
+          "has_automation": true,
+          "test_functions": [
+            "test_upload_duplicate_invoice"
+          ]
+        },
+        {
+          "id": 7991,
+          "title": "Invoice Viewing in New Tab",
+          "has_automation": true,
+          "test_functions": [
+            "test_view_invoice_in_new_view"
+          ]
+        },
+        {
+          "id": 7992,
+          "title": "Menu Operations Testing",
+          "has_automation": true,
+          "test_functions": [
+            "test_payables_menu_operations"
+          ]
+        },
+        {
+          "id": 7993,
+          "title": "Form Validation Testing",
+          "has_automation": true,
+          "test_functions": [
+            "test_payables_form_validation"
+          ]
+        },
+        {
+          "id": 7994,
+          "title": "New Status Menu Options",
+          "has_automation": true,
+          "test_functions": [
+            "test_menu_options_for_new_status"
+          ]
+        },
+        {
+          "id": 7995,
+          "title": "Matched Status Menu Options",
+          "has_automation": true,
+          "test_functions": [
+            "test_menu_options_for_matched_status"
+          ]
+        },
+        {
+          "id": 7996,
+          "title": "Reconciled Status Menu Options",
+          "has_automation": true,
+          "test_functions": [
+            "test_menu_options_for_reconciled_status"
+          ]
+        },
+        {
+          "id": 7997,
+          "title": "Edit Popup Layout Verification",
+          "has_automation": true,
+          "test_functions": [
+            "test_open_edit_popup_layout"
+          ]
+        },
+        {
+          "id": 7998,
+          "title": "Mandatory Field Validation",
+          "has_automation": true,
+          "test_functions": [
+            "test_mandatory_validation"
+          ]
+        },
+        {
+          "id": 7999,
+          "title": "Line Totals Validation",
+          "has_automation": true,
+          "test_functions": [
+            "test_line_totals_equal_before_validation"
+          ]
+        },
+        {
+          "id": 8000,
+          "title": "Journal Entry Fields Verification",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_je_amount_and_description"
+          ]
+        },
+        {
+          "id": 8001,
+          "title": "GL Account Dropdown Search",
+          "has_automation": true,
+          "test_functions": [
+            "test_gl_account_dropdown"
+          ]
+        },
+        {
+          "id": 8002,
+          "title": "Single Date Recognition Timing",
+          "has_automation": true,
+          "test_functions": [
+            "test_recognition_timing_single_date"
+          ]
+        },
+        {
+          "id": 8003,
+          "title": "Default Period Recognition Timing",
+          "has_automation": true,
+          "test_functions": [
+            "test_recognition_timing_default"
+          ]
+        },
+        {
+          "id": 8004,
+          "title": "Invoice Recording and Status Change",
+          "has_automation": true,
+          "test_functions": [
+            "test_record_invoice_and_status"
+          ]
+        },
+        {
+          "id": 8005,
+          "title": "Journal Entry Display for Recorded Invoice",
+          "has_automation": true,
+          "test_functions": [
+            "test_show_journal_entry_for_record"
+          ]
+        },
+        {
+          "id": 8006,
+          "title": "Edit and Delete Button Functionality",
+          "has_automation": true,
+          "test_functions": [
+            "test_payables_edit_delete_buttons"
+          ]
+        },
+        {
+          "id": 8007,
+          "title": "Status Dropdown Operations",
+          "has_automation": true,
+          "test_functions": [
+            "test_payables_status_dropdowns"
+          ]
+        },
+        {
+          "id": 8008,
+          "title": "Search and Filter Options",
+          "has_automation": true,
+          "test_functions": [
+            "test_payables_search_filter_options"
+          ]
+        },
+        {
+          "id": 8009,
+          "title": "Delete Confirmation Dialog",
+          "has_automation": true,
+          "test_functions": [
+            "test_delete_invoice_dialog"
+          ]
+        },
+        {
+          "id": 8010,
+          "title": "Delete Attempt Validation",
+          "has_automation": true,
+          "test_functions": [
+            "test_attempt_to_delete_invoice"
+          ]
+        }
+      ]
+    },
+    " Ledger Operations": {
+      "section_id": 535,
+      "total_cases": 38,
+      "cases": [
+        {
+          "id": 8011,
+          "title": "Ledger Page Loading Verification",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_ledger_page_loads"
+          ]
+        },
+        {
+          "id": 8012,
+          "title": "General Ledger Entries Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_general_ledger_entries_display"
+          ]
+        },
+        {
+          "id": 8013,
+          "title": "Chart of Accounts Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_account_hierarchy_display"
+          ]
+        },
+        {
+          "id": 8014,
+          "title": "Ledger Page Performance",
+          "has_automation": true,
+          "test_functions": [
+            "test_ledger_page_responsiveness"
+          ]
+        },
+        {
+          "id": 8015,
+          "title": "Chart of Accounts Navigation",
+          "has_automation": true,
+          "test_functions": [
+            "test_chart_of_accounts_navigation"
+          ]
+        },
+        {
+          "id": 8016,
+          "title": "Account Selection Functionality",
+          "has_automation": true,
+          "test_functions": [
+            "test_account_selection_functionality"
+          ]
+        },
+        {
+          "id": 8017,
+          "title": "Account Balance Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_account_balance_display"
+          ]
+        },
+        {
+          "id": 8018,
+          "title": "Account Details Popup",
+          "has_automation": true,
+          "test_functions": [
+            "test_account_details_popup"
+          ]
+        },
+        {
+          "id": 8019,
+          "title": "Journal Entries Date Filtering",
+          "has_automation": true,
+          "test_functions": [
+            "test_journal_entries_filtering_by_date"
+          ]
+        },
+        {
+          "id": 8020,
+          "title": "Journal Entries Account Filtering",
+          "has_automation": true,
+          "test_functions": [
+            "test_journal_entries_filtering_by_account"
+          ]
+        },
+        {
+          "id": 8021,
+          "title": "Journal Entries Search",
+          "has_automation": true,
+          "test_functions": [
+            "test_journal_entries_search"
+          ]
+        },
+        {
+          "id": 8022,
+          "title": "Transaction Drill Down",
+          "has_automation": true,
+          "test_functions": [
+            "test_transaction_drill_down"
+          ]
+        },
+        {
+          "id": 8023,
+          "title": "Trial Balance Report Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_trial_balance_display"
+          ]
+        },
+        {
+          "id": 8024,
+          "title": "Account Activity Report",
+          "has_automation": true,
+          "test_functions": [
+            "test_account_activity_report"
+          ]
+        },
+        {
+          "id": 8025,
+          "title": "Data Export Functionality",
+          "has_automation": true,
+          "test_functions": [
+            "test_export_functionality"
+          ]
+        },
+        {
+          "id": 8026,
+          "title": "Accounting Period Selection",
+          "has_automation": true,
+          "test_functions": [
+            "test_period_selection"
+          ]
+        },
+        {
+          "id": 8027,
+          "title": "Manual Journal Entry Creation",
+          "has_automation": true,
+          "test_functions": [
+            "test_manual_journal_entry_creation"
+          ]
+        },
+        {
+          "id": 8028,
+          "title": "Journal Entry Validation Rules",
+          "has_automation": true,
+          "test_functions": [
+            "test_journal_entry_validation"
+          ]
+        },
+        {
+          "id": 8029,
+          "title": "Journal Entry Posting",
+          "has_automation": true,
+          "test_functions": [
+            "test_journal_entry_posting"
+          ]
+        },
+        {
+          "id": 8030,
+          "title": "Journal Entry Reversal",
+          "has_automation": true,
+          "test_functions": [
+            "test_journal_entry_reversal"
+          ]
+        },
+        {
+          "id": 8031,
+          "title": "Bank Reconciliation Integration",
+          "has_automation": true,
+          "test_functions": [
+            "test_bank_reconciliation_integration"
+          ]
+        },
+        {
+          "id": 8032,
+          "title": "Payables Module Integration",
+          "has_automation": true,
+          "test_functions": [
+            "test_payables_integration"
+          ]
+        },
+        {
+          "id": 8033,
+          "title": "Complete Ledger Workflow",
+          "has_automation": true,
+          "test_functions": [
+            "test_complete_ledger_workflow"
+          ]
+        },
+        {
+          "id": 8034,
+          "title": "Financial Dashboard Loading",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_ledger_dashboard_loads"
+          ]
+        },
+        {
+          "id": 8035,
+          "title": "Financial KPIs Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_financial_kpis_display"
+          ]
+        },
+        {
+          "id": 8036,
+          "title": "Dashboard Filter Controls",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_filter_controls_display"
+          ]
+        },
+        {
+          "id": 8037,
+          "title": "Total Income Value Retrieval",
+          "has_automation": true,
+          "test_functions": [
+            "test_get_total_income_value"
+          ]
+        },
+        {
+          "id": 8038,
+          "title": "Gross Profit Value Retrieval",
+          "has_automation": true,
+          "test_functions": [
+            "test_get_gross_profit_value"
+          ]
+        },
+        {
+          "id": 8039,
+          "title": "All KPI Values Retrieval",
+          "has_automation": true,
+          "test_functions": [
+            "test_get_all_kpi_values"
+          ]
+        },
+        {
+          "id": 8040,
+          "title": "KPI Data Consistency",
+          "has_automation": true,
+          "test_functions": [
+            "test_kpi_data_consistency"
+          ]
+        },
+        {
+          "id": 8041,
+          "title": "Period Selection Functionality",
+          "has_automation": true,
+          "test_functions": [
+            "test_period_selection_functionality"
+          ]
+        },
+        {
+          "id": 8042,
+          "title": "Date Preset Functionality",
+          "has_automation": true,
+          "test_functions": [
+            "test_date_preset_functionality"
+          ]
+        },
+        {
+          "id": 8043,
+          "title": "Period Filter Impact Testing",
+          "has_automation": true,
+          "test_functions": [
+            "test_period_filter_impact"
+          ]
+        },
+        {
+          "id": 8044,
+          "title": "No Data States Handling",
+          "has_automation": true,
+          "test_functions": [
+            "test_no_data_states_handling"
+          ]
+        },
+        {
+          "id": 8045,
+          "title": "Dashboard URL Parameters",
+          "has_automation": true,
+          "test_functions": [
+            "test_dashboard_url_parameters"
+          ]
+        },
+        {
+          "id": 8046,
+          "title": "Complete Dashboard Workflow",
+          "has_automation": true,
+          "test_functions": [
+            "test_complete_dashboard_workflow"
+          ]
+        },
+        {
+          "id": 8047,
+          "title": "Dashboard Performance Testing",
+          "has_automation": true,
+          "test_functions": [
+            "test_dashboard_responsiveness"
+          ]
+        },
+        {
+          "id": 8048,
+          "title": "Dashboard Edge Cases",
+          "has_automation": true,
+          "test_functions": [
+            "test_dashboard_edge_cases"
+          ]
+        }
+      ]
+    },
+    " Security Regression": {
+      "section_id": 536,
+      "total_cases": 7,
+      "cases": [
+        {
+          "id": 8049,
+          "title": "Invalid Login Attempts Protection",
+          "has_automation": true,
+          "test_functions": [
+            "test_invalid_login_attempts"
+          ]
+        },
+        {
+          "id": 8050,
+          "title": "Session Timeout Management",
+          "has_automation": true,
+          "test_functions": [
+            "test_session_timeout_handling"
+          ]
+        },
+        {
+          "id": 8051,
+          "title": "SQL Injection Prevention",
+          "has_automation": true,
+          "test_functions": [
+            "test_sql_injection_prevention"
+          ]
+        },
+        {
+          "id": 8052,
+          "title": "Cross-Site Scripting (XSS) Prevention",
+          "has_automation": true,
+          "test_functions": [
+            "test_xss_prevention"
+          ]
+        },
+        {
+          "id": 8053,
+          "title": "Password Requirements Validation",
+          "has_automation": true,
+          "test_functions": [
+            "test_password_requirements"
+          ]
+        },
+        {
+          "id": 8054,
+          "title": "CSRF Token Validation",
+          "has_automation": true,
+          "test_functions": [
+            "test_csrf_protection"
+          ]
+        },
+        {
+          "id": 8055,
+          "title": "HTTP Security Headers Verification",
+          "has_automation": true,
+          "test_functions": [
+            "test_secure_headers"
+          ]
+        }
+      ]
+    },
+    " Performance Regression": {
+      "section_id": 537,
+      "total_cases": 6,
+      "cases": [
+        {
+          "id": 8056,
+          "title": "Page Load Performance Testing",
+          "has_automation": true,
+          "test_functions": [
+            "test_page_load_performance"
+          ]
+        },
+        {
+          "id": 8057,
+          "title": "Memory Usage Monitoring",
+          "has_automation": true,
+          "test_functions": [
+            "test_memory_usage_monitoring"
+          ]
+        },
+        {
+          "id": 8058,
+          "title": "Concurrent User Simulation",
+          "has_automation": true,
+          "test_functions": [
+            "test_concurrent_user_simulation"
+          ]
+        },
+        {
+          "id": 8059,
+          "title": "API Response Time Monitoring",
+          "has_automation": true,
+          "test_functions": [
+            "test_api_response_times"
+          ]
+        },
+        {
+          "id": 8060,
+          "title": "Large Dataset Handling Performance",
+          "has_automation": true,
+          "test_functions": [
+            "test_large_dataset_handling"
+          ]
+        },
+        {
+          "id": 8061,
+          "title": "Resource Usage Optimization",
+          "has_automation": true,
+          "test_functions": [
+            "test_resource_usage_optimization"
+          ]
+        }
+      ]
+    },
+    " Browser Compatibility": {
+      "section_id": 538,
+      "total_cases": 4,
+      "cases": [
+        {
+          "id": 8062,
+          "title": "Mobile Viewport Compatibility",
+          "has_automation": true,
+          "test_functions": [
+            "test_mobile_viewport_compatibility"
+          ]
+        },
+        {
+          "id": 8063,
+          "title": "Responsive Design Elements",
+          "has_automation": true,
+          "test_functions": [
+            "test_responsive_design_elements"
+          ]
+        },
+        {
+          "id": 8064,
+          "title": "Touch Interface Compatibility",
+          "has_automation": true,
+          "test_functions": [
+            "test_touch_interface_compatibility"
+          ]
+        },
+        {
+          "id": 8065,
+          "title": "Print Stylesheet Compatibility",
+          "has_automation": true,
+          "test_functions": [
+            "test_print_stylesheet_compatibility"
+          ]
+        }
+      ]
+    },
+    " Snapshot Regression": {
+      "section_id": 805,
+      "total_cases": 5,
+      "cases": [
+        {
+          "id": 12865,
+          "title": "Visual Snapshots - Key Application Pages",
+          "has_automation": true,
+          "test_functions": [
+            "test_visual_snapshots_key_pages"
+          ]
+        },
+        {
+          "id": 12866,
+          "title": "DOM Snapshots - Critical Page Elements",
+          "has_automation": true,
+          "test_functions": [
+            "test_dom_snapshots_critical_elements"
+          ]
+        },
+        {
+          "id": 12867,
+          "title": "API Response Snapshots",
+          "has_automation": true,
+          "test_functions": [
+            "test_api_response_snapshots"
+          ]
+        },
+        {
+          "id": 12868,
+          "title": "Component Snapshots - UI Components",
+          "has_automation": true,
+          "test_functions": [
+            "test_component_snapshots"
+          ]
+        },
+        {
+          "id": 12869,
+          "title": "Snapshot Comparison Workflow",
+          "has_automation": true,
+          "test_functions": [
+            "test_snapshot_comparison_workflow"
+          ]
+        }
+      ]
+    },
+    " BO Environment Testing": {
+      "section_id": 1860,
+      "total_cases": 9,
+      "cases": [
+        {
+          "id": 30964,
+          "title": "BO Complete Workflow - Login, Relogin, and Sanity Testing",
+          "has_automation": true,
+          "test_functions": [
+            "test_bo_complete_workflow"
+          ]
+        },
+        {
+          "id": 30965,
+          "title": "BO Admin Login with OTP Authentication",
+          "has_automation": true,
+          "test_functions": [
+            "test_bo_login_only"
+          ]
+        },
+        {
+          "id": 30966,
+          "title": "BO Accounts Navigation and List Verification",
+          "has_automation": true,
+          "test_functions": [
+            "test_bo_accounts_navigation_only"
+          ]
+        },
+        {
+          "id": 30967,
+          "title": "BO Account Relogin with OTP in New Window",
+          "has_automation": true,
+          "test_functions": [
+            "test_bo_account_relogin"
+          ]
+        },
+        {
+          "id": 30968,
+          "title": "BO Relogin Session - Comprehensive Sanity Testing",
+          "has_automation": true,
+          "test_functions": [
+            "test_bo_relogin_sanity_comprehensive"
+          ]
+        },
+        {
+          "id": 30969,
+          "title": "BO Visual Snapshots - Key Pages",
+          "has_automation": true,
+          "test_functions": [
+            "test_bo_visual_snapshots"
+          ]
+        },
+        {
+          "id": 30970,
+          "title": "BO DOM Snapshots - Critical Elements",
+          "has_automation": true,
+          "test_functions": [
+            "test_bo_dom_snapshots"
+          ]
+        },
+        {
+          "id": 30971,
+          "title": "BO Workflow Snapshots - Complete Process",
+          "has_automation": true,
+          "test_functions": [
+            "test_bo_workflow_snapshots"
+          ]
+        },
+        {
+          "id": 30972,
+          "title": "BO Component Snapshots - UI Elements",
+          "has_automation": true,
+          "test_functions": [
+            "test_bo_component_snapshots"
+          ]
+        }
+      ]
+    },
+    "Receivables Operations": {
+      "section_id": 2588,
+      "total_cases": 13,
+      "cases": [
+        {
+          "id": 63962,
+          "title": "Verify Receivable List is Displayed",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_receivable_list_is_displayed"
+          ]
+        },
+        {
+          "id": 63963,
+          "title": "Upload Valid Receivable File",
+          "has_automation": true,
+          "test_functions": [
+            "test_upload_receivable_file"
+          ]
+        },
+        {
+          "id": 63964,
+          "title": "Upload Invalid File Type",
+          "has_automation": true,
+          "test_functions": [
+            "test_upload_invalid_file_type"
+          ]
+        },
+        {
+          "id": 63965,
+          "title": "Upload Duplicate Receivable",
+          "has_automation": true,
+          "test_functions": [
+            "test_upload_duplicate_receivable"
+          ]
+        },
+        {
+          "id": 63966,
+          "title": "Edit/Delete Buttons Functionality",
+          "has_automation": true,
+          "test_functions": [
+            "test_receivables_edit_delete_buttons"
+          ]
+        },
+        {
+          "id": 63967,
+          "title": "Status Dropdowns",
+          "has_automation": true,
+          "test_functions": [
+            "test_receivables_status_dropdowns"
+          ]
+        },
+        {
+          "id": 63968,
+          "title": "Search/Filter and Menu Operations",
+          "has_automation": true,
+          "test_functions": [
+            "test_receivables_search_filter_options",
+            "test_receivables_menu_operations"
+          ]
+        },
+        {
+          "id": 63969,
+          "title": "Form Validation",
+          "has_automation": true,
+          "test_functions": [
+            "test_open_edit_popup_layout",
+            "test_mandatory_validation",
+            "test_receivables_form_validation"
+          ]
+        },
+        {
+          "id": 63970,
+          "title": "Form Calculations and Recognition Timing",
+          "has_automation": true,
+          "test_functions": [
+            "test_line_totals_equal_before_validation",
+            "test_gl_account_dropdown",
+            "test_recognition_timing_single_date",
+            "test_recognition_timing_default"
+          ]
+        },
+        {
+          "id": 63971,
+          "title": "Recording and Journal Entries",
+          "has_automation": true,
+          "test_functions": [
+            "test_record_receivable_and_status",
+            "test_show_journal_entry_for_record",
+            "test_verify_je_amount_and_description"
+          ]
+        },
+        {
+          "id": 63972,
+          "title": "Delete Operations",
+          "has_automation": true,
+          "test_functions": [
+            "test_delete_receivable_dialog",
+            "test_attempt_to_delete_receivable"
+          ]
+        },
+        {
+          "id": 63973,
+          "title": "View Operations",
+          "has_automation": true,
+          "test_functions": [
+            "test_view_receivable_in_new_view"
+          ]
+        },
+        {
+          "id": 63974,
+          "title": "Context Menu by Status",
+          "has_automation": true,
+          "test_functions": [
+            "test_menu_options_for_new_status",
+            "test_menu_options_for_matched_status",
+            "test_menu_options_for_reconciled_status"
+          ]
+        }
+      ]
+    },
+    " Credit Cards Operations": {
+      "section_id": 3093,
+      "total_cases": 22,
+      "cases": [
+        {
+          "id": 51886,
+          "title": "Verify Credit Cards Page Loads Successfully",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_credit_cards_page_loads_successfully"
+          ]
+        },
+        {
+          "id": 51887,
+          "title": "Verify Credit Card Transactions Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_credit_card_transactions_display"
+          ]
+        },
+        {
+          "id": 51888,
+          "title": "Test Credit Card Selection Functionality",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_selection_functionality"
+          ]
+        },
+        {
+          "id": 51889,
+          "title": "Test Credit Card Financial Information Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_financial_information_display"
+          ]
+        },
+        {
+          "id": 51890,
+          "title": "Test Credit Card Transaction Filtering by Date",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_transaction_filtering_by_date"
+          ]
+        },
+        {
+          "id": 51891,
+          "title": "Test Credit Card Transaction Search Functionality",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_transaction_search_functionality"
+          ]
+        },
+        {
+          "id": 51892,
+          "title": "Verify Credit Card Statement Upload Area",
+          "has_automation": true,
+          "test_functions": [
+            "test_verify_credit_card_statement_upload_area"
+          ]
+        },
+        {
+          "id": 51893,
+          "title": "Test Credit Card Statement File Upload Validation",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_statement_file_upload_validation"
+          ]
+        },
+        {
+          "id": 51894,
+          "title": "Test Credit Card Reconciliation Status Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_reconciliation_status_display"
+          ]
+        },
+        {
+          "id": 51895,
+          "title": "Test Credit Card Transaction Reconciliation",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_transaction_reconciliation"
+          ]
+        },
+        {
+          "id": 51896,
+          "title": "Test Credit Card Transaction Action Buttons",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_transaction_action_buttons"
+          ]
+        },
+        {
+          "id": 51897,
+          "title": "Test Complete Credit Cards Workflow",
+          "has_automation": true,
+          "test_functions": [
+            "test_complete_credit_cards_workflow"
+          ]
+        },
+        {
+          "id": 51898,
+          "title": "Test Credit Cards Empty State Handling",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_cards_empty_state_handling"
+          ]
+        },
+        {
+          "id": 51899,
+          "title": "Test Credit Cards Page Responsiveness",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_cards_page_responsiveness"
+          ]
+        },
+        {
+          "id": 51900,
+          "title": "Test Credit Card List Display",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_list_display"
+          ]
+        },
+        {
+          "id": 51901,
+          "title": "Test Credit Card Transaction Sorting",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_transaction_sorting"
+          ]
+        },
+        {
+          "id": 52141,
+          "title": "View Credit Card Transactions List",
+          "has_automation": true,
+          "test_functions": [
+            "test_view_credit_card_transactions_list"
+          ]
+        },
+        {
+          "id": 52142,
+          "title": "Handle Duplicate Credit Card Uploads",
+          "has_automation": true,
+          "test_functions": [
+            "test_handle_duplicate_credit_card_uploads"
+          ]
+        },
+        {
+          "id": 52143,
+          "title": "Process Uploaded Credit Card Statements",
+          "has_automation": true,
+          "test_functions": [
+            "test_process_uploaded_credit_card_statements"
+          ]
+        },
+        {
+          "id": 52144,
+          "title": "Handle Unmatched Credit Card Transactions",
+          "has_automation": true,
+          "test_functions": [
+            "test_handle_unmatched_credit_card_transactions"
+          ]
+        },
+        {
+          "id": 52145,
+          "title": "View Credit Card Account Balances",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_account_balances"
+          ]
+        },
+        {
+          "id": 52146,
+          "title": "Credit Card Settings Configuration",
+          "has_automation": true,
+          "test_functions": [
+            "test_credit_card_settings_configuration"
+          ]
+        }
+      ]
+    }
+  }
+}
