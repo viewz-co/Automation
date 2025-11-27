@@ -248,45 +248,70 @@ async def perform_login_with_entity(page, login_data):
     await login.goto()
     await login.login(login_data["username"], login_data["password"])
 
-    # הזנת OTP - use environment variable instead of hardcoded
-    secret = os.getenv('TEST_TOTP_SECRET')
+    # הזנת OTP - use from login_data (supports both production and stage)
+    secret = login_data.get("otp_secret") or os.getenv('TEST_TOTP_SECRET')
+    if not secret:
+        raise ValueError("OTP secret is required (from config or TEST_TOTP_SECRET environment variable)")
+    
+    print(f"🔑 Using OTP secret from: {'config file' if login_data.get('otp_secret') else 'environment variable'}")
     otp = pyotp.TOTP(secret).now()
+    print(f"🔐 Generated OTP: {otp}")
 
     # Wait for 2FA page with multiple possible indicators
+    print("🔍 Waiting for 2FA page...")
     try:
         # Try multiple 2FA page indicators
         await page.wait_for_selector("text=Two-Factor Authentication", timeout=3000)
+        print("✅ Found 2FA page: Two-Factor Authentication")
     except:
         try:
             await page.wait_for_selector("text=Authentication", timeout=2000)
+            print("✅ Found 2FA page: Authentication")
         except:
             try:
                 await page.wait_for_selector("text=verification", timeout=2000)
+                print("✅ Found 2FA page: verification")
             except:
                 try:
                     await page.wait_for_selector("text=code", timeout=2000)
+                    print("✅ Found 2FA page: code")
                 except:
                     try:
                         # Check if already logged in (redirected)
                         await page.wait_for_url("**/home**", timeout=2000)
+                        print("✅ Already logged in, skipping 2FA")
                         return page  # Already logged in, skip 2FA
                     except:
                         print("⚠️ Could not detect 2FA page, attempting OTP entry anyway")
     
     # Try multiple ways to fill OTP
+    print(f"📝 Entering OTP: {otp}")
+    otp_filled = False
     try:
         await page.get_by_role("textbox").fill(otp)
+        print("✅ OTP filled via get_by_role('textbox')")
+        otp_filled = True
     except:
         try:
             # Try finding any visible text input
             await page.locator('input[type="text"]:visible').last.fill(otp)
+            print("✅ OTP filled via input[type='text']")
+            otp_filled = True
         except:
             try:
                 # Try finding any input that might accept OTP
                 await page.locator('input:visible').last.fill(otp)
+                print("✅ OTP filled via input:visible")
+                otp_filled = True
             except:
-                print("⚠️ Could not find OTP input field")
-    await asyncio.sleep(3)
+                print("❌ Could not find OTP input field")
+    
+    if not otp_filled:
+        print("❌ CRITICAL: OTP was not entered!")
+        await page.screenshot(path="debug_otp_entry_failed.png")
+        
+    await asyncio.sleep(2)
+    print(f"🔍 Current URL after OTP entry: {page.url}")
     
     # Try to wait for various success indicators, don't fail if timeout
     try:
@@ -312,6 +337,22 @@ async def perform_login_with_entity(page, login_data):
         print("✅ Entity selection completed successfully")
     else:
         print("⚠️ Entity selection failed or not required")
+    
+    # ⚠️ VERIFICATION: Check we're actually logged in
+    await asyncio.sleep(2)
+    current_url = page.url
+    print(f"🔍 Final URL after login: {current_url}")
+    
+    if "/login" in current_url:
+        print("❌ CRITICAL: Still on login page after fixture! Login failed.")
+        # Take a screenshot for debugging
+        try:
+            await page.screenshot(path="debug_login_fixture_failure.png")
+            print("📸 Screenshot saved: debug_login_fixture_failure.png")
+        except:
+            pass
+    else:
+        print(f"✅ Login verified successful - on page: {current_url}")
     
     return page
 

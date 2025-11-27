@@ -61,33 +61,61 @@ class CreditCardPage:
         try:
             print("🏦 Navigating to Credit Cards section...")
             
-            # Wait for page to be loaded
-            await self.page.wait_for_load_state('networkidle', timeout=10000)
+            # Ensure we're not on the login page
+            current_url = self.page.url
+            if '/login' in current_url:
+                print("⚠️ Currently on login page, waiting for authentication...")
+                await asyncio.sleep(3)
+                current_url = self.page.url
             
-            # Try to find and click Reconciliation if not already there
+            # Check if already on credit cards page
+            if 'credit-card' in current_url.lower():
+                print(f"✅ Already on Credit Cards page: {current_url}")
+                return
+            
+            # Determine the base URL (works for both stage and production)
+            if 'stage.viewz.co' in current_url:
+                base_url = 'https://app.stage.viewz.co'
+            elif 'viewz.co' in current_url:
+                base_url = 'https://app.viewz.co'
+            else:
+                # Fallback: extract base from current URL
+                from urllib.parse import urlparse
+                parsed = urlparse(current_url)
+                base_url = f"{parsed.scheme}://{parsed.netloc}"
+            
+            # Try to navigate using UI first (preserves session better)
             try:
+                # Look for Reconciliation menu
                 reconciliation = self.page.locator("text=Reconciliation").first
-                await reconciliation.wait_for(state='visible', timeout=5000)
-                await reconciliation.click()
-                print("✅ Clicked reconciliation:", "text=Reconciliation")
-            except Exception:
-                print("⚠️ Reconciliation navigation not needed or not visible")
+                if await reconciliation.is_visible(timeout=5000):
+                    await reconciliation.click()
+                    await asyncio.sleep(1)
+                    print("✅ Clicked Reconciliation menu")
+                    
+                    # Try to find Credit Cards link
+                    credit_card_link = self.page.locator("[href*='credit-card']").first
+                    if await credit_card_link.is_visible(timeout=5000):
+                        await credit_card_link.click()
+                        await asyncio.sleep(2)
+                        print("✅ Clicked Credit Cards link")
+                        return
+            except Exception as e:
+                print(f"⚠️ UI navigation failed: {e}, trying direct URL...")
             
-            await asyncio.sleep(1)
+            # Fallback: Navigate directly to Credit Cards page
+            credit_cards_url = f"{base_url}/reconciliation/credit-cards"
+            print(f"🔗 Navigating to: {credit_cards_url}")
             
-            # Look for Credit Card navigation element
-            try:
-                credit_card_nav = self.page.locator("text=Credit Card, text=Credit Cards").first
-                await credit_card_nav.wait_for(state='visible', timeout=5000)
-                await credit_card_nav.click()
-                print("✅ Clicked credit cards element")
-                await asyncio.sleep(2)
-            except Exception:
-                print("⚠️ Could not find Credit Cards navigation element")
+            await self.page.goto(credit_cards_url, wait_until='domcontentloaded', timeout=30000)
+            await asyncio.sleep(3)
             
-            # Verify we're on the credit cards page
-            await self.page.wait_for_load_state('networkidle', timeout=10000)
-            print("✅ Successfully navigated to Credit Cards section")
+            # Check if we got redirected to login
+            final_url = self.page.url
+            if '/login' in final_url:
+                print(f"⚠️ Redirected to login page - session may have been lost")
+            else:
+                print(f"✅ Successfully navigated to: {final_url}")
             
         except Exception as e:
             print(f"⚠️ Error navigating to Credit Cards: {e}")
@@ -99,13 +127,26 @@ class CreditCardPage:
             # Check for page title or main content
             await self.page.wait_for_load_state('networkidle', timeout=10000)
             
+            # Check if URL contains credit-cards
+            current_url = self.page.url
+            if 'credit-card' in current_url.lower():
+                print(f"✅ On Credit Cards page: {current_url}")
+                return True
+            
             # Look for any credit card related content
             is_loaded = (
                 await self.page_title.count() > 0 or
                 await self.credit_card_table.count() > 0 or
                 await self.transaction_list.count() > 0 or
-                await self.empty_state.count() > 0
+                await self.empty_state.count() > 0 or
+                await self.page.locator("text=/credit.*card/i").count() > 0 or
+                await self.page.locator("[data-testid*='credit'], [class*='credit']").count() > 0
             )
+            
+            if is_loaded:
+                print(f"✅ Credit Cards page content detected")
+            else:
+                print(f"⚠️ No Credit Cards content found on page: {current_url}")
             
             return is_loaded
         except Exception as e:

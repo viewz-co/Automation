@@ -33,7 +33,8 @@ def run_full_regression_stage():
     cmd = [
         "python3", "-m", "pytest", 
         "tests/", 
-        "-v", "-s", "--tb=short"
+        "-v", "-s", "--tb=short",
+        "--headless"
     ]
     
     print(f"Executing: {' '.join(cmd)}")
@@ -53,7 +54,7 @@ def run_full_regression_stage():
         print("🏢 Running BO STAGE Tests")
         print("=" * 60)
         
-        bo_cmd = ["python3", "run_bo_stage_tests.py", "all"]
+        bo_cmd = ["python3", "run_bo_stage_tests.py", "all", "--headless"]
         print(f"Executing: {' '.join(bo_cmd)}")
         print("-" * 60)
         
