@@ -356,6 +356,53 @@ async def perform_login_with_entity(page, login_data):
     
     return page
 
+# ---------- GL ACCOUNT PRECONDITION FOR INVOICING ---------- #
+@pytest_asyncio.fixture
+async def perform_login_with_gl_account(perform_login_with_entity, env_config):
+    """
+    Enhanced login fixture that creates a GL Account (Trade Receivables) as a precondition
+    for Invoicing customer creation tests.
+    
+    Uses perform_login_with_entity for login, then adds GL Account creation.
+    
+    Flow:
+    1. Login with 2FA + Entity selection (via perform_login_with_entity)
+    2. Navigate to Chart of Accounts
+    3. Create a Trade Receivables GL Account
+    4. Return page ready for invoicing tests
+    """
+    from pages.chart_of_accounts_page import ChartOfAccountsPage
+    
+    page = perform_login_with_entity
+    
+    # --- Create GL Account (Trade Receivables) ---
+    print("\n📊 Creating GL Account precondition for Invoicing...")
+    base_url = env_config.get("base_url", "https://app.stage.viewz.co")
+    
+    chart_of_accounts = ChartOfAccountsPage(page)
+    chart_of_accounts.base_url = base_url
+    
+    # Navigate to Chart of Accounts
+    await chart_of_accounts.navigate_to_chart_of_accounts(base_url)
+    
+    # Create AR Account for Invoicing using the working method
+    gl_account = await chart_of_accounts.create_ar_account_for_invoicing()
+    
+    if gl_account:
+        print(f"✅ GL Account precondition created: {gl_account['name']}")
+        print(f"   Currency: {gl_account['currency']}")
+        print(f"   Type: {gl_account['account_type']}")
+        print(f"   Group: {gl_account['account_group']}")
+        # Store the GL account info in the page for test use
+        page.gl_account_precondition = gl_account
+    else:
+        print("⚠️ GL Account creation failed")
+        page.gl_account_precondition = None
+    
+    print(f"✅ Precondition complete. Ready for invoicing tests.\n")
+    
+    return page
+
 # ---------- SCREENSHOT FIXTURE ---------- #
 @pytest.fixture
 def screenshot_on_failure(request):
@@ -623,6 +670,38 @@ def pytest_runtest_makereport(item, call):
         'test_resource_usage_optimization': 8061,  # C8061
         'test_menu_pinning_and_navigation': 7960,  # C7960
         
+        # ===== GL ACCOUNT / CHART OF ACCOUNTS TESTS =====
+        # GL Account Section (ID: 5532) - Chart of Accounts operations
+        # Precondition for Invoicing customer creation
+        'test_chart_of_accounts_page_loads': 95338,  # C95338 - Page load
+        'test_add_gl_account_button_visible': 95339,  # C95339 - Button visible
+        'test_create_gl_account_trade_receivables': 95340,  # C95340 - Create AR account
+        'test_create_gl_account_for_invoicing_precondition': 95341,  # C95341 - Invoicing precondition
+        'test_create_gl_account_different_currencies': 95342,  # C95342 - Multi-currency
+        'test_search_gl_account': 95343,  # C95343 - Search account
+        'test_add_gl_account_creates_inline_row': 95344,  # C95344 - Inline edit row
+        'test_cancel_gl_account_creation': 95345,  # C95345 - Cancel creation
+        
+        # ===== INVOICING TESTS =====
+        # Invoicing Section (ID: 4586) - Create Customers, Products, Generate Invoices
+        'test_invoicing_page_loads': 77366,  # C77366 - Page load
+        'test_invoicing_navigation_elements': 77367,  # C77367 - Navigation elements
+        'test_customer_form_visibility': 77368,  # C77368 - Customer form
+        'test_create_customer': 77369,  # C77369 - Create customer
+        'test_customer_validation': 77370,  # C77370 - Customer validation
+        'test_product_form_visibility': 77371,  # C77371 - Product form
+        'test_create_product': 77372,  # C77372 - Create product
+        'test_product_price_validation': 77373,  # C77373 - Product validation
+        'test_invoice_form_visibility': 77374,  # C77374 - Invoice form
+        'test_invoice_list_display': 77375,  # C77375 - Invoice list
+        'test_complete_invoice_flow': 77376,  # C77376 - Complete flow
+        'test_invoice_appears_in_receivables': 77377,  # C77377 - Receivables verification
+        'test_duplicate_customer_handling': 77378,  # C77378 - Duplicate handling
+        'test_invoice_without_customer': 77379,  # C77379 - Validation
+        'test_invoice_with_zero_quantity': 77380,  # C77380 - Quantity validation
+        'test_invoicing_page_responsiveness': 77381,  # C77381 - Responsiveness
+        'test_invoicing_form_tab_navigation': 77382,  # C77382 - Keyboard nav
+
         # ===== BO ENVIRONMENT TESTS =====
         # BO Section ID: 1860
         # BO Complete Workflow Tests
