@@ -3,7 +3,7 @@
   "username": "sharonadmin", 
   "password": "$h@r0n1#02#",
   "otp_secret": "ENGWSL2XHZTWEP2UJZRUCVRXKM7FIRBU",
-  "relogin_otp_secret": "F44VIIZ6FFLVUVCEIZHVAI2FIRZUWSCS",
+  "relogin_otp_secret": "ENGWSL2XHZTWEP2UJZRUCVRXKM7FIRBU",
   "environment": "stage",
   "basic_auth": {
     "username": "admin",

@@ -6,16 +6,17 @@ from pages.vizion_AI_page import VizionAIPage
 from pages.reconciliation_page import ReconciliationPage
 from pages.ledger_page import LedgerPage
 from pages.BI_analysis_page import BIAnalysisPage
-from pages.connection_page import ConnectionPage
+from pages.invoicing_page import InvoicingPage
 
 # Test data for parametrized tests
+# Note: Connections is disabled, Invoicing was added
 tab_test_data = [
     ("Home", HomePage),
     ("Vizion AI", VizionAIPage),
     ("Reconciliation", ReconciliationPage),
     ("Ledger", LedgerPage),
     ("BI Analysis", BIAnalysisPage),
-    ("Connections", ConnectionPage),
+    ("Invoicing", InvoicingPage),
 ]
 
 @pytest.mark.parametrize("text,page_class", tab_test_data, ids=[f"text={text}-{page_class.__name__}" for text, page_class in tab_test_data])

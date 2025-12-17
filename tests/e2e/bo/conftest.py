@@ -57,7 +57,9 @@ def bo_config():
 
 @pytest_asyncio.fixture
 async def bo_page(bo_config, headless_mode):
-    """Create BO-specific page with proper basic authentication"""
+    """Create BO-specific page with domain-specific basic authentication"""
+    import base64
+    
     async with async_playwright() as p:
         # Use headless_mode parameter
         launch_options = {
@@ -71,22 +73,35 @@ async def bo_page(bo_config, headless_mode):
         
         browser = await p.chromium.launch(**launch_options)
         
-        # Set up context options for BO
+        # Set up context options for BO (without http_credentials - use route interception)
         context_options = {
             "base_url": bo_config["base_url"], 
             "viewport": None
         }
         
-        # Add BO-specific HTTP basic authentication
+        context = await browser.new_context(**context_options)
+        
+        # Set up domain-specific Basic Auth via route interception
+        # BO and App have different passwords
         if "basic_auth" in bo_config and bo_config["basic_auth"]:
             basic_auth = bo_config["basic_auth"]
-            context_options["http_credentials"] = {
-                "username": basic_auth["username"],
-                "password": basic_auth["password"]
-            }
-            print(f"🔐 BO HTTP Basic Auth configured for: {basic_auth['username']}")
+            bo_auth = base64.b64encode(f"{basic_auth['username']}:{basic_auth['password']}".encode()).decode()
+            
+            # App credentials (different from BO)
+            app_auth = base64.b64encode("admin:38Uo0tuxA3pj*b0F".encode()).decode()
+            
+            async def handle_auth(route):
+                url = route.request.url
+                headers = dict(route.request.headers)
+                if "bo.stage.viewz.co" in url or "bo.viewz.co" in url:
+                    headers["Authorization"] = f"Basic {bo_auth}"
+                elif "app.stage.viewz.co" in url or "app.viewz.co" in url:
+                    headers["Authorization"] = f"Basic {app_auth}"
+                await route.continue_(headers=headers)
+            
+            await context.route("**/*", handle_auth)
+            print(f"🔐 Domain-specific Basic Auth configured (BO + App)")
         
-        context = await browser.new_context(**context_options)
         page = await context.new_page()
         yield page
         await context.close()

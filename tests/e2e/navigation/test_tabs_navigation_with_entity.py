@@ -10,16 +10,17 @@ from pages.vizion_AI_page import VizionAIPage
 from pages.reconciliation_page import ReconciliationPage
 from pages.ledger_page import LedgerPage
 from pages.BI_analysis_page import BIAnalysisPage
-from pages.connection_page import ConnectionPage
+from pages.invoicing_page import InvoicingPage
 
 # Test data for parametrized tests
+# Note: Connections is disabled, Invoicing was added
 tab_test_data = [
     ("Home", HomePage),
     ("Vizion AI", VizionAIPage),
     ("Reconciliation", ReconciliationPage),
     ("Ledger", LedgerPage),
     ("BI Analysis", BIAnalysisPage),
-    ("Connections", ConnectionPage),
+    ("Invoicing", InvoicingPage),
 ]
 
 @pytest.mark.parametrize("text,page_class", tab_test_data, ids=[f"text={text}-{page_class.__name__}" for text, page_class in tab_test_data])
@@ -122,7 +123,7 @@ async def test_tabs_navigation_single_login_with_entity(perform_login_with_entit
         ("text=Reconciliation", ReconciliationPage),
         ("text=Ledger", LedgerPage),
         ("text=BI Analysis", BIAnalysisPage),
-        ("text=Connections", ConnectionPage),
+        ("text=Invoicing", InvoicingPage),
     ]
 
     results = []
@@ -152,4 +153,81 @@ async def test_tabs_navigation_single_login_with_entity(perform_login_with_entit
     failed = [r for r in results if not r[2].startswith('PASS')]
     assert not failed, f"Some tabs failed with entity selection: {failed}"
     
-    print(f"🎉 All tabs navigation tests passed with entity selection!") 
+    print(f"🎉 All tabs navigation tests passed with entity selection!")
+
+
+@pytest.mark.asyncio
+async def test_navigate_to_invoicing(perform_login_with_entity):
+    """
+    Test dedicated navigation to Invoicing page
+    Verifies the Invoicing page loads correctly with all expected elements
+    """
+    page = perform_login_with_entity
+    
+    print("🧪 Testing dedicated Invoicing page navigation...")
+    
+    # Import InvoicingPage
+    from pages.invoicing_page import InvoicingPage
+    
+    invoicing_page = InvoicingPage(page)
+    
+    # Navigate to Invoicing
+    await invoicing_page.navigate_to_invoicing()
+    await asyncio.sleep(2)
+    
+    # Verify page loaded
+    is_loaded = await invoicing_page.is_loaded()
+    assert is_loaded, "Invoicing page should load successfully"
+    
+    # Verify URL contains invoicing
+    current_url = page.url
+    assert "invoicing" in current_url.lower(), f"URL should contain 'invoicing', got: {current_url}"
+    
+    # Check for key page elements
+    elements_found = []
+    
+    # Check for Customer table
+    try:
+        table = page.locator("table")
+        if await table.is_visible():
+            elements_found.append("Customer Table")
+            print("✅ Customer table is visible")
+    except:
+        pass
+    
+    # Check for Add Customer button
+    try:
+        add_btn = page.get_by_role("button", name="Add Customer")
+        if await add_btn.is_visible():
+            elements_found.append("Add Customer Button")
+            print("✅ Add Customer button is visible")
+    except:
+        pass
+    
+    # Check for Customers tab
+    try:
+        customers_tab = page.get_by_text("Customers")
+        if await customers_tab.is_visible():
+            elements_found.append("Customers Tab")
+            print("✅ Customers tab is visible")
+    except:
+        pass
+    
+    # Check for Invoices tab
+    try:
+        invoices_tab = page.get_by_text("Invoices")
+        if await invoices_tab.is_visible():
+            elements_found.append("Invoices Tab")
+            print("✅ Invoices tab is visible")
+    except:
+        pass
+    
+    # Take screenshot
+    await page.screenshot(path="test_navigate_to_invoicing.png")
+    print(f"📸 Screenshot saved: test_navigate_to_invoicing.png")
+    
+    # At least some key elements should be present
+    assert len(elements_found) >= 2, f"Expected at least 2 key elements, found: {elements_found}"
+    
+    print(f"✅ Invoicing page navigation successful!")
+    print(f"📋 Elements found: {elements_found}")

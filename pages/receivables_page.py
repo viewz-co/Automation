@@ -25,51 +25,73 @@ class ReceivablesPage:
         self.status_dropdowns = page.locator("select, [role='combobox']")
     
     async def navigate_to_receivables(self):
-        """Navigate to receivables section from reconciliation page"""
+        """Navigate to receivables section - uses direct URL for reliability"""
         try:
-            # First navigate to reconciliation
-            await self._navigate_to_reconciliation()
+            print("📄 Navigating to Receivables section...")
             
-            # Wait a bit for reconciliation page to load
-            await asyncio.sleep(2)
-            
-            # Then look for receivables button/link
-            receivables_selectors = [
-                "text=Receivables",
-                "button:has-text('Receivables')",
-                "a:has-text('Receivables')",
-                "[data-testid*='receivables']",
-                ".receivables-button",
-                ".receivables-link"
-            ]
-            
-            for selector in receivables_selectors:
-                try:
-                    element = self.page.locator(selector)
-                    if await element.is_visible():
-                        await element.click()
-                        await asyncio.sleep(2)
-                        print(f"✅ Clicked receivables element: {selector}")
-                        break
-                except Exception as e:
-                    print(f"⚠️ Failed to click {selector}: {str(e)}")
-                    continue
-            
-            # Verify we're on receivables page
-            if await self.is_loaded():
-                print("✅ Successfully navigated to Receivables section")
-                return True
-            else:
-                print("⚠️ Receivables page not fully loaded, but continuing")
-                # Check if we're at least on a reconciliation URL
+            # Ensure we're not on the login page
+            current_url = self.page.url
+            if '/login' in current_url:
+                print("⚠️ Currently on login page, waiting for authentication...")
+                await asyncio.sleep(3)
                 current_url = self.page.url
-                if "reconciliation" in current_url.lower() or "receivables" in current_url.lower():
-                    print("✅ On reconciliation/receivables URL, continuing with tests")
-                    return True
+            
+            # Check if already on receivables page
+            if 'receivables' in current_url.lower():
+                print(f"✅ Already on Receivables page: {current_url}")
+                return True
+            
+            # Determine the base URL (works for both stage and production)
+            if 'stage.viewz.co' in current_url:
+                base_url = 'https://app.stage.viewz.co'
+            elif 'viewz.co' in current_url:
+                base_url = 'https://app.viewz.co'
+            else:
+                # Fallback: extract base from current URL
+                from urllib.parse import urlparse
+                parsed = urlparse(current_url)
+                base_url = f"{parsed.scheme}://{parsed.netloc}"
+            
+            # Try UI navigation first (preserves session better)
+            try:
+                # Look for Reconciliation menu
+                reconciliation = self.page.locator("text=Reconciliation").first
+                if await reconciliation.is_visible(timeout=5000):
+                    await reconciliation.click()
+                    await asyncio.sleep(1)
+                    print("✅ Clicked Reconciliation menu")
+                    
+                    # Try to find Receivables link
+                    receivables_link = self.page.locator("[href*='receivables'], text=Receivables").first
+                    if await receivables_link.is_visible(timeout=5000):
+                        await receivables_link.click()
+                        await asyncio.sleep(2)
+                        print("✅ Clicked Receivables link")
+                        
+                        # Check if navigation succeeded
+                        if 'receivables' in self.page.url.lower():
+                            return True
+            except Exception as e:
+                print(f"⚠️ UI navigation failed: {e}, trying direct URL...")
+            
+            # Fallback: Navigate directly to Receivables page
+            receivables_url = f"{base_url}/reconciliation/receivables"
+            print(f"🔗 Navigating to: {receivables_url}")
+            
+            await self.page.goto(receivables_url, wait_until='domcontentloaded', timeout=30000)
+            await asyncio.sleep(3)
+            
+            # Check if we got redirected to login
+            final_url = self.page.url
+            if '/login' in final_url:
+                print(f"⚠️ Redirected to login page - session may have been lost")
                 return False
+            else:
+                print(f"✅ Successfully navigated to: {final_url}")
+                return True
                 
         except Exception as e:
-            print(f"❌ Error navigating to receivables: {str(e)}")
+            print(f"❌ Error navigating to Receivables: {str(e)}")
             return False
     
     async def _navigate_to_reconciliation(self):

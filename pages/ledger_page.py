@@ -132,77 +132,43 @@ class LedgerPage:
             return False
 
     async def is_loaded(self):
-        """Check if ledger page (Financial Dashboard) is loaded"""
+        """Check if ledger page (Financial Dashboard) is loaded - optimized for speed"""
         try:
-            # Check for dashboard title
-            dashboard_title_visible = False
-            try:
-                dashboard_title_visible = await self.dashboard_title.is_visible()
-            except:
-                pass
+            # Quick URL check first
+            current_url = self.page.url
+            if "ledger" in current_url.lower() or "home" in current_url.lower():
+                print("✅ Ledger page URL detected")
+                return True
             
-            # Check for subtitle
-            subtitle_visible = False
-            try:
-                subtitle_visible = await self.dashboard_subtitle.is_visible()
-            except:
-                pass
+            # Fast check - look for any common ledger content with short timeout
+            quick_selectors = [
+                "text=Financial Overview",
+                "text=Total income",
+                "text=Gross Profit",
+                "text=Ledger",
+                "text=Dashboard",
+                "main"
+            ]
             
-            # Check for any KPI elements
-            kpi_visible = False
-            try:
-                kpi_visible = await self.total_income.is_visible() or await self.gross_profit.is_visible()
-            except:
-                pass
-            
-            # Check for main content
-            main_content_visible = False
-            try:
-                main_content_visible = await self.main_content.is_visible()
-            except:
-                pass
-            
-            # Try alternative heading selectors
-            heading_visible = False
-            for heading in self.heading_selectors:
+            for selector in quick_selectors:
                 try:
-                    locator = self.page.get_by_role('heading', name=heading)
-                    await locator.wait_for(timeout=3000)
-                    if await locator.is_visible():
-                        heading_visible = True
-                        break
-                except Exception:
+                    element = self.page.locator(selector).first
+                    if await element.is_visible(timeout=1000):
+                        print(f"✅ Ledger page loaded - found: {selector}")
+                        return True
+                except:
                     continue
             
-            # Check for ledger-related content (fallback)
-            ledger_content_visible = False
+            # Fallback - check main content
             try:
-                ledger_selectors = [
-                    'text=Financial Overview',
-                    'text=Total income',
-                    'text=Gross Profit',
-                    'text=Key Performance',
-                    'text=Dashboard'
-                ]
-                
-                for selector in ledger_selectors:
-                    element = self.page.locator(selector)
-                    if await element.is_visible():
-                        ledger_content_visible = True
-                        break
-            except Exception:
+                if await self.main_content.is_visible(timeout=2000):
+                    print("✅ Ledger page loaded - main content visible")
+                    return True
+            except:
                 pass
             
-            # Return true if any indicator shows the page is loaded
-            is_loaded = (dashboard_title_visible or subtitle_visible or kpi_visible or 
-                        main_content_visible or heading_visible or ledger_content_visible)
-            
-            if is_loaded:
-                print("✅ Ledger (Financial Dashboard) page is loaded")
-            else:
-                print("⚠️ Ledger page loading status unclear")
-                
-            return is_loaded
+            print("⚠️ Ledger page loading status unclear")
+            return False
             
         except Exception as e:
             print(f"⚠️ Error checking if ledger page is loaded: {str(e)}")

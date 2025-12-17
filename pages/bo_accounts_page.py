@@ -75,6 +75,12 @@ class BOAccountsPage:
             '.code-input'
         ]
 
+    def _encode_basic_auth(self, username: str, password: str) -> str:
+        """Encode username:password for HTTP Basic Auth header"""
+        import base64
+        credentials = f"{username}:{password}"
+        return base64.b64encode(credentials.encode()).decode()
+
     async def navigate_to_accounts(self):
         """Navigate to accounts page from BO dashboard"""
         print("🏠 Navigating to Accounts page...")
@@ -308,8 +314,33 @@ class BOAccountsPage:
         # If new page opened, switch to it
         if len(pages) > 1:
             new_page = pages[-1]  # Get the latest page
+            new_page_url = new_page.url
             await new_page.bring_to_front()
-            print(f"🔄 Switched to new page: {new_page.url}")
+            print(f"🔄 Switched to new page: {new_page_url}")
+            
+            # IMPORTANT: The relogin page goes to app.stage.viewz.co which has DIFFERENT basic auth
+            # than bo.stage.viewz.co. We need to handle this.
+            if "app.stage" in new_page_url or "relogin" in new_page_url:
+                print("🔐 Relogin page detected - may need different HTTP basic auth")
+                # The main app uses different basic auth credentials
+                # Load from stage config
+                try:
+                    import json
+                    with open("configs/stage_env_config.json", "r") as f:
+                        app_config = json.load(f)
+                    app_basic_auth = app_config.get("basic_auth", {})
+                    if app_basic_auth:
+                        print(f"🔐 Setting up HTTP credentials for main app...")
+                        # Set HTTP credentials for the context
+                        await context.set_extra_http_headers({
+                            "Authorization": f"Basic {self._encode_basic_auth(app_basic_auth['username'], app_basic_auth['password'])}"
+                        })
+                        # Reload the page with correct credentials
+                        await new_page.reload()
+                        await asyncio.sleep(2)
+                        print(f"✅ Reloaded page with correct HTTP auth: {new_page.url}")
+                except Exception as e:
+                    print(f"⚠️ Could not set HTTP credentials: {str(e)[:50]}")
             
             # Wait for the new page to fully load
             await new_page.wait_for_load_state("networkidle")
@@ -343,62 +374,216 @@ class BOAccountsPage:
             if otp_found:
                 print("🔐 OTP required in new window, proceeding with verification...")
                 
-                # Generate and fill OTP in new page
+                # Generate OTP with timing check - be more conservative
+                import time
                 totp = pyotp.TOTP(otp_secret)
-                otp_code = totp.now()
-                print(f"🔐 Generated relogin OTP: {otp_code}")
                 
-                # Try multiple selectors for OTP input - updated with actual relogin selectors
-                otp_selectors = [
-                    'input[data-input-otp="true"]',  # The actual relogin OTP input
-                    'input[maxlength="6"]',
-                    'input[autocomplete="one-time-code"]',
-                    'input[inputmode="numeric"]',
-                    'input[type="text"]',
-                    'input[name="otp"]',
-                    'input[name="code"]',
-                    'input[placeholder*="code" i]'
-                ]
+                # Check time remaining in current 30-second window
+                current_time = int(time.time())
+                seconds_remaining = 30 - (current_time % 30)
+                
+                # If less than 10 seconds remaining, wait for next window (more conservative)
+                if seconds_remaining < 10:
+                    print(f"⏳ Only {seconds_remaining}s left in OTP window, waiting for fresh code...")
+                    await asyncio.sleep(seconds_remaining + 1)
+                
+                # Generate fresh OTP right before entering
+                otp_code = totp.now()
+                seconds_valid = 30 - (int(time.time()) % 30)
+                print(f"🔐 Generated relogin OTP: {otp_code} (valid for {seconds_valid}s)")
                 
                 otp_filled = False
-                for selector in otp_selectors:
+                
+                # The relogin page uses input-otp component (React controlled)
+                # We need to simulate real user input
+                
+                # Method 1: Click dialog area, focus input, and paste/type
+                try:
+                    # Click on the OTP container area to focus
+                    otp_container = new_page.locator('div:has(input)').first
+                    await otp_container.click()
+                    await asyncio.sleep(0.3)
+                    
+                    # Use insertText to simulate paste (works better with React)
+                    await new_page.keyboard.insert_text(otp_code)
+                    await asyncio.sleep(0.5)
+                    
+                    otp_filled = True
+                    print(f"✅ OTP inserted via insert_text: {otp_code}")
+                    
+                except Exception as e:
+                    print(f"⚠️ Insert text failed: {str(e)[:50]}")
+                
+                # Method 2: Press each key individually
+                if not otp_filled:
                     try:
-                        otp_input = new_page.locator(selector)
-                        if await otp_input.is_visible():
-                            await otp_input.fill(otp_code)
-                            print(f"✅ OTP filled in new window using: {selector}")
-                            otp_filled = True
-                            break
-                    except Exception:
-                        continue
+                        # Click anywhere on the dialog first
+                        dialog = new_page.locator('[role="dialog"], .dialog, form').first
+                        await dialog.click()
+                        await asyncio.sleep(0.2)
+                        
+                        # Press Tab to focus input
+                        await new_page.keyboard.press("Tab")
+                        await asyncio.sleep(0.2)
+                        
+                        # Type each digit
+                        for digit in otp_code:
+                            await new_page.keyboard.press(digit)
+                            await asyncio.sleep(0.15)
+                        
+                        otp_filled = True
+                        print(f"✅ OTP typed with Tab focus: {otp_code}")
+                        
+                    except Exception as e:
+                        print(f"⚠️ Tab focus method failed: {str(e)[:50]}")
+                
+                # Method 3: Focus via JavaScript then type
+                if not otp_filled:
+                    try:
+                        await new_page.evaluate("""
+                            () => {
+                                const input = document.querySelector('input');
+                                if (input) {
+                                    input.focus();
+                                }
+                            }
+                        """)
+                        await asyncio.sleep(0.3)
+                        
+                        for digit in otp_code:
+                            await new_page.keyboard.press(digit)
+                            await asyncio.sleep(0.1)
+                        
+                        otp_filled = True
+                        print(f"✅ OTP typed after JS focus: {otp_code}")
+                        
+                    except Exception as e:
+                        print(f"⚠️ JS focus method failed: {str(e)[:50]}")
+                
+                # Take screenshot to verify
+                await new_page.screenshot(path="debug_otp_after_type.png")
+                
+                # Method 2: Click first input and type with keyboard
+                if not otp_filled:
+                    try:
+                        first_input = new_page.locator('input').first
+                        await first_input.click()
+                        await asyncio.sleep(0.3)
+                        
+                        # Clear any existing value
+                        await new_page.keyboard.press("Control+a")
+                        await new_page.keyboard.press("Backspace")
+                        await asyncio.sleep(0.2)
+                        
+                        # Type with realistic delays
+                        for digit in otp_code:
+                            await new_page.keyboard.press(digit)
+                            await asyncio.sleep(0.12)
+                        
+                        await asyncio.sleep(0.5)
+                        otp_filled = True
+                        print(f"✅ OTP typed via keyboard: {otp_code}")
+                    except Exception as e:
+                        print(f"⚠️ keyboard method failed: {str(e)[:50]}")
+                
+                # Method 3: Use press_sequentially
+                if not otp_filled:
+                    try:
+                        otp_input = new_page.locator('input').first
+                        await otp_input.click()
+                        await asyncio.sleep(0.3)
+                        await otp_input.press_sequentially(otp_code, delay=120)
+                        await asyncio.sleep(0.5)
+                        otp_filled = True
+                        print(f"✅ OTP filled via press_sequentially: {otp_code}")
+                    except Exception as e:
+                        print(f"⚠️ press_sequentially failed: {str(e)[:40]}")
+                
+                # Method 4: Try fill() as last resort
+                if not otp_filled:
+                    otp_selectors = [
+                        'input[maxlength="6"]',
+                        'input[autocomplete="one-time-code"]',
+                        'input[type="text"]'
+                    ]
+                    for selector in otp_selectors:
+                        try:
+                            otp_input = new_page.locator(selector).first
+                            if await otp_input.is_visible():
+                                await otp_input.fill(otp_code)
+                                print(f"✅ OTP filled using: {selector}")
+                                otp_filled = True
+                                break
+                        except Exception:
+                            continue
                 
                 if not otp_filled:
-                    print("❌ Could not find OTP input in new window")
+                    print("❌ Could not fill OTP in new window")
                     return False
                 
-                # Try to submit OTP
-                submit_selectors = [
-                    'button:has-text("Verify")',
-                    'button:has-text("Submit")',
-                    'button[type="submit"]',
-                    'button:has-text("Continue")',
-                    'button:has-text("Login")'
-                ]
+                # Wait for OTP to be fully processed and button to be enabled
+                await asyncio.sleep(2)
                 
+                # Take screenshot after OTP is filled
+                await new_page.screenshot(path="debug_relogin_otp_filled.png")
+                print("📸 Screenshot after OTP fill: debug_relogin_otp_filled.png")
+                
+                # Try to submit OTP - with force click
                 submit_clicked = False
-                for selector in submit_selectors:
+                
+                # Method 1: Direct locator with force click
+                try:
+                    verify_btn = new_page.locator("button").filter(has_text="Verify").first
+                    if await verify_btn.count() > 0:
+                        await verify_btn.click(force=True)
+                        submit_clicked = True
+                        print("✅ OTP submitted via locator filter")
+                except Exception as e:
+                    print(f"⚠️ Locator filter failed: {str(e)[:30]}")
+                
+                # Method 2: Get by role with force
+                if not submit_clicked:
                     try:
-                        submit_btn = new_page.locator(selector)
-                        if await submit_btn.is_visible():
-                            await submit_btn.click()
-                            print(f"✅ OTP submitted in new window using: {selector}")
+                        verify_btn = new_page.get_by_role("button", name="Verify")
+                        await verify_btn.click(force=True, timeout=5000)
+                        submit_clicked = True
+                        print("✅ OTP submitted via get_by_role")
+                    except Exception as e:
+                        print(f"⚠️ Role selector failed: {str(e)[:30]}")
+                
+                # Method 3: XPath approach
+                if not submit_clicked:
+                    try:
+                        verify_btn = new_page.locator("//button[contains(text(), 'Verify')]").first
+                        await verify_btn.click(force=True, timeout=5000)
+                        submit_clicked = True
+                        print("✅ OTP submitted via XPath")
+                    except Exception as e:
+                        print(f"⚠️ XPath failed: {str(e)[:30]}")
+                
+                # Method 4: JavaScript click
+                if not submit_clicked:
+                    try:
+                        clicked = await new_page.evaluate("""
+                            () => {
+                                const buttons = document.querySelectorAll('button');
+                                for (const btn of buttons) {
+                                    if (btn.textContent.includes('Verify')) {
+                                        btn.click();
+                                        return true;
+                                    }
+                                }
+                                return false;
+                            }
+                        """)
+                        if clicked:
                             submit_clicked = True
-                            break
-                    except Exception:
-                        continue
+                            print("✅ OTP submitted via JavaScript click")
+                    except Exception as e:
+                        print(f"⚠️ JavaScript click failed: {str(e)[:30]}")
                 
                 if not submit_clicked:
-                    print("⚠️ No submit button found in new window, OTP may auto-submit")
+                    print("⚠️ No submit button clicked, waiting for auto-submit...")
                 
                 # Wait for processing and check for success
                 await asyncio.sleep(5)
@@ -414,17 +599,62 @@ class BOAccountsPage:
                     self.relogin_page = new_page
                     return True
                 else:
-                    # Check for error messages
+                    # OTP might have failed - check for error or try again
                     page_text = await new_page.text_content('body')
-                    if 'error' in page_text.lower() or 'invalid' in page_text.lower():
-                        print("❌ Relogin failed - error detected")
+                    if 'error' in page_text.lower() or 'invalid' in page_text.lower() or 'incorrect' in page_text.lower():
+                        print("❌ OTP verification failed - error detected, retrying with fresh code...")
+                        
+                        # Wait for next OTP window and retry
+                        import time
+                        seconds_remaining = 30 - (int(time.time()) % 30)
+                        print(f"⏳ Waiting {seconds_remaining + 2}s for fresh OTP code...")
+                        await asyncio.sleep(seconds_remaining + 2)
+                        
+                        # Generate fresh OTP
+                        fresh_otp = totp.now()
+                        print(f"🔐 Retry with fresh OTP: {fresh_otp}")
+                        
+                        # Clear and re-enter OTP
+                        try:
+                            first_input = new_page.locator('input').first
+                            await first_input.click()
+                            # Select all and delete
+                            await new_page.keyboard.press("Control+a")
+                            await new_page.keyboard.press("Backspace")
+                            await asyncio.sleep(0.3)
+                            await new_page.keyboard.type(fresh_otp, delay=100)
+                            await asyncio.sleep(1)
+                            
+                            # Try to click Verify again
+                            verify_btn = new_page.locator("button").filter(has_text="Verify").first
+                            await verify_btn.click(force=True)
+                            await asyncio.sleep(5)
+                            
+                            retry_url = new_page.url
+                            print(f"🔗 URL after retry: {retry_url}")
+                            
+                            if 'relogin' not in retry_url.lower():
+                                print("✅ Relogin successful on retry!")
+                                self.relogin_page = new_page
+                                return True
+                        except Exception as retry_e:
+                            print(f"❌ Retry failed: {str(retry_e)[:50]}")
+                        
                         return False
                     else:
-                        print("✅ Relogin appears successful")
+                        # Still on relogin page but no error - might be waiting for redirect
+                        print("⏳ Still on relogin page, waiting longer for redirect...")
+                        await asyncio.sleep(5)
                         
-                        # Store the new page reference for sanity testing
-                        self.relogin_page = new_page
-                        return True
+                        final_check_url = new_page.url
+                        if 'relogin' not in final_check_url.lower():
+                            print("✅ Relogin successful after waiting")
+                            self.relogin_page = new_page
+                            return True
+                        else:
+                            print("❌ Relogin did not complete - still on relogin page")
+                            self.relogin_page = new_page  # Store anyway for debugging
+                            return False
                 
             else:
                 print("ℹ️ No OTP indicators found in new window")

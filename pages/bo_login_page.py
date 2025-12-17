@@ -127,53 +127,83 @@ class BOLoginPage(LoginPage):
         
         # Try multiple OTP generation strategies
         max_attempts = 3
+        import time
+        totp = pyotp.TOTP(otp_secret)
+        
         for attempt in range(max_attempts):
             print(f"🔄 OTP Attempt {attempt + 1}/{max_attempts}")
             
-            # Generate OTP with different time windows
-            totp = pyotp.TOTP(otp_secret)
+            # Wait for fresh OTP window if needed
+            seconds_remaining = 30 - (int(time.time()) % 30)
+            if seconds_remaining < 10:
+                print(f"⏳ Only {seconds_remaining}s left, waiting for fresh OTP...")
+                await asyncio.sleep(seconds_remaining + 1)
             
-            if attempt == 0:
-                # Standard current time
-                otp_code = totp.now()
-                print(f"🕐 Using current time OTP: {otp_code}")
-            elif attempt == 1:
-                # Try 30 seconds ago (previous window)
-                import time
-                otp_code = totp.at(int(time.time()) - 30)
-                print(f"🕐 Using previous window OTP: {otp_code}")
-            else:
-                # Try 30 seconds ahead (next window)
-                import time
-                otp_code = totp.at(int(time.time()) + 30)
-                print(f"🕐 Using next window OTP: {otp_code}")
+            # Generate fresh OTP
+            otp_code = totp.now()
+            seconds_valid = 30 - (int(time.time()) % 30)
+            print(f"🕐 Using fresh OTP: {otp_code} (valid for {seconds_valid}s)")
             
-            # Fill OTP with flexible selector matching
+            # Fill OTP - try split input boxes first (6 individual inputs)
             otp_filled = False
-            for selector in self.otp_input.split(', '):
+            
+            # Method 1: Handle split OTP boxes
+            try:
+                otp_inputs = self.page.locator('input[data-input-otp="true"], input[maxlength="1"]')
+                input_count = await otp_inputs.count()
+                
+                if input_count == 6:
+                    print(f"📦 Found 6 split OTP input boxes")
+                    await otp_inputs.first.click()
+                    await asyncio.sleep(0.2)
+                    
+                    for digit in otp_code:
+                        await self.page.keyboard.press(digit)
+                        await asyncio.sleep(0.12)
+                    
+                    otp_filled = True
+                    print(f"✅ OTP entered digit by digit: {otp_code}")
+            except Exception as e:
+                print(f"⚠️ Split box method failed: {str(e)[:40]}")
+            
+            # Method 2: Click and type with keyboard
+            if not otp_filled:
                 try:
-                    otp_element = self.page.locator(selector)
-                    if await otp_element.is_visible():
-                        # Clear previous input first
-                        await otp_element.clear()
-                        await otp_element.fill(otp_code)
-                        print(f"✅ OTP filled using selector: {selector} with code: {otp_code}")
-                        otp_filled = True
-                        break
-                except Exception:
-                    continue
+                    first_input = self.page.locator('input[type="text"]:visible').first
+                    await first_input.click()
+                    await asyncio.sleep(0.2)
+                    
+                    # Clear and type
+                    await self.page.keyboard.press("Control+a")
+                    await self.page.keyboard.press("Backspace")
+                    await asyncio.sleep(0.1)
+                    
+                    for digit in otp_code:
+                        await self.page.keyboard.press(digit)
+                        await asyncio.sleep(0.1)
+                    
+                    otp_filled = True
+                    print(f"✅ OTP typed via keyboard: {otp_code}")
+                except Exception as e:
+                    print(f"⚠️ Keyboard type failed: {str(e)[:40]}")
+            
+            # Method 3: Traditional fill() as fallback
+            if not otp_filled:
+                for selector in self.otp_input.split(', '):
+                    try:
+                        otp_element = self.page.locator(selector)
+                        if await otp_element.is_visible():
+                            await otp_element.clear()
+                            await otp_element.fill(otp_code)
+                            print(f"✅ OTP filled using selector: {selector}")
+                            otp_filled = True
+                            break
+                    except Exception:
+                        continue
             
             if not otp_filled:
-                # Try to find any visible text input as fallback
-                try:
-                    fallback_input = self.page.locator('input[type="text"]:visible').last
-                    await fallback_input.clear()
-                    await fallback_input.fill(otp_code)
-                    print(f"✅ OTP filled using fallback selector with code: {otp_code}")
-                    otp_filled = True
-                except Exception:
-                    print("❌ Could not find OTP input field")
-                    continue
+                print("❌ Could not find OTP input field")
+                continue
             
             if otp_filled:
                 # Try to submit OTP
