@@ -1,0 +1,93 @@
+{
+  "suite_id": 139,
+  "section_id": 8005,
+  "section_name": "API Security - OTP Validation",
+  "cases": [
+    {
+      "id": 139362,
+      "title": "SEC-001: Verify Journal Entries API rejects unauthenticated requests",
+      "automation_id": "test_journal_entries_rejects_unauthenticated_request"
+    },
+    {
+      "id": 139363,
+      "title": "SEC-002: Verify Bank Files API rejects unauthenticated requests",
+      "automation_id": "test_bank_files_rejects_unauthenticated_request"
+    },
+    {
+      "id": 139364,
+      "title": "SEC-003: Verify Bank Transactions API rejects unauthenticated requests",
+      "automation_id": "test_bank_transactions_rejects_unauthenticated_request"
+    },
+    {
+      "id": 139365,
+      "title": "SEC-004: Verify Entity Documents API rejects unauthenticated requests",
+      "automation_id": "test_entity_documents_rejects_unauthenticated_request"
+    },
+    {
+      "id": 139366,
+      "title": "SEC-005: Verify Accounting Files API rejects unauthenticated requests",
+      "automation_id": "test_accounting_files_rejects_unauthenticated_request"
+    },
+    {
+      "id": 139367,
+      "title": "SEC-006: Verify User Info API rejects unauthenticated requests",
+      "automation_id": "test_user_info_rejects_unauthenticated_request"
+    },
+    {
+      "id": 139368,
+      "title": "SEC-007: Verify Journal Entries API rejects invalid JWT tokens",
+      "automation_id": "test_journal_entries_rejects_invalid_token"
+    },
+    {
+      "id": 139369,
+      "title": "SEC-008: Verify Create Journal Entry API rejects invalid JWT tokens",
+      "automation_id": "test_create_journal_entry_rejects_invalid_token"
+    },
+    {
+      "id": 139370,
+      "title": "SEC-009: CRITICAL - Verify login does NOT return JWT token without OTP",
+      "automation_id": "test_login_does_not_return_token_without_otp"
+    },
+    {
+      "id": 139371,
+      "title": "SEC-010: Verify OTP validation rejects invalid OTP codes",
+      "automation_id": "test_otp_validation_rejects_invalid_codes"
+    },
+    {
+      "id": 139372,
+      "title": "SEC-011: Verify OTP validation rejects expired/past OTP codes",
+      "automation_id": "test_otp_validation_rejects_expired_codes"
+    },
+    {
+      "id": 139373,
+      "title": "SEC-012: Comprehensive security scan - All sensitive endpoints require auth",
+      "automation_id": "test_all_sensitive_endpoints_require_auth"
+    },
+    {
+      "id": 139374,
+      "title": "SEC-013: Verify endpoints reject manipulated/tampered JWT tokens",
+      "automation_id": "test_endpoints_reject_manipulated_tokens"
+    },
+    {
+      "id": 139375,
+      "title": "SEC-014: Security Test Suite Summary and Documentation",
+      "automation_id": "test_generate_security_summary"
+    }
+  ],
+  "mapping": {
+    "test_journal_entries_rejects_unauthenticated_request": 139362,
+    "test_bank_files_rejects_unauthenticated_request": 139363,
+    "test_bank_transactions_rejects_unauthenticated_request": 139364,
+    "test_entity_documents_rejects_unauthenticated_request": 139365,
+    "test_accounting_files_rejects_unauthenticated_request": 139366,
+    "test_user_info_rejects_unauthenticated_request": 139367,
+    "test_journal_entries_rejects_invalid_token": 139368,
+    "test_create_journal_entry_rejects_invalid_token": 139369,
+    "test_login_does_not_return_token_without_otp": 139370,
+    "test_otp_validation_rejects_invalid_codes": 139371,
+    "test_otp_validation_rejects_expired_codes": 139372,
+    "test_all_sensitive_endpoints_require_auth": 139373,
+    "test_endpoints_reject_manipulated_tokens": 139374,
+    "test_generate_security_summary": 139375
+  }
+}

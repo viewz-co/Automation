@@ -533,13 +533,11 @@ def pytest_runtest_makereport(item, call):
         'test_chart_of_accounts_navigation': 8015,  # C8015
         'test_entity_selection_validation': 7958,  # C7958
         'test_tab_navigation[text=BI Analysis-BIAnalysisPage]': 7954,  # C7954
-        'test_tab_navigation[text=Connections-ConnectionPage]': 7955,  # C7955
         'test_tab_navigation[text=Home-HomePage]': 7950,  # C7950
         'test_tab_navigation[text=Ledger-LedgerPage]': 7953,  # C7953
         'test_tab_navigation[text=Reconciliation-ReconciliationPage]': 7952,  # C7952
         'test_tab_navigation[text=Vizion AI-VizionAIPage]': 7951,  # C7951
         'test_tab_navigation_with_entity[text=BI Analysis-BIAnalysisPage]': 7957,  # C7957
-        'test_tab_navigation_with_entity[text=Connections-ConnectionPage]': 7957,  # C7957
         'test_tab_navigation_with_entity[text=Home-HomePage]': 7957,  # C7957
         'test_tab_navigation_with_entity[text=Ledger-LedgerPage]': 7957,  # C7957
         'test_tab_navigation_with_entity[text=Reconciliation-ReconciliationPage]': 7957,  # C7957
@@ -641,7 +639,6 @@ def pytest_runtest_makereport(item, call):
 
         # Security Tests
         'test_csrf_protection': 8054,  # C8054
-        'test_sql_injection_prevention': 8051,  # C8051
         'test_xss_prevention': 8052,  # C8052
 
         # Performance Tests
@@ -654,10 +651,8 @@ def pytest_runtest_makereport(item, call):
         'test_verify_upload_area': 7979,  # C7979
 
         # Compatibility Tests
-        'test_mobile_viewport_compatibility': 8062,  # C8062
         'test_print_stylesheet_compatibility': 8065,  # C8065
         'test_responsive_design_elements': 8063,  # C8063
-        'test_touch_interface_compatibility': 8064,  # C8064
 
         # Snapshot Tests
         'test_visual_snapshots_key_pages': 12865,  # C12865
@@ -716,6 +711,33 @@ def pytest_runtest_makereport(item, call):
         'test_bo_dom_snapshots': 30970,  # C30970
         'test_bo_workflow_snapshots': 30971,  # C30971
         'test_bo_component_snapshots': 30972,  # C30972
+        
+        # ===== EASYSEND INTEGRATION TESTS =====
+        'test_easysend_email_to_payables_flow': 121146,  # C121146 - EasySend Email to Payables E2E
+
+        # ===== EXPORT VALIDATION TESTS =====
+        'test_payables_export_data_validation': 126311,  # C126311 - Payables Export Data Validation
+        'test_receivables_export_data_validation': 126312,  # C126312 - Receivables Export Data Validation
+        'test_bank_transactions_export_data_validation': 129938,  # C129938 - Bank Transactions Export
+        'test_credit_cards_export_data_validation': 129939,  # C129939 - Credit Cards Export
+
+        # ===== API SECURITY - OTP VALIDATION TESTS =====
+        # Security Section (ID: 8005) - OTP and Authentication validation
+        # Tests verify API endpoints require OTP authentication and reject unauthorized access
+        'test_journal_entries_rejects_unauthenticated_request': 139362,  # C139362 - SEC-001
+        'test_bank_files_rejects_unauthenticated_request': 139363,  # C139363 - SEC-002
+        'test_bank_transactions_rejects_unauthenticated_request': 139364,  # C139364 - SEC-003
+        'test_entity_documents_rejects_unauthenticated_request': 139365,  # C139365 - SEC-004
+        'test_accounting_files_rejects_unauthenticated_request': 139366,  # C139366 - SEC-005
+        'test_user_info_rejects_unauthenticated_request': 139367,  # C139367 - SEC-006
+        'test_journal_entries_rejects_invalid_token': 139368,  # C139368 - SEC-007
+        'test_create_journal_entry_rejects_invalid_token': 139369,  # C139369 - SEC-008
+        'test_login_does_not_return_token_without_otp': 139370,  # C139370 - SEC-009 CRITICAL
+        'test_otp_validation_rejects_invalid_codes': 139371,  # C139371 - SEC-010
+        'test_otp_validation_rejects_expired_codes': 139372,  # C139372 - SEC-011
+        'test_all_sensitive_endpoints_require_auth': 139373,  # C139373 - SEC-012
+        'test_endpoints_reject_manipulated_tokens': 139374,  # C139374 - SEC-013
+        'test_generate_security_summary': 139375,  # C139375 - SEC-014
         }
         
         case_id = case_mapping.get(test_name)

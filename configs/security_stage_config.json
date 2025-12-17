@@ -1,0 +1,39 @@
+{
+  "environment": "stage",
+  "base_url": "https://app.stage.viewz.co",
+  "api_base_url": "https://app.stage.viewz.co/api",
+  "test_credentials": {
+    "username": "sharon_stage",
+    "password": "Fuckyou43!",
+    "otp_secret": "F44VIIZ6FFLVUVCEIZHVAI2FIRZUWSCS"
+  },
+  "basic_auth": {
+    "username": "admin",
+    "password": "38Uo0tuxA3pj*b0F"
+  },
+  "security_testing": {
+    "enabled": true,
+    "test_categories": [
+      "unauthenticated_access",
+      "invalid_token_rejection",
+      "otp_flow_validation",
+      "invalid_otp_rejection",
+      "token_manipulation_attacks",
+      "comprehensive_endpoint_scan"
+    ],
+    "endpoints_to_test": [
+      "/v2/accounting/getJournalEntries",
+      "/v2/accounting/getAccountingUploadedFiles",
+      "/v2/accounting/createJournalEntry",
+      "/v2/banks/getBankUploadedFiles",
+      "/v2/banks/getBankTransactionsData",
+      "/v2/docs/getEntityDocuments",
+      "/v2/auth/getUserInfo",
+      "/v2/userGroups/getUserGroupDashboards",
+      "/entities/getUserGroupEntities"
+    ],
+    "expected_auth_responses": [401, 403],
+    "timeout_seconds": 30
+  }
+}
+
