@@ -712,6 +712,9 @@ Total: $10,714.40"""
             
             # Look for the 3-dot action menu within the row
             three_dot_selectors = [
+                # WORKING selector - the 3-dot button uses cursor-pointer class
+                "[class*='cursor-pointer']",
+                
                 # Actions column specific selectors (rightmost column)
                 "td:last-child button",  # Last column button (Actions column)
                 "button:has-text('⋯')",  # Horizontal dots character (from screenshot)

@@ -724,19 +724,86 @@ class PayablesPage:
             return False
     
     async def click_first_delete_button(self):
-        """Click the first delete button in the list"""
+        """Click the first delete button using the 3-dot menu in Actions column"""
         try:
-            if await self.delete_buttons.first.is_visible():
-                await self.delete_buttons.first.click()
+            # Find first row with data
+            rows = self.page.locator("table tbody tr, tr:has(td)")
+            if await rows.count() == 0:
+                print("❌ No rows found in table")
+                return False
+            
+            first_row = rows.first
+            
+            # Find the Actions column (last cell) and click the 3-dot menu
+            actions_cell = first_row.locator("td").last
+            
+            # The 3-dot button uses cursor-pointer class
+            three_dot_selectors = [
+                "[class*='cursor-pointer']",
+                "button",
+                "[role='button']",
+                "span:has-text('⋯')",
+                "svg",
+            ]
+            
+            three_dot_btn = None
+            for selector in three_dot_selectors:
+                try:
+                    elem = actions_cell.locator(selector).first
+                    if await elem.is_visible():
+                        three_dot_btn = elem
+                        break
+                except:
+                    continue
+            
+            if not three_dot_btn:
+                three_dot_btn = actions_cell
+            
+            if await three_dot_btn.is_visible():
+                await three_dot_btn.click()
                 await asyncio.sleep(1)
-                print("✅ Clicked first delete button")
-                return True
+                print("✅ Clicked 3-dot menu in Actions column")
+                
+                # Click Delete option in the dropdown
+                delete_option = self.page.locator("text=Delete").first
+                if await delete_option.is_visible():
+                    await delete_option.click()
+                    await asyncio.sleep(1)
+                    print("✅ Clicked Delete option")
+                    return True
+                else:
+                    print("⚠️ Delete option not visible in menu")
+                    return False
             
             return False
             
         except Exception as e:
             print(f"❌ Error clicking delete button: {str(e)}")
             return False
+    
+    async def confirm_delete_dialog(self):
+        """Confirm the delete confirmation dialog"""
+        try:
+            await asyncio.sleep(1)
+            # Find and click the red Delete button in the confirmation dialog
+            confirm_btn = self.page.locator("button:has-text('Delete')").last
+            if await confirm_btn.is_visible():
+                await confirm_btn.click()
+                await asyncio.sleep(2)
+                print("✅ Confirmed deletion in dialog")
+                return True
+            else:
+                print("⚠️ Delete confirmation dialog not found")
+                return False
+        except Exception as e:
+            print(f"❌ Error confirming delete: {str(e)}")
+            return False
+    
+    async def delete_first_invoice(self):
+        """Complete flow: Click 3-dot menu, click Delete, and confirm"""
+        if await self.click_first_delete_button():
+            return await self.confirm_delete_dialog()
+        return False
     
     async def get_invoice_count(self):
         """Get the number of invoices in the table"""

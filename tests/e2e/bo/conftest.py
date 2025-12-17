@@ -7,12 +7,56 @@ import pytest
 import pytest_asyncio
 import json
 import os
+import asyncio
 from playwright.async_api import Page, async_playwright
 
 # Import BO-specific page objects
 from pages.bo_login_page import BOLoginPage
 from pages.bo_accounts_page import BOAccountsPage
 from utils.screenshot_helper import screenshot_helper
+
+
+async def fill_otp_boxes(page: Page, otp_code: str):
+    """
+    Fill OTP into multi-box input component (6 separate input boxes, 3-3 format).
+    This is specifically for the relogin verification dialog.
+    Works with the input-otp React component.
+    """
+    print(f"🔐 Filling OTP boxes with code: {otp_code}")
+    
+    # Wait for dialog to be visible
+    await asyncio.sleep(1)
+    
+    # Get all input boxes in the dialog
+    inputs = page.locator("input[maxlength='1'], input[type='text']")
+    input_count = await inputs.count()
+    print(f"   Found {input_count} input boxes")
+    
+    if input_count >= 6:
+        # Fill each digit into its own input box
+        for i, digit in enumerate(otp_code[:6]):
+            try:
+                input_box = inputs.nth(i)
+                await input_box.click()
+                await input_box.fill(digit)
+                await asyncio.sleep(0.1)
+            except Exception as e:
+                print(f"   Warning: Could not fill box {i}: {e}")
+        print(f"✅ Filled {len(otp_code)} digits into OTP boxes")
+        return True
+    
+    # Fallback: Click first input and type each digit (auto-advance)
+    print("   Trying keyboard typing approach...")
+    first_input = page.locator("input").first
+    await first_input.click()
+    await asyncio.sleep(0.2)
+    
+    for digit in otp_code:
+        await page.keyboard.press(digit)
+        await asyncio.sleep(0.15)
+    
+    print(f"✅ Typed OTP via keyboard: {otp_code}")
+    return True
 
 
 @pytest.fixture(scope="session")

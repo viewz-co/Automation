@@ -5,9 +5,53 @@ Test BO Relogin Only - for debugging the relogin flow
 import pytest
 import asyncio
 import json
-from playwright.async_api import async_playwright
+import pyotp
+import time
+from playwright.async_api import async_playwright, Page
 from pages.bo_login_page import BOLoginPage
 from pages.bo_accounts_page import BOAccountsPage
+
+
+async def fill_otp_boxes(page: Page, otp_code: str):
+    """
+    Fill OTP into multi-box input component (6 separate input boxes, 3-3 format).
+    This is specifically for the relogin verification dialog.
+    """
+    print(f"🔐 Filling OTP boxes with code: {otp_code}")
+    
+    # Wait for dialog to be visible
+    await asyncio.sleep(1)
+    
+    # Get all input boxes in the dialog
+    inputs = page.locator("input[maxlength='1'], input[type='text']")
+    input_count = await inputs.count()
+    print(f"   Found {input_count} input boxes")
+    
+    if input_count >= 6:
+        # Fill each digit into its own input box
+        for i, digit in enumerate(otp_code[:6]):
+            try:
+                input_box = inputs.nth(i)
+                await input_box.click()
+                await input_box.fill(digit)
+                await asyncio.sleep(0.1)
+            except Exception as e:
+                print(f"   Warning: Could not fill box {i}: {e}")
+        print(f"✅ Filled {len(otp_code)} digits into OTP boxes")
+        return True
+    
+    # Fallback: Click first input and type each digit (auto-advance)
+    print("   Trying keyboard typing approach...")
+    first_input = page.locator("input").first
+    await first_input.click()
+    await asyncio.sleep(0.2)
+    
+    for digit in otp_code:
+        await page.keyboard.press(digit)
+        await asyncio.sleep(0.15)
+    
+    print(f"✅ Typed OTP via keyboard: {otp_code}")
+    return True
 
 
 class TestBOReloginOnly:
@@ -151,24 +195,74 @@ class TestBOReloginOnly:
                         print("✅ Clicked relogin button")
                         await asyncio.sleep(3)
                         
-                        # Generate fresh OTP right before relogin
-                        import pyotp
-                        import time
-                        relogin_otp_secret = bo_config.get("relogin_otp_secret", bo_config.get("otp_secret", ""))
-                        totp = pyotp.TOTP(relogin_otp_secret)
+                        # Find the new page that opened
+                        pages = bo_context.pages
+                        new_page = None
+                        for pg in pages:
+                            if "relogin" in pg.url or "app.stage.viewz.co" in pg.url:
+                                new_page = pg
+                                break
                         
-                        # Wait for fresh OTP window if near boundary
-                        seconds_remaining = 30 - (int(time.time()) % 30)
-                        if seconds_remaining < 5:
-                            print(f"⏳ Waiting {seconds_remaining + 1}s for fresh OTP window...")
-                            await asyncio.sleep(seconds_remaining + 1)
-                        
-                        fresh_otp = totp.now()
-                        print(f"🔐 Generated fresh relogin OTP: {fresh_otp}")
-                        
-                        # Handle relogin OTP in new window
-                        bo_accounts_page = BOAccountsPage(bo_page)
-                        await bo_accounts_page.handle_relogin_otp(relogin_otp_secret)
+                        if new_page and len(pages) > 1:
+                            await new_page.bring_to_front()
+                            await asyncio.sleep(2)
+                            
+                            # Generate OTP using BO admin's secret
+                            relogin_otp_secret = bo_config.get("relogin_otp_secret", bo_config.get("otp_secret", ""))
+                            
+                            # Wait for fresh OTP window if near boundary
+                            current_time = int(time.time())
+                            seconds_remaining = 30 - (current_time % 30)
+                            if seconds_remaining < 10:
+                                print(f"⏳ Waiting {seconds_remaining + 1}s for fresh OTP window...")
+                                await asyncio.sleep(seconds_remaining + 1)
+                            
+                            totp = pyotp.TOTP(relogin_otp_secret)
+                            otp_code = totp.now()
+                            seconds_valid = 30 - (int(time.time()) % 30)
+                            print(f"🔐 Generated relogin OTP: {otp_code} (valid for {seconds_valid}s)")
+                            
+                            # Use the fill_otp_boxes function directly (no page reload!)
+                            await fill_otp_boxes(new_page, otp_code)
+                            
+                            await asyncio.sleep(1)
+                            
+                            # Click Verify button
+                            verify_btn = new_page.locator("button").filter(has_text="Verify").first
+                            try:
+                                await verify_btn.click(force=True)
+                                print("✅ Clicked Verify button")
+                            except:
+                                await new_page.evaluate("""
+                                    () => {
+                                        const btn = Array.from(document.querySelectorAll('button'))
+                                            .find(b => b.textContent.includes('Verify'));
+                                        if (btn) btn.click();
+                                    }
+                                """)
+                                print("✅ Clicked Verify via JS")
+                            
+                            await asyncio.sleep(5)
+                            
+                            # Check if OTP failed and retry
+                            page_text = await new_page.text_content('body')
+                            if 'invalid' in page_text.lower() or 'failed' in page_text.lower():
+                                print("⚠️ OTP failed, retrying with fresh code...")
+                                
+                                seconds_remaining = 30 - (int(time.time()) % 30)
+                                await asyncio.sleep(seconds_remaining + 2)
+                                
+                                fresh_otp = totp.now()
+                                print(f"🔐 Retry with fresh OTP: {fresh_otp}")
+                                
+                                await fill_otp_boxes(new_page, fresh_otp)
+                                await asyncio.sleep(1)
+                                await new_page.locator("button").filter(has_text="Verify").first.click(force=True)
+                                await asyncio.sleep(5)
+                        else:
+                            print("⚠️ New page not found, using handle_relogin_otp fallback")
+                            bo_accounts_page = BOAccountsPage(bo_page)
+                            await bo_accounts_page.handle_relogin_otp(relogin_otp_secret)
                     else:
                         print("⚠️ Relogin button not visible, trying fallback...")
                         # Try clicking the arrow icon directly
