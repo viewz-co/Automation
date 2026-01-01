@@ -781,11 +781,8 @@ class TestExportValidation:
         csv_rows = comparison["csv_row_count"]
         print(f"📊 Row counts: UI={ui_rows}, Export={csv_rows}")
         
-        # Data should match 40%+ (lowered threshold - UI and export may show different sorted data)
-        # Full match is not always possible due to pagination, sorting, and real-time data changes
-        # This test validates that export works and contains data, not exact data matching
-        min_match = 40.0
-        assert comparison["match_percentage"] >= min_match, f"Data match too low: {comparison['match_percentage']:.1f}% - Expected {min_match}%+"
+        # Data should match 99.9%+
+        assert comparison["match_percentage"] >= 99.9, f"Data match too low: {comparison['match_percentage']:.1f}% - Expected 99.9%+"
         if comparison["match_percentage"] < 100:
             print(f"⚠️ Data match: {comparison['match_percentage']:.1f}%")
             for mismatch in comparison["mismatches"][:5]:
@@ -961,10 +958,8 @@ class TestExportValidation:
         csv_rows = comparison["csv_row_count"]
         print(f"📊 Row counts: UI={ui_rows}, Export={csv_rows}")
         
-        # Data should match 40%+ (lowered - UI and export may show different sorted data)
-        # This test validates that export works and contains data, not exact data matching
-        min_match = 40.0
-        assert comparison["match_percentage"] >= min_match, f"Data match too low: {comparison['match_percentage']:.1f}% - Expected {min_match}%+"
+        # Data should match 99.9%+
+        assert comparison["match_percentage"] >= 99.9, f"Data match too low: {comparison['match_percentage']:.1f}% - Expected 99.9%+"
         if comparison["match_percentage"] < 100:
             print(f"⚠️ Data match: {comparison['match_percentage']:.1f}%")
             for mismatch in comparison["mismatches"][:5]:
