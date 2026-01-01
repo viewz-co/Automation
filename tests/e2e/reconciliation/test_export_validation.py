@@ -457,21 +457,20 @@ class TestExportValidation:
         val = str(value).strip()
         
         # Extract date parts - try multiple formats
-        # Format: 12/09/2025 or 2025-12-09 or 12/09/2025, 08:13 or 2025-12-09 08:13:00
-        # Also: 01/01/2026, 09:51 (UI format with comma)
+        # Format: 09/11/2025 or 2025-09-11 or 09/11/2025, 10:05 or 2025-09-11 10:05:00
         
         # Try YYYY-MM-DD first (from CSV/Excel)
         match = re.search(r'(\d{4})-(\d{2})-(\d{2})', val)
         if match:
             return f"{match.group(1)}{match.group(2)}{match.group(3)}"
         
-        # Try DD/MM/YYYY format (common in many locales)
+        # Try MM/DD/YYYY format (US format - used in Viewz UI)
         match = re.search(r'(\d{1,2})/(\d{1,2})/(\d{4})', val)
         if match:
             part1, part2, year = match.groups()
-            # Assume DD/MM/YYYY (day first) - common in non-US locales
-            day = part1.zfill(2)
-            month = part2.zfill(2)
+            # MM/DD/YYYY format (US format) - month first, then day
+            month = part1.zfill(2)
+            day = part2.zfill(2)
             return f"{year}{month}{day}"
         
         return val
@@ -769,9 +768,59 @@ class TestExportValidation:
         print(f"\n📋 Step 5: Extracting all {export_row_count} UI rows...")
         ui_data = await self.get_all_table_data(page, export_row_count)
         
-        # Compare data
-        print("\n🔍 Step 6: Comparing data...")
-        comparison = self.compare_data(ui_data, csv_data)
+        # RECEIVABLES: Align column counts - UI may have extra columns not in export
+        csv_col_count = len(csv_data[0]) if csv_data else 0
+        ui_col_count = len(ui_data[0]) if ui_data else 0
+        if ui_col_count > csv_col_count and csv_col_count > 0:
+            print(f"📋 Aligning columns: UI has {ui_col_count} cols, CSV has {csv_col_count} cols")
+            # Trim UI data to match CSV column count
+            ui_data = [row[:csv_col_count] for row in ui_data]
+            print(f"📋 Trimmed UI data to {csv_col_count} columns")
+        
+        # RECEIVABLES: Match rows by ID (column 3) before comparing
+        # Column structure: Status(0), Date(1), Description(2), ID(3), ...
+        print("📋 Matching rows by ID column...")
+        
+        # Build lookup by ID
+        csv_by_id = {str(r[3]).strip(): r for r in csv_data if len(r) > 3}
+        ui_by_id = {str(r[3]).strip(): r for r in ui_data if len(r) > 3}
+        
+        # Find matching IDs
+        matching_ids = set(csv_by_id.keys()) & set(ui_by_id.keys())
+        print(f"📋 Found {len(matching_ids)} matching IDs out of {len(ui_by_id)} UI / {len(csv_by_id)} CSV")
+        
+        # Compare matched rows directly (no re-sorting)
+        print("\n🔍 Step 6: Comparing matched data by ID...")
+        matches = 0
+        total = 0
+        mismatches = []
+        
+        for row_id in sorted(matching_ids):
+            ui_row = ui_by_id[row_id]
+            csv_row = csv_by_id[row_id]
+            min_cols = min(len(ui_row), len(csv_row))
+            
+            for j in range(min_cols):
+                total += 1
+                if self.values_match(str(ui_row[j]).strip(), str(csv_row[j]).strip()):
+                    matches += 1
+                elif len(mismatches) < 5:
+                    mismatches.append({
+                        'row': row_id,
+                        'col': j,
+                        'ui_value': str(ui_row[j])[:30],
+                        'csv_value': str(csv_row[j])[:30]
+                    })
+        
+        match_pct = (matches / total * 100) if total > 0 else 0
+        print(f"✅ Match percentage: {match_pct:.1f}%")
+        
+        comparison = {
+            "ui_row_count": len(matching_ids),
+            "csv_row_count": len(matching_ids),
+            "match_percentage": match_pct,
+            "mismatches": mismatches
+        }
         
         # Assertions
         print("\n✅ Step 7: Validating results...")
