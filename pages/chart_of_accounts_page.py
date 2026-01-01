@@ -1,14 +1,18 @@
 """
 Chart of Accounts Page Object
-CORRECT FLOW (from user demo):
-1. Name (input)
-2. Currency (click cell → dropdown auto-opens → click option)
+UPDATED FLOW (Jan 2026 - new columns added):
+Columns: Account ID, Name, Currency, Report Type, Type, Group, EBITDA, Cashflow, Budget, Interco., Tag 1, Tag 2, Actions
+
+1. Name (input) - cell 1
+2. Currency (click cell → dropdown auto-opens → click option) - cell 2
 3. Report Type (dropdown auto-opens after currency → click option)
 4. Type (dropdown auto-opens → click option)
 5. Group (dropdown auto-opens → click option)
 6. EBITDA (auto-selected - skip!)
-7. Cashflow (click cell → dropdown auto-opens → click option)
-8. Save
+7. Cashflow (click cell → dropdown auto-opens → click option) - cell 7
+8. Budget (not required - skip, defaults to None)
+9. Interco., Tag 1, Tag 2 (not required - skip)
+10. Save
 """
 
 from playwright.async_api import Page
@@ -126,6 +130,7 @@ class ChartOfAccountsPage:
         """
         Create GL Account:
         Click cell → dropdown opens → click option → repeat → save
+        Note: Budget column added Jan 2026 - not required, skip it
         """
         try:
             if account_data is None:
@@ -190,22 +195,21 @@ class ChartOfAccountsPage:
             await asyncio.sleep(1)
             await self._click_option(cashflow, "Cashflow")
             
-            # 8. Save - close any open dropdown first, then find save button
+            # 8. Budget - NOT REQUIRED, skip (added Jan 2026)
+            # After Cashflow, go straight to Save - no need to skip Budget explicitly
+            
+            # 9. Save - click save button directly
             print("   8️⃣ Save...")
-            await self.page.keyboard.press("Escape")
             await asyncio.sleep(0.5)
             
-            # Save button is at the END of the row (second to last, before delete)
-            # The row has: cells with dropdowns... then save button (green) then delete button (red)
             save_clicked = False
-            
             row = self.page.locator("tr:has-text('Auto')").first
             
             # Find the last cell which contains the action buttons
             cells = row.locator("td")
             last_cell = cells.last
             
-            # Get buttons in the last cell - should be save and delete
+            # Get buttons in the last cell - should be save (green) and delete (red)
             action_buttons = last_cell.locator("button")
             btn_count = await action_buttons.count()
             print(f"      Found {btn_count} action buttons in last cell")
