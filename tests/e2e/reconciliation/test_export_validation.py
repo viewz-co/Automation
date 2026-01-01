@@ -497,17 +497,6 @@ class TestExportValidation:
         if csv_val.strip() == '-' and (ui_val.strip() == '0' or ui_val.strip() == ''):
             return True
         
-        # GL Account column: Export may not include GL Account data (e.g., "10200 - SVB..." or "VZ15 - AR Test" in UI, empty in export)
-        # Pattern: account number/code + dash + name (can start with letters or numbers)
-        import re
-        gl_account_pattern = r'^[A-Za-z0-9]{2,10}\s*-\s*.+$'
-        if re.match(gl_account_pattern, ui_val.strip()) and csv_val.strip() == '':
-            return True
-        
-        # Also match if UI has a truncated account name ending with "..."
-        if '...' in ui_val and csv_val.strip() == '':
-            return True
-        
         # Direct match
         if ui_val == csv_val:
             return True
