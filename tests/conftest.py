@@ -549,6 +549,16 @@ def pytest_runtest_makereport(item, call):
         'test_tab_navigation[text=Purchasing-PurchasingPage]': 165485,  # C165485
         'test_tab_navigation[text=Budgeting-BudgetingPage]': 165487,  # C165487
         'test_tab_navigation_with_entity[text=Purchasing-PurchasingPage]': 165485,  # C165485
+
+        # Budgeting Operations (NEW - Jan 2026)
+        'test_add_budget_group': 168676,  # C168676
+        'test_add_budget_group_with_custom_name': 168677,  # C168677
+        'test_open_budget_builder': 168678,  # C168678
+        'test_budget_builder_add_line': 168679,  # C168679
+        'test_build_complete_budget': 168680,  # C168680
+        'test_budget_appears_in_gl_account_dropdown': 168681,  # C168681
+        'test_budgeting_page_elements': 168682,  # C168682
+        'test_budget_group_list_display': 168683,  # C168683
         'test_tab_navigation_with_entity[text=Budgeting-BudgetingPage]': 165487,  # C165487
 
         # Logout Tests
