@@ -130,8 +130,13 @@ class BudgetingPage:
         try:
             # Generate default values if not provided
             suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
-            if not budget_id:
+            
+            # If group_name is provided but budget_id is not, use group_name as budget_id too
+            if group_name and not budget_id:
+                budget_id = group_name
+            elif not budget_id:
                 budget_id = f"QA-{suffix}"
+            
             if not group_name:
                 group_name = f"QA Budget {suffix}"
             
@@ -277,7 +282,7 @@ class BudgetingPage:
             print(f"❌ Error saving: {e}")
             return False
     
-    async def create_budget_group(self, group_name: str = None) -> dict:
+    async def create_budget_group(self, group_name: str = None, budget_id: str = None) -> dict:
         """Complete flow: Create a new budget group"""
         print("\n📝 Creating Budget Group...")
         
@@ -285,14 +290,24 @@ class BudgetingPage:
         if not await self.click_add_budget_group():
             return None
         
-        # Fill form
-        group_data = await self.fill_budget_group_form(group_name)
+        # Fill form - pass group_name as keyword argument
+        group_data = await self.fill_budget_group_form(budget_id=budget_id, group_name=group_name)
         if not group_data:
             return None
         
         # Save
         if not await self.save_budget_group():
             return None
+        
+        # Wait for modal to close
+        await asyncio.sleep(2)
+        
+        # Verify modal closed - check if overlay is gone
+        overlay = self.page.locator("[data-state='open'][class*='fixed inset-0']")
+        if await overlay.count() > 0:
+            # Try pressing Escape to close it
+            await self.page.keyboard.press("Escape")
+            await asyncio.sleep(1)
         
         print(f"✅ Budget Group created: {group_data['name']}")
         return group_data
@@ -351,26 +366,43 @@ class BudgetingPage:
     async def open_budget_builder(self, group_name: str = None) -> bool:
         """Open the Budget Builder for a group"""
         try:
+            # First, ensure no modal overlay is blocking
+            overlay = self.page.locator("[data-state='open'][class*='fixed inset-0'], [class*='bg-black/80']")
+            if await overlay.count() > 0:
+                print("⏳ Waiting for modal overlay to close...")
+                await self.page.keyboard.press("Escape")
+                await asyncio.sleep(1)
+                # Try again
+                if await overlay.count() > 0:
+                    # Click outside to close
+                    await self.page.mouse.click(0, 0)
+                    await asyncio.sleep(1)
+            
             # If group name provided, select it first
             if group_name:
                 await self.select_budget_group(group_name)
             
-            # Look for Budget Builder button or link
+            # Look for Budget Builder button or tab link
             builder_selectors = [
+                "a:has-text('Budget Builder')",  # Tab link
                 "button:has-text('Budget Builder')",
                 "button:has-text('Builder')",
                 "button:has-text('Edit Budget')",
-                "a:has-text('Budget Builder')",
                 "[data-testid='budget-builder']",
+                "[value='budget_builder']",  # Tab value attribute
             ]
             
             for selector in builder_selectors:
                 btn = self.page.locator(selector).first
                 if await btn.count() > 0 and await btn.is_visible():
-                    await btn.click()
-                    print(f"✅ Opened Budget Builder: {selector}")
-                    await asyncio.sleep(2)
-                    return True
+                    try:
+                        await btn.click(timeout=5000)
+                        print(f"✅ Opened Budget Builder: {selector}")
+                        await asyncio.sleep(2)
+                        return True
+                    except Exception as click_err:
+                        print(f"⚠️ Click failed for {selector}: {str(click_err)[:40]}")
+                        continue
             
             # Check if already in builder (by looking for builder elements)
             if await self.is_builder_loaded():
@@ -383,6 +415,7 @@ class BudgetingPage:
             
         except Exception as e:
             print(f"❌ Error opening builder: {e}")
+            await self.take_screenshot("builder_error")
             return False
     
     async def is_builder_loaded(self) -> bool:
@@ -405,92 +438,184 @@ class BudgetingPage:
         except:
             return False
     
-    async def add_budget_line(self, gl_account: str = None, amount: float = None, period: str = None) -> dict:
-        """Add a budget line in the Budget Builder"""
+    async def add_budget_line(self, amount: float = None, budget_group: str = None) -> dict:
+        """
+        Add a budget amount in the Budget Builder.
+        
+        Flow:
+        1. Find the row for the budget group
+        2. Fill Annual Budget amount
+        3. Click "Distribute evenly across months"
+        4. Then save is enabled
+        """
         try:
             # Default values
             if not amount:
-                amount = round(random.uniform(1000, 50000), 2)
+                amount = round(random.uniform(10000, 50000), 2)
             
-            print(f"\n💰 Adding budget line: {gl_account or 'Auto'} = ${amount:,.2f}")
+            print(f"\n💰 Adding budget amount: ${amount:,.2f}")
             
-            # Click Add Line button
-            add_btn = self.page.locator("button:has-text('Add'), button:has-text('New Line'), button:has-text('+')").first
-            if await add_btn.count() > 0:
-                await add_btn.click()
-                await asyncio.sleep(1)
+            await asyncio.sleep(1)
             
-            # Fill GL Account (usually a dropdown)
-            if gl_account:
-                gl_input = self.page.locator("input[placeholder*='GL' i], input[placeholder*='Account' i], select").first
-                if await gl_input.count() > 0:
-                    await gl_input.click()
+            # The Budget Builder table structure:
+            # Code | Budget Group | Annual Budget | Jan | Feb | ... | Dec | Status
+            
+            amount_filled = False
+            
+            # Find the row for our budget group if specified
+            if budget_group:
+                row = self.page.locator(f"tr:has-text('{budget_group}')").first
+                if await row.count() > 0:
+                    print(f"   Found row for: {budget_group}")
+                    # Click on the Annual Budget cell (3rd column)
+                    cells = row.locator("td")
+                    annual_cell = cells.nth(2)  # Annual Budget column
+                    await annual_cell.click()
                     await asyncio.sleep(0.5)
-                    # Select from dropdown
-                    option = self.page.locator(f"text={gl_account}").first
-                    if await option.count() > 0:
-                        await option.click()
-                        print(f"✅ Selected GL Account: {gl_account}")
+                    
+                    # Find the input that appeared
+                    input_el = row.locator("input").first
+                    if await input_el.count() > 0:
+                        await input_el.fill(str(int(amount)))
+                        await self.page.keyboard.press("Enter")
+                        print(f"✅ Filled Annual Budget: ${amount:,.2f}")
+                        amount_filled = True
             
-            # Fill Amount
-            amount_input = self.page.locator("input[type='number'], input[placeholder*='amount' i], input[placeholder*='Amount' i]").first
-            if await amount_input.count() > 0:
-                await amount_input.fill(str(amount))
-                print(f"✅ Filled amount: ${amount:,.2f}")
+            # If no specific group, fill the first available input
+            if not amount_filled:
+                # Try clicking on any Annual Budget cell (3rd column in table)
+                annual_header = self.page.locator("th:has-text('Annual'), th:has-text('Budget')").first
+                if await annual_header.count() > 0:
+                    # Find cells in Annual Budget column
+                    table_rows = self.page.locator("table tbody tr")
+                    row_count = await table_rows.count()
+                    
+                    if row_count > 0:
+                        # Click on first row's Annual Budget cell
+                        first_row = table_rows.first
+                        cells = first_row.locator("td")
+                        if await cells.count() >= 3:
+                            await cells.nth(2).click()  # Annual Budget column
+                            await asyncio.sleep(0.5)
+                            
+                            input_el = self.page.locator("input:visible").first
+                            if await input_el.count() > 0:
+                                await input_el.fill(str(int(amount)))
+                                await self.page.keyboard.press("Enter")
+                                print(f"✅ Filled Annual Budget: ${amount:,.2f}")
+                                amount_filled = True
             
-            # Fill Period if applicable
-            if period:
-                period_input = self.page.locator("input[placeholder*='period' i], select[name*='period' i]").first
-                if await period_input.count() > 0:
-                    await period_input.fill(period)
+            if not amount_filled:
+                print("⚠️ Could not fill Annual Budget")
+                await self.take_screenshot("annual_budget_not_filled")
+            
+            # Step 2: Click "Distribute evenly across months"
+            # First scroll to top to ensure buttons are visible
+            await self.page.evaluate("window.scrollTo(0, 0)")
+            await asyncio.sleep(1)
+            
+            distribute_selectors = [
+                "button:has-text('Distribute evenly')",
+                "button:has-text('Distribute')",
+                "text=Distribute evenly across months",
+                "text=Distribute evenly",
+                "button:has-text('Even')",  # Shortened version
+            ]
+            
+            distribute_clicked = False
+            for selector in distribute_selectors:
+                try:
+                    distribute_btn = self.page.locator(selector).first
+                    if await distribute_btn.count() > 0 and await distribute_btn.is_visible():
+                        await distribute_btn.click()
+                        print(f"✅ Clicked 'Distribute evenly': {selector}")
+                        distribute_clicked = True
+                        await asyncio.sleep(1)
+                        break
+                except Exception as e:
+                    continue
+            
+            if not distribute_clicked:
+                print("⚠️ 'Distribute evenly' button not found - checking if save is enabled anyway")
+                await self.take_screenshot("no_distribute_button")
+            
+            await self.take_screenshot("budget_distributed")
             
             return {
-                'gl_account': gl_account,
+                'budget_group': budget_group,
                 'amount': amount,
-                'period': period
+                'distributed': True
             }
             
         except Exception as e:
-            print(f"❌ Error adding budget line: {e}")
-            await self.take_screenshot("budget_line_error")
+            print(f"❌ Error adding budget: {e}")
+            await self.take_screenshot("budget_error")
             return None
     
     async def save_budget(self) -> bool:
         """Save the budget in Budget Builder"""
         try:
-            save_btn = self.page.locator("button:has-text('Save'), button:has-text('Apply'), button[type='submit']").first
-            if await save_btn.count() > 0:
-                await save_btn.click()
-                print("✅ Budget saved")
-                await asyncio.sleep(2)
-                return True
+            # Budget Builder has "Save Budget" button at the top
+            save_selectors = [
+                "button:has-text('Save Budget')",  # Main save button
+                "button:has-text('Save')",
+                "button:has-text('Apply')",
+                "button[type='submit']",
+            ]
             
-            print("❌ Save button not found")
+            for selector in save_selectors:
+                save_btns = self.page.locator(selector)
+                btn_count = await save_btns.count()
+                
+                for i in range(btn_count):
+                    save_btn = save_btns.nth(i)
+                    if await save_btn.is_visible():
+                        # Check if button is enabled
+                        is_disabled = await save_btn.is_disabled()
+                        if is_disabled:
+                            print(f"⚠️ Save button {i} is disabled ({selector})")
+                            continue
+                        
+                        await save_btn.click(timeout=5000)
+                        print(f"✅ Budget saved via: {selector}")
+                        await asyncio.sleep(2)
+                        return True
+            
+            print("❌ No enabled Save button found")
+            await self.take_screenshot("save_button_issue")
             return False
             
         except Exception as e:
             print(f"❌ Error saving budget: {e}")
+            await self.take_screenshot("save_error")
             return False
     
     async def build_budget_for_group(self, group_name: str, budget_lines: list = None) -> bool:
-        """Complete flow: Build budget for a group"""
+        """
+        Complete flow: Build budget for a group
+        
+        Steps:
+        1. Open Budget Builder
+        2. Find the group row and fill Annual Budget
+        3. Click "Distribute evenly across months"
+        4. Save
+        """
         print(f"\n🔨 Building budget for: {group_name}")
         
         # Open builder
         if not await self.open_budget_builder(group_name):
             return False
         
-        # Add budget lines
+        await asyncio.sleep(2)  # Wait for table to load
+        
+        # Add budget amount for the group
         if budget_lines:
-            for line in budget_lines:
-                await self.add_budget_line(
-                    gl_account=line.get('gl_account'),
-                    amount=line.get('amount'),
-                    period=line.get('period')
-                )
+            # Sum all amounts for total annual budget
+            total_amount = sum(line.get('amount', 0) for line in budget_lines)
+            await self.add_budget_line(amount=total_amount, budget_group=group_name)
         else:
-            # Add a default line
-            await self.add_budget_line(amount=10000)
+            # Add a default amount
+            await self.add_budget_line(amount=120000, budget_group=group_name)  # $10K/month
         
         # Save
         return await self.save_budget()
