@@ -1,0 +1,183 @@
+
+🔗 TestRail integration enabled
+Created TestRail run: 790
+============================= test session starts ==============================
+platform darwin -- Python 3.12.3, pytest-8.4.1, pluggy-1.6.0 -- /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.12.3', 'Platform': 'macOS-15.6-arm64-arm-64bit', 'Packages': {'pytest': '8.4.1', 'pluggy': '1.6.0'}, 'Plugins': {'anyio': '4.9.0', 'html': '4.1.1', 'xdist': '3.8.0', 'json-report': '1.5.0', 'metadata': '3.1.1', 'typeguard': '4.4.4', 'asyncio': '1.0.0'}, 'CI': 'true'}
+rootdir: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework
+configfile: pytest.ini
+plugins: anyio-4.9.0, html-4.1.1, xdist-3.8.0, json-report-1.5.0, metadata-3.1.1, typeguard-4.4.4, asyncio-1.0.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 247 items
+
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_journal_entries_valid_date_format_request 
+🔍 Processing test: test_get_journal_entries_valid_date_format_request
+✅ TestRail case 7936 updated successfully
+📊 Updated TestRail case 7936: 1 
+PASSED [  0%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_journal_entries_invalid_date_format_request 
+🔍 Processing test: test_get_journal_entries_invalid_date_format_request
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7937
+❌ Failed to update TestRail case 7937: 1 
+PASSED [  0%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_create_journal_entry_valid_date_format 
+🔍 Processing test: test_create_journal_entry_valid_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7938
+❌ Failed to update TestRail case 7938: 1 
+PASSED [  1%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_create_journal_entry_invalid_date_format 
+🔍 Processing test: test_create_journal_entry_invalid_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7939
+❌ Failed to update TestRail case 7939: 1 
+PASSED [  1%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_bank_uploaded_files_date_format 
+🔍 Processing test: test_get_bank_uploaded_files_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7940
+❌ Failed to update TestRail case 7940: 1 
+PASSED [  2%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_bank_transactions_data_date_format 
+🔍 Processing test: test_get_bank_transactions_data_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7941
+❌ Failed to update TestRail case 7941: 1 
+PASSED [  2%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_entity_documents_date_format 
+🔍 Processing test: test_get_entity_documents_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7942
+❌ Failed to update TestRail case 7942: 1 
+PASSED [  2%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_accounting_uploaded_files_date_format 
+🔍 Processing test: test_get_accounting_uploaded_files_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7943
+❌ Failed to update TestRail case 7943: 1 
+PASSED [  3%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_all_endpoints_reject_invalid_date_formats 
+🔍 Processing test: test_all_endpoints_reject_invalid_date_formats
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7944
+❌ Failed to update TestRail case 7944: 1 
+PASSED [  3%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_date_format_consistency_across_endpoints 
+🔍 Processing test: test_date_format_consistency_across_endpoints
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7945
+❌ Failed to update TestRail case 7945: 1 
+PASSED [  4%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_date_format_validation_demo 
+🔍 Processing test: test_date_format_validation_demo
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7946
+❌ Failed to update TestRail case 7946: 1 
+PASSED [  4%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_journal_entries_rejects_unauthenticated_request 
+🔍 Processing test: test_journal_entries_rejects_unauthenticated_request
+✅ TestRail case 139362 updated successfully
+📊 Updated TestRail case 139362: 1 
+PASSED [  4%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_bank_files_rejects_unauthenticated_request 
+🔍 Processing test: test_bank_files_rejects_unauthenticated_request
+✅ TestRail case 139363 updated successfully
+📊 Updated TestRail case 139363: 1 
+PASSED [  5%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_bank_transactions_rejects_unauthenticated_request 
+🔍 Processing test: test_bank_transactions_rejects_unauthenticated_request
+✅ TestRail case 139364 updated successfully
+📊 Updated TestRail case 139364: 1 
+PASSED [  5%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_entity_documents_rejects_unauthenticated_request 
+🔍 Processing test: test_entity_documents_rejects_unauthenticated_request
+✅ TestRail case 139365 updated successfully
+📊 Updated TestRail case 139365: 1 
+PASSED [  6%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_accounting_files_rejects_unauthenticated_request 
+🔍 Processing test: test_accounting_files_rejects_unauthenticated_request
+✅ TestRail case 139366 updated successfully
+📊 Updated TestRail case 139366: 1 
+PASSED [  6%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_user_info_rejects_unauthenticated_request 
+🔍 Processing test: test_user_info_rejects_unauthenticated_request
+✅ TestRail case 139367 updated successfully
+📊 Updated TestRail case 139367: 1 
+PASSED [  6%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_journal_entries_rejects_invalid_token 
+🔍 Processing test: test_journal_entries_rejects_invalid_token
+✅ TestRail case 139368 updated successfully
+📊 Updated TestRail case 139368: 1 
+PASSED [  7%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_create_journal_entry_rejects_invalid_token 
+🔍 Processing test: test_create_journal_entry_rejects_invalid_token
+✅ TestRail case 139369 updated successfully
+📊 Updated TestRail case 139369: 1 
+PASSED [  7%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_login_does_not_return_token_without_otp 
+🔍 Processing test: test_login_does_not_return_token_without_otp
+✅ TestRail case 139370 updated successfully
+📊 Updated TestRail case 139370: 1 
+PASSED [  8%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_otp_validation_rejects_invalid_codes 
+🔍 Processing test: test_otp_validation_rejects_invalid_codes
+✅ TestRail case 139371 updated successfully
+📊 Updated TestRail case 139371: 1 
+PASSED [  8%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_otp_validation_rejects_expired_codes 
+🔍 Processing test: test_otp_validation_rejects_expired_codes
+✅ TestRail case 139372 updated successfully
+📊 Updated TestRail case 139372: 1 
+PASSED [  8%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_all_sensitive_endpoints_require_auth 
+🔍 Processing test: test_all_sensitive_endpoints_require_auth
+✅ TestRail case 139373 updated successfully
+📊 Updated TestRail case 139373: 1 
+PASSED [  9%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_endpoints_reject_manipulated_tokens 
+🔍 Processing test: test_endpoints_reject_manipulated_tokens
+✅ TestRail case 139374 updated successfully
+📊 Updated TestRail case 139374: 1 
+PASSED [  9%]
+tests/api/test_security_otp_validation.py::TestSecurityReportGeneration::test_generate_security_summary 
+🔍 Processing test: test_generate_security_summary
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 139375
+❌ Failed to update TestRail case 139375: 1 
+PASSED [ 10%]
+tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_complete_workflow 

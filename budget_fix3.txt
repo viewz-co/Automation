@@ -1,0 +1,136 @@
+
+🔗 TestRail integration enabled
+Created TestRail run: 828
+============================= test session starts ==============================
+platform darwin -- Python 3.12.3, pytest-8.4.1, pluggy-1.6.0 -- /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.12.3', 'Platform': 'macOS-15.6-arm64-arm-64bit', 'Packages': {'pytest': '8.4.1', 'pluggy': '1.6.0'}, 'Plugins': {'anyio': '4.9.0', 'html': '4.1.1', 'xdist': '3.8.0', 'json-report': '1.5.0', 'metadata': '3.1.1', 'typeguard': '4.4.4', 'asyncio': '1.0.0'}, 'CI': 'true'}
+rootdir: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework
+configfile: pytest.ini
+plugins: anyio-4.9.0, html-4.1.1, xdist-3.8.0, json-report-1.5.0, metadata-3.1.1, typeguard-4.4.4, asyncio-1.0.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 2 items
+
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_budget_builder_add_line 
+🔍 Processing test: test_budget_builder_add_line
+📸 Attempting to capture screenshot for failed test: test_budget_builder_add_line
+✅ Screenshot captured: failure_test_budget_builder_add_line_2026-01-05_10-21-49.png
+✅ TestRail case 168679 updated successfully
+📊 Updated TestRail case 168679: 5 with screenshot
+FAILED [ 50%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_build_complete_budget 
+🔍 Processing test: test_build_complete_budget
+📸 Attempting to capture screenshot for failed test: test_build_complete_budget
+✅ Screenshot captured: failure_test_build_complete_budget_2026-01-05_10-22-35.png
+✅ TestRail case 168680 updated successfully
+📊 Updated TestRail case 168680: 5 with screenshot
+FAILED [100%]Test run 828 closed successfully
+🏁 TestRail test run completed
+
+
+=================================== FAILURES ===================================
+_____________ TestBudgetingOperations.test_budget_builder_add_line _____________
+tests/e2e/budgeting/test_budgeting_operations.py:210: in test_budget_builder_add_line
+    assert line_data is not None, "Budget should be added"
+E   AssertionError: Budget should be added
+E   assert None is not None
+---------------------------- Captured stdout setup -----------------------------
+🔄 Loaded STAGE environment config from configs/stage_env_config.json
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 365093
+🔍 Waiting for 2FA page...
+✅ Found 2FA page: Two-Factor Authentication
+📝 Entering OTP: 365093
+✅ OTP filled via get_by_role('textbox')
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/home?entityId=1
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+✅ Entity 'Viewz Demo INC' already selected
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/home?entityId=1
+✅ Login verified successful - on page: https://app.stage.viewz.co/home?entityId=1
+📍 Using sidebar menu to navigate to Budgeting...
+📍 Navigated to Budgeting via sidebar: https://app.stage.viewz.co/budgeting/chart-of-budget?entityId=1
+----------------------------- Captured stdout call -----------------------------
+
+============================================================
+🧪 TEST: Budget Builder - Add Line
+============================================================
+
+📝 Creating Budget Group...
+✅ Clicked: button:has-text('Add Budget Group')
+✅ Budget ID: QA-MONQ
+✅ Name: QA Budget MONQ
+✅ Report Type: Balance Sheet
+✅ Account Type: selected option 0
+✅ Group: selected option 0
+✅ Clicked: button:has-text('Create Group')
+✅ Budget Group created: QA Budget MONQ
+✅ Selected budget group: QA Budget MONQ
+✅ Opened Budget Builder: a:has-text('Budget Builder')
+
+💰 Adding budget amount: $120,000.00
+   Found row for: QA Budget MONQ
+✅ Filled Annual Budget: $120,000.00
+❌ Error adding budget: Locator.count: Unexpected token "=" while parsing css selector "button:has-text('Distribute'), text=Distribute evenly". Did you mean to CSS.escape it?
+📸 Screenshot: debug_budgeting_budget_error_102149.png
+📸 Screenshot: debug_budgeting_budget_line_added_102149.png
+______________ TestBudgetingOperations.test_build_complete_budget ______________
+tests/e2e/budgeting/test_budgeting_operations.py:270: in test_build_complete_budget
+    assert success, "Complete budget should be built"
+E   AssertionError: Complete budget should be built
+E   assert False
+---------------------------- Captured stdout setup -----------------------------
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 722225
+🔍 Waiting for 2FA page...
+✅ Found 2FA page: Two-Factor Authentication
+📝 Entering OTP: 722225
+✅ OTP filled via get_by_role('textbox')
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/home?entityId=1
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+✅ Entity 'Viewz Demo INC' already selected
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/home?entityId=1
+✅ Login verified successful - on page: https://app.stage.viewz.co/home?entityId=1
+📍 Using sidebar menu to navigate to Budgeting...
+📍 Navigated to Budgeting via sidebar: https://app.stage.viewz.co/budgeting/chart-of-budget?entityId=1
+----------------------------- Captured stdout call -----------------------------
+
+============================================================
+🧪 TEST: Build Complete Budget
+============================================================
+
+📝 Creating Budget Group...
+✅ Clicked: button:has-text('Add Budget Group')
+✅ Budget ID: Complete Budget Test
+✅ Name: Complete Budget Test
+✅ Report Type: Balance Sheet
+✅ Account Type: selected option 0
+✅ Group: selected option 0
+✅ Clicked: button:has-text('Create Group')
+✅ Budget Group created: Complete Budget Test
+
+🔨 Building budget for: Complete Budget Test
+✅ Selected budget group: Complete Budget Test
+✅ Opened Budget Builder: a:has-text('Budget Builder')
+
+💰 Adding budget amount: $265,000.00
+   Found row for: Complete Budget Test
+✅ Filled Annual Budget: $265,000.00
+❌ Error adding budget: Locator.count: Unexpected token "=" while parsing css selector "button:has-text('Distribute'), text=Distribute evenly". Did you mean to CSS.escape it?
+📸 Screenshot: debug_budgeting_budget_error_102235.png
+⚠️ Save button 0 is disabled (button:has-text('Save Budget'))
+⚠️ Save button 0 is disabled (button:has-text('Save'))
+❌ No enabled Save button found
+📸 Screenshot: debug_budgeting_save_button_issue_102235.png
+📸 Screenshot: debug_budgeting_complete_budget_102235.png
+=========================== short test summary info ============================
+FAILED tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_budget_builder_add_line - AssertionError: Budget should be added
+assert None is not None
+FAILED tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_build_complete_budget - AssertionError: Complete budget should be built
+assert False
+========================= 2 failed in 94.45s (0:01:34) =========================

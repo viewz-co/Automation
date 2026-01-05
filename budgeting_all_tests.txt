@@ -1,0 +1,57 @@
+
+🔗 TestRail integration enabled
+Created TestRail run: 832
+============================= test session starts ==============================
+platform darwin -- Python 3.12.3, pytest-8.4.1, pluggy-1.6.0 -- /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.12.3', 'Platform': 'macOS-15.6-arm64-arm-64bit', 'Packages': {'pytest': '8.4.1', 'pluggy': '1.6.0'}, 'Plugins': {'anyio': '4.9.0', 'html': '4.1.1', 'xdist': '3.8.0', 'json-report': '1.5.0', 'metadata': '3.1.1', 'typeguard': '4.4.4', 'asyncio': '1.0.0'}, 'CI': 'true'}
+rootdir: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework
+configfile: pytest.ini
+plugins: anyio-4.9.0, html-4.1.1, xdist-3.8.0, json-report-1.5.0, metadata-3.1.1, typeguard-4.4.4, asyncio-1.0.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 8 items
+
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_add_budget_group 
+🔍 Processing test: test_add_budget_group
+✅ TestRail case 168676 updated successfully
+📊 Updated TestRail case 168676: 1 
+PASSED [ 12%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_add_budget_group_with_custom_name 
+🔍 Processing test: test_add_budget_group_with_custom_name
+✅ TestRail case 168677 updated successfully
+📊 Updated TestRail case 168677: 1 
+PASSED [ 25%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_open_budget_builder 
+🔍 Processing test: test_open_budget_builder
+✅ TestRail case 168678 updated successfully
+📊 Updated TestRail case 168678: 1 
+PASSED [ 37%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_budget_builder_add_line 
+🔍 Processing test: test_budget_builder_add_line
+✅ TestRail case 168679 updated successfully
+📊 Updated TestRail case 168679: 1 
+PASSED [ 50%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_build_complete_budget 
+🔍 Processing test: test_build_complete_budget
+✅ TestRail case 168680 updated successfully
+📊 Updated TestRail case 168680: 1 
+PASSED [ 62%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetToGLAccountIntegration::test_budget_appears_in_gl_account_dropdown 
+🔍 Processing test: test_budget_appears_in_gl_account_dropdown
+✅ TestRail case 168681 updated successfully
+📊 Updated TestRail case 168681: 1 
+PASSED [ 75%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingValidation::test_budgeting_page_elements 
+🔍 Processing test: test_budgeting_page_elements
+✅ TestRail case 168682 updated successfully
+📊 Updated TestRail case 168682: 1 
+PASSED [ 87%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingValidation::test_budget_group_list_display 
+🔍 Processing test: test_budget_group_list_display
+✅ TestRail case 168683 updated successfully
+📊 Updated TestRail case 168683: 1 
+PASSED [100%]Test run 832 closed successfully
+🏁 TestRail test run completed
+
+
+======================== 8 passed in 371.94s (0:06:11) =========================

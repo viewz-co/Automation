@@ -1,0 +1,14 @@
+
+🔗 TestRail integration enabled
+Created TestRail run: 827
+============================= test session starts ==============================
+platform darwin -- Python 3.12.3, pytest-8.4.1, pluggy-1.6.0 -- /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.12.3', 'Platform': 'macOS-15.6-arm64-arm-64bit', 'Packages': {'pytest': '8.4.1', 'pluggy': '1.6.0'}, 'Plugins': {'anyio': '4.9.0', 'html': '4.1.1', 'xdist': '3.8.0', 'json-report': '1.5.0', 'metadata': '3.1.1', 'typeguard': '4.4.4', 'asyncio': '1.0.0'}, 'CI': 'true'}
+rootdir: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework
+configfile: pytest.ini
+plugins: anyio-4.9.0, html-4.1.1, xdist-3.8.0, json-report-1.5.0, metadata-3.1.1, typeguard-4.4.4, asyncio-1.0.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 1 item
+
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_budget_builder_add_line 

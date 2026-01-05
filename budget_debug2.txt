@@ -1,0 +1,82 @@
+
+🔗 TestRail integration enabled
+Created TestRail run: 840
+============================= test session starts ==============================
+platform darwin -- Python 3.12.3, pytest-8.4.1, pluggy-1.6.0 -- /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.12.3', 'Platform': 'macOS-15.6-arm64-arm-64bit', 'Packages': {'pytest': '8.4.1', 'pluggy': '1.6.0'}, 'Plugins': {'anyio': '4.9.0', 'html': '4.1.1', 'xdist': '3.8.0', 'json-report': '1.5.0', 'metadata': '3.1.1', 'typeguard': '4.4.4', 'asyncio': '1.0.0'}, 'CI': 'true'}
+rootdir: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework
+configfile: pytest.ini
+plugins: anyio-4.9.0, html-4.1.1, xdist-3.8.0, json-report-1.5.0, metadata-3.1.1, typeguard-4.4.4, asyncio-1.0.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 1 item
+
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_budget_builder_add_line 🔄 Loaded STAGE environment config from configs/stage_env_config.json
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 627431
+🔍 Waiting for 2FA page...
+✅ Found 2FA page: Two-Factor Authentication
+📝 Entering OTP: 627431
+✅ OTP filled via get_by_role('textbox')
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/home?entityId=1
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+✅ Entity 'Viewz Demo INC' already selected
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/home?entityId=1
+✅ Login verified successful - on page: https://app.stage.viewz.co/home?entityId=1
+📍 Using sidebar menu to navigate to Budgeting...
+📍 Navigated to Budgeting via sidebar: https://app.stage.viewz.co/budgeting/chart-of-budget?entityId=1
+
+============================================================
+🧪 TEST: Budget Builder - Add Line
+============================================================
+
+📝 Creating Budget Group...
+✅ Clicked: button:has-text('Add Budget Group')
+✅ Budget ID: QA-KT4B
+✅ Name: QA Budget KT4B
+✅ Report Type: Balance Sheet
+✅ Account Type: selected option 0
+✅ Group: selected option 0
+✅ Clicked: button:has-text('Create Group')
+✅ Budget Group created: QA Budget KT4B
+✅ Selected budget group: QA Budget KT4B
+✅ Opened Budget Builder: a:has-text('Budget Builder')
+
+💰 Adding budget amount: $120,000.00
+   Found row for: QA Budget KT4B
+   Row has 17 cells
+   Clicking on Annual Budget cell...
+📸 Screenshot: debug_budgeting_after_cell_click_113919.png
+   Entered amount: 120000
+✅ Filled Annual Budget: $120,000.00
+📸 Screenshot: debug_budgeting_after_amount_entered_113922.png
+
+📍 Looking for 'Distribute evenly' icon in first column...
+   Row has 17 cells
+   First cell HTML: <button class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-e...
+   Found element with selector: button
+✅ Clicked element: button
+📸 Screenshot: debug_budgeting_after_distribute_click_113924.png
+📸 Screenshot: debug_budgeting_budget_distributed_113924.png
+📸 Screenshot: debug_budgeting_budget_line_added_113924.png
+✅ Added annual budget: $120,000.00
+⚠️ Save button 0 is disabled (button:has-text('Save Budget'))
+⚠️ Save button 0 is disabled (button:has-text('Save'))
+❌ No enabled Save button found
+📸 Screenshot: debug_budgeting_save_button_issue_113924.png
+⚠️ Save may have failed - checking if changes were applied
+📍 Using sidebar menu to navigate to Budgeting...
+📍 Navigated to Budgeting via sidebar: https://app.stage.viewz.co/budgeting/chart-of-budget?entityId=1
+❌ Delete button not found for: QA Budget KT4B
+
+🔍 Processing test: test_budget_builder_add_line
+✅ TestRail case 168679 updated successfully
+📊 Updated TestRail case 168679: 1 
+PASSEDTest run 840 closed successfully
+🏁 TestRail test run completed
+
+
+========================= 1 passed in 67.28s (0:01:07) =========================

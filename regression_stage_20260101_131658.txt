@@ -1,0 +1,1839 @@
+
+🔗 TestRail integration enabled
+Created TestRail run: 799
+============================= test session starts ==============================
+platform darwin -- Python 3.12.3, pytest-8.4.1, pluggy-1.6.0 -- /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.12.3', 'Platform': 'macOS-15.6-arm64-arm-64bit', 'Packages': {'pytest': '8.4.1', 'pluggy': '1.6.0'}, 'Plugins': {'anyio': '4.9.0', 'html': '4.1.1', 'xdist': '3.8.0', 'json-report': '1.5.0', 'metadata': '3.1.1', 'typeguard': '4.4.4', 'asyncio': '1.0.0'}, 'CI': 'true'}
+rootdir: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework
+configfile: pytest.ini
+plugins: anyio-4.9.0, html-4.1.1, xdist-3.8.0, json-report-1.5.0, metadata-3.1.1, typeguard-4.4.4, asyncio-1.0.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 247 items
+
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_journal_entries_valid_date_format_request 
+🔍 Processing test: test_get_journal_entries_valid_date_format_request
+✅ TestRail case 7936 updated successfully
+📊 Updated TestRail case 7936: 1 
+PASSED [  0%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_journal_entries_invalid_date_format_request 
+🔍 Processing test: test_get_journal_entries_invalid_date_format_request
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7937
+❌ Failed to update TestRail case 7937: 1 
+PASSED [  0%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_create_journal_entry_valid_date_format 
+🔍 Processing test: test_create_journal_entry_valid_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7938
+❌ Failed to update TestRail case 7938: 1 
+PASSED [  1%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_create_journal_entry_invalid_date_format 
+🔍 Processing test: test_create_journal_entry_invalid_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7939
+❌ Failed to update TestRail case 7939: 1 
+PASSED [  1%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_bank_uploaded_files_date_format 
+🔍 Processing test: test_get_bank_uploaded_files_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7940
+❌ Failed to update TestRail case 7940: 1 
+PASSED [  2%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_bank_transactions_data_date_format 
+🔍 Processing test: test_get_bank_transactions_data_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7941
+❌ Failed to update TestRail case 7941: 1 
+PASSED [  2%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_entity_documents_date_format 
+🔍 Processing test: test_get_entity_documents_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7942
+❌ Failed to update TestRail case 7942: 1 
+PASSED [  2%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_get_accounting_uploaded_files_date_format 
+🔍 Processing test: test_get_accounting_uploaded_files_date_format
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7943
+❌ Failed to update TestRail case 7943: 1 
+PASSED [  3%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_all_endpoints_reject_invalid_date_formats 
+🔍 Processing test: test_all_endpoints_reject_invalid_date_formats
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7944
+❌ Failed to update TestRail case 7944: 1 
+PASSED [  3%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_date_format_consistency_across_endpoints 
+🔍 Processing test: test_date_format_consistency_across_endpoints
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7945
+❌ Failed to update TestRail case 7945: 1 
+PASSED [  4%]
+tests/api/test_date_format_validation.py::TestAPIDateFormatValidation::test_date_format_validation_demo 
+🔍 Processing test: test_date_format_validation_demo
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7946
+❌ Failed to update TestRail case 7946: 1 
+PASSED [  4%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_journal_entries_rejects_unauthenticated_request 
+🔍 Processing test: test_journal_entries_rejects_unauthenticated_request
+✅ TestRail case 139362 updated successfully
+📊 Updated TestRail case 139362: 1 
+PASSED [  4%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_bank_files_rejects_unauthenticated_request 
+🔍 Processing test: test_bank_files_rejects_unauthenticated_request
+✅ TestRail case 139363 updated successfully
+📊 Updated TestRail case 139363: 1 
+PASSED [  5%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_bank_transactions_rejects_unauthenticated_request 
+🔍 Processing test: test_bank_transactions_rejects_unauthenticated_request
+✅ TestRail case 139364 updated successfully
+📊 Updated TestRail case 139364: 1 
+PASSED [  5%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_entity_documents_rejects_unauthenticated_request 
+🔍 Processing test: test_entity_documents_rejects_unauthenticated_request
+✅ TestRail case 139365 updated successfully
+📊 Updated TestRail case 139365: 1 
+PASSED [  6%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_accounting_files_rejects_unauthenticated_request 
+🔍 Processing test: test_accounting_files_rejects_unauthenticated_request
+✅ TestRail case 139366 updated successfully
+📊 Updated TestRail case 139366: 1 
+PASSED [  6%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_user_info_rejects_unauthenticated_request 
+🔍 Processing test: test_user_info_rejects_unauthenticated_request
+✅ TestRail case 139367 updated successfully
+📊 Updated TestRail case 139367: 1 
+PASSED [  6%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_journal_entries_rejects_invalid_token 
+🔍 Processing test: test_journal_entries_rejects_invalid_token
+✅ TestRail case 139368 updated successfully
+📊 Updated TestRail case 139368: 1 
+PASSED [  7%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_create_journal_entry_rejects_invalid_token 
+🔍 Processing test: test_create_journal_entry_rejects_invalid_token
+✅ TestRail case 139369 updated successfully
+📊 Updated TestRail case 139369: 1 
+PASSED [  7%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_login_does_not_return_token_without_otp 
+🔍 Processing test: test_login_does_not_return_token_without_otp
+✅ TestRail case 139370 updated successfully
+📊 Updated TestRail case 139370: 1 
+PASSED [  8%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_otp_validation_rejects_invalid_codes 
+🔍 Processing test: test_otp_validation_rejects_invalid_codes
+✅ TestRail case 139371 updated successfully
+📊 Updated TestRail case 139371: 1 
+PASSED [  8%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_otp_validation_rejects_expired_codes 
+🔍 Processing test: test_otp_validation_rejects_expired_codes
+✅ TestRail case 139372 updated successfully
+📊 Updated TestRail case 139372: 1 
+PASSED [  8%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_all_sensitive_endpoints_require_auth 
+🔍 Processing test: test_all_sensitive_endpoints_require_auth
+✅ TestRail case 139373 updated successfully
+📊 Updated TestRail case 139373: 1 
+PASSED [  9%]
+tests/api/test_security_otp_validation.py::TestAPISecurityOTPValidation::test_endpoints_reject_manipulated_tokens 
+🔍 Processing test: test_endpoints_reject_manipulated_tokens
+✅ TestRail case 139374 updated successfully
+📊 Updated TestRail case 139374: 1 
+PASSED [  9%]
+tests/api/test_security_otp_validation.py::TestSecurityReportGeneration::test_generate_security_summary 
+🔍 Processing test: test_generate_security_summary
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 139375
+❌ Failed to update TestRail case 139375: 1 
+PASSED [ 10%]
+tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_complete_workflow 
+🔍 Processing test: test_bo_complete_workflow
+✅ TestRail case 30964 updated successfully
+📊 Updated TestRail case 30964: 1 
+PASSED [ 10%]
+tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_login_only 
+🔍 Processing test: test_bo_login_only
+✅ TestRail case 30965 updated successfully
+📊 Updated TestRail case 30965: 1 
+PASSED [ 10%]
+tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_accounts_navigation_only 
+🔍 Processing test: test_bo_accounts_navigation_only
+✅ TestRail case 30966 updated successfully
+📊 Updated TestRail case 30966: 1 
+PASSED [ 11%]
+tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_account_relogin 
+🔍 Processing test: test_bo_account_relogin
+✅ TestRail case 30967 updated successfully
+📊 Updated TestRail case 30967: 1 
+PASSED [ 11%]
+tests/e2e/bo/test_bo_complete_flow.py::TestBOCompleteFlow::test_bo_relogin_sanity_comprehensive 
+🔍 Processing test: test_bo_relogin_sanity_comprehensive
+✅ TestRail case 30968 updated successfully
+📊 Updated TestRail case 30968: 1 
+PASSED [ 12%]
+tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_visual_snapshots 
+🔍 Processing test: test_bo_visual_snapshots
+✅ TestRail case 30969 updated successfully
+📊 Updated TestRail case 30969: 1 
+PASSED [ 12%]
+tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_dom_snapshots 
+🔍 Processing test: test_bo_dom_snapshots
+✅ TestRail case 30970 updated successfully
+📊 Updated TestRail case 30970: 1 
+PASSED [ 12%]
+tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_workflow_snapshots 
+🔍 Processing test: test_bo_workflow_snapshots
+✅ TestRail case 30971 updated successfully
+📊 Updated TestRail case 30971: 1 
+PASSED [ 13%]
+tests/e2e/bo/test_bo_snapshots.py::TestBOSnapshots::test_bo_component_snapshots 
+🔍 Processing test: test_bo_component_snapshots
+✅ TestRail case 30972 updated successfully
+📊 Updated TestRail case 30972: 1 
+PASSED [ 13%]
+tests/e2e/compatibility/test_browser_compatibility.py::TestBrowserCompatibility::test_responsive_design_elements 
+🔍 Processing test: test_responsive_design_elements
+✅ TestRail case 8063 updated successfully
+📊 Updated TestRail case 8063: 1 
+PASSED [ 14%]
+tests/e2e/compatibility/test_browser_compatibility.py::TestBrowserCompatibility::test_print_stylesheet_compatibility 
+🔍 Processing test: test_print_stylesheet_compatibility
+📸 Attempting to capture screenshot for failed test: test_print_stylesheet_compatibility
+✅ Screenshot captured: failure_test_print_stylesheet_compatibility_2026-01-01_13-29-00.png
+✅ TestRail case 8065 updated successfully
+📊 Updated TestRail case 8065: 5 with screenshot
+FAILED [ 14%]
+tests/e2e/easysend/test_bo_relogin_only.py::TestBOReloginOnly::test_bo_relogin_flow 
+🔍 Processing test: test_bo_relogin_flow
+ℹ️ Test 'test_bo_relogin_flow' not mapped to TestRail or TestRail disabled
+PASSED [ 14%]
+tests/e2e/easysend/test_easysend_email_to_payables.py::TestEasySendEmailToPayables::test_easysend_complete_flow 
+🔍 Processing test: test_easysend_complete_flow
+ℹ️ Test 'test_easysend_complete_flow' not mapped to TestRail or TestRail disabled
+PASSED [ 15%]
+tests/e2e/easysend/test_easysend_email_to_payables.py::TestEasySendEmailToPayables::test_bo_relogin_to_payables_only 
+🔍 Processing test: test_bo_relogin_to_payables_only
+ℹ️ Test 'test_bo_relogin_to_payables_only' not mapped to TestRail or TestRail disabled
+PASSED [ 15%]
+tests/e2e/easysend/test_outlook_send_email.py::TestOutlookSendEmail::test_send_email_to_easysend 
+🔍 Processing test: test_send_email_to_easysend
+ℹ️ Test 'test_send_email_to_easysend' not mapped to TestRail or TestRail disabled
+PASSED [ 16%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_invoicing_page_loads 
+🔍 Processing test: test_invoicing_page_loads
+✅ TestRail case 77366 updated successfully
+📊 Updated TestRail case 77366: 1 
+PASSED [ 16%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_invoicing_navigation_elements 
+🔍 Processing test: test_invoicing_navigation_elements
+✅ TestRail case 77367 updated successfully
+📊 Updated TestRail case 77367: 1 
+PASSED [ 17%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_customer_form_visibility 
+🔍 Processing test: test_customer_form_visibility
+✅ TestRail case 77368 updated successfully
+📊 Updated TestRail case 77368: 1 
+PASSED [ 17%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_create_customer 
+🔍 Processing test: test_create_customer
+✅ TestRail case 77369 updated successfully
+📊 Updated TestRail case 77369: 1 
+PASSED [ 17%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_customer_validation 
+🔍 Processing test: test_customer_validation
+✅ TestRail case 77370 updated successfully
+📊 Updated TestRail case 77370: 1 
+PASSED [ 18%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_product_form_visibility 
+🔍 Processing test: test_product_form_visibility
+✅ TestRail case 77371 updated successfully
+📊 Updated TestRail case 77371: 1 
+PASSED [ 18%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_create_product 
+🔍 Processing test: test_create_product
+✅ TestRail case 77372 updated successfully
+📊 Updated TestRail case 77372: 1 
+PASSED [ 19%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_product_price_validation 
+🔍 Processing test: test_product_price_validation
+✅ TestRail case 77373 updated successfully
+📊 Updated TestRail case 77373: 1 
+PASSED [ 19%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_invoice_form_visibility 
+🔍 Processing test: test_invoice_form_visibility
+✅ TestRail case 77374 updated successfully
+📊 Updated TestRail case 77374: 1 
+PASSED [ 19%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_invoice_list_display 
+🔍 Processing test: test_invoice_list_display
+✅ TestRail case 77375 updated successfully
+📊 Updated TestRail case 77375: 1 
+PASSED [ 20%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_complete_invoice_flow 
+🔍 Processing test: test_complete_invoice_flow
+✅ TestRail case 77376 updated successfully
+📊 Updated TestRail case 77376: 1 
+PASSED [ 20%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_invoice_appears_in_receivables 
+🔍 Processing test: test_invoice_appears_in_receivables
+✅ TestRail case 77377 updated successfully
+📊 Updated TestRail case 77377: 1 
+PASSED [ 21%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_duplicate_customer_handling 
+🔍 Processing test: test_duplicate_customer_handling
+✅ TestRail case 77378 updated successfully
+📊 Updated TestRail case 77378: 1 
+PASSED [ 21%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_invoice_without_customer 
+🔍 Processing test: test_invoice_without_customer
+✅ TestRail case 77379 updated successfully
+📊 Updated TestRail case 77379: 1 
+PASSED [ 21%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_invoice_with_zero_quantity 
+🔍 Processing test: test_invoice_with_zero_quantity
+✅ TestRail case 77380 updated successfully
+📊 Updated TestRail case 77380: 1 
+PASSED [ 22%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_invoicing_page_responsiveness 
+🔍 Processing test: test_invoicing_page_responsiveness
+✅ TestRail case 77381 updated successfully
+📊 Updated TestRail case 77381: 1 
+PASSED [ 22%]
+tests/e2e/invoicing/test_invoicing_operations.py::TestInvoicingOperations::test_invoicing_form_tab_navigation 
+🔍 Processing test: test_invoicing_form_tab_navigation
+✅ TestRail case 77382 updated successfully
+📊 Updated TestRail case 77382: 1 
+PASSED [ 23%]
+tests/e2e/ledger/test_gl_account_operations.py::TestGLAccountOperations::test_chart_of_accounts_page_loads 
+🔍 Processing test: test_chart_of_accounts_page_loads
+✅ TestRail case 95338 updated successfully
+📊 Updated TestRail case 95338: 1 
+PASSED [ 23%]
+tests/e2e/ledger/test_gl_account_operations.py::TestGLAccountOperations::test_add_gl_account_button_visible 
+🔍 Processing test: test_add_gl_account_button_visible
+✅ TestRail case 95339 updated successfully
+📊 Updated TestRail case 95339: 1 
+PASSED [ 23%]
+tests/e2e/ledger/test_gl_account_operations.py::TestGLAccountOperations::test_create_gl_account_trade_receivables 
+🔍 Processing test: test_create_gl_account_trade_receivables
+✅ TestRail case 95340 updated successfully
+📊 Updated TestRail case 95340: 1 
+PASSED [ 24%]
+tests/e2e/ledger/test_gl_account_operations.py::TestGLAccountOperations::test_create_gl_account_for_invoicing_precondition 
+🔍 Processing test: test_create_gl_account_for_invoicing_precondition
+✅ TestRail case 95341 updated successfully
+📊 Updated TestRail case 95341: 1 
+PASSED [ 24%]
+tests/e2e/ledger/test_gl_account_operations.py::TestGLAccountOperations::test_create_gl_account_different_currencies 
+🔍 Processing test: test_create_gl_account_different_currencies
+✅ TestRail case 95342 updated successfully
+📊 Updated TestRail case 95342: 1 
+PASSED [ 25%]
+tests/e2e/ledger/test_gl_account_operations.py::TestGLAccountOperations::test_search_gl_account 
+🔍 Processing test: test_search_gl_account
+✅ TestRail case 95343 updated successfully
+📊 Updated TestRail case 95343: 1 
+PASSED [ 25%]
+tests/e2e/ledger/test_gl_account_operations.py::TestGLAccountOperations::test_add_gl_account_creates_inline_row 
+🔍 Processing test: test_add_gl_account_creates_inline_row
+✅ TestRail case 95344 updated successfully
+📊 Updated TestRail case 95344: 1 
+PASSED [ 25%]
+tests/e2e/ledger/test_gl_account_operations.py::TestGLAccountOperations::test_cancel_gl_account_creation 
+🔍 Processing test: test_cancel_gl_account_creation
+✅ TestRail case 95345 updated successfully
+📊 Updated TestRail case 95345: 1 
+PASSED [ 26%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_verify_ledger_page_loads 
+🔍 Processing test: test_verify_ledger_page_loads
+✅ TestRail case 8011 updated successfully
+📊 Updated TestRail case 8011: 1 
+PASSED [ 26%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_verify_general_ledger_entries_display 
+🔍 Processing test: test_verify_general_ledger_entries_display
+✅ TestRail case 8012 updated successfully
+📊 Updated TestRail case 8012: 1 
+PASSED [ 27%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_verify_account_hierarchy_display 
+🔍 Processing test: test_verify_account_hierarchy_display
+✅ TestRail case 8013 updated successfully
+📊 Updated TestRail case 8013: 1 
+PASSED [ 27%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_ledger_page_responsiveness 
+🔍 Processing test: test_ledger_page_responsiveness
+✅ TestRail case 8014 updated successfully
+📊 Updated TestRail case 8014: 1 
+PASSED [ 27%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_chart_of_accounts_navigation 
+🔍 Processing test: test_chart_of_accounts_navigation
+✅ TestRail case 8015 updated successfully
+📊 Updated TestRail case 8015: 1 
+PASSED [ 28%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_account_selection_functionality 
+🔍 Processing test: test_account_selection_functionality
+✅ TestRail case 8016 updated successfully
+📊 Updated TestRail case 8016: 1 
+PASSED [ 28%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_account_balance_display 
+🔍 Processing test: test_account_balance_display
+✅ TestRail case 8017 updated successfully
+📊 Updated TestRail case 8017: 1 
+PASSED [ 29%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_account_details_popup 
+🔍 Processing test: test_account_details_popup
+✅ TestRail case 8018 updated successfully
+📊 Updated TestRail case 8018: 1 
+PASSED [ 29%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_journal_entries_filtering_by_date 
+🔍 Processing test: test_journal_entries_filtering_by_date
+✅ TestRail case 8019 updated successfully
+📊 Updated TestRail case 8019: 1 
+PASSED [ 29%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_journal_entries_filtering_by_account 
+🔍 Processing test: test_journal_entries_filtering_by_account
+✅ TestRail case 8020 updated successfully
+📊 Updated TestRail case 8020: 1 
+PASSED [ 30%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_journal_entries_search 
+🔍 Processing test: test_journal_entries_search
+✅ TestRail case 8021 updated successfully
+📊 Updated TestRail case 8021: 1 
+PASSED [ 30%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_transaction_drill_down 
+🔍 Processing test: test_transaction_drill_down
+✅ TestRail case 8022 updated successfully
+📊 Updated TestRail case 8022: 1 
+PASSED [ 31%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_trial_balance_display 
+🔍 Processing test: test_trial_balance_display
+✅ TestRail case 8023 updated successfully
+📊 Updated TestRail case 8023: 1 
+PASSED [ 31%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_account_activity_report 
+🔍 Processing test: test_account_activity_report
+✅ TestRail case 8024 updated successfully
+📊 Updated TestRail case 8024: 1 
+PASSED [ 31%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_export_functionality 
+🔍 Processing test: test_export_functionality
+✅ TestRail case 8025 updated successfully
+📊 Updated TestRail case 8025: 1 
+PASSED [ 32%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_period_selection 
+🔍 Processing test: test_period_selection
+✅ TestRail case 8026 updated successfully
+📊 Updated TestRail case 8026: 1 
+PASSED [ 32%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_manual_journal_entry_creation 
+🔍 Processing test: test_manual_journal_entry_creation
+✅ TestRail case 8027 updated successfully
+📊 Updated TestRail case 8027: 1 
+PASSED [ 33%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_journal_entry_validation 
+🔍 Processing test: test_journal_entry_validation
+✅ TestRail case 8028 updated successfully
+📊 Updated TestRail case 8028: 1 
+PASSED [ 33%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_journal_entry_posting 
+🔍 Processing test: test_journal_entry_posting
+✅ TestRail case 8029 updated successfully
+📊 Updated TestRail case 8029: 1 
+PASSED [ 34%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_journal_entry_reversal 
+🔍 Processing test: test_journal_entry_reversal
+✅ TestRail case 8030 updated successfully
+📊 Updated TestRail case 8030: 1 
+PASSED [ 34%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_bank_reconciliation_integration 
+🔍 Processing test: test_bank_reconciliation_integration
+✅ TestRail case 8031 updated successfully
+📊 Updated TestRail case 8031: 1 
+PASSED [ 34%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_payables_integration 
+🔍 Processing test: test_payables_integration
+✅ TestRail case 8032 updated successfully
+📊 Updated TestRail case 8032: 1 
+PASSED [ 35%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_complete_ledger_workflow 
+🔍 Processing test: test_complete_ledger_workflow
+✅ TestRail case 8033 updated successfully
+📊 Updated TestRail case 8033: 1 
+PASSED [ 35%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_verify_ledger_dashboard_loads 
+🔍 Processing test: test_verify_ledger_dashboard_loads
+✅ TestRail case 8034 updated successfully
+📊 Updated TestRail case 8034: 1 
+PASSED [ 36%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_verify_financial_kpis_display 
+🔍 Processing test: test_verify_financial_kpis_display
+✅ TestRail case 8035 updated successfully
+📊 Updated TestRail case 8035: 1 
+PASSED [ 36%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_verify_filter_controls_display 
+🔍 Processing test: test_verify_filter_controls_display
+✅ TestRail case 8036 updated successfully
+📊 Updated TestRail case 8036: 1 
+PASSED [ 36%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_get_total_income_value 
+🔍 Processing test: test_get_total_income_value
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 8037
+❌ Failed to update TestRail case 8037: 1 
+PASSED [ 37%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_get_gross_profit_value 
+🔍 Processing test: test_get_gross_profit_value
+✅ TestRail case 8038 updated successfully
+📊 Updated TestRail case 8038: 1 
+PASSED [ 37%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_get_all_kpi_values 
+🔍 Processing test: test_get_all_kpi_values
+✅ TestRail case 8039 updated successfully
+📊 Updated TestRail case 8039: 1 
+PASSED [ 38%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_period_selection_functionality 
+🔍 Processing test: test_period_selection_functionality
+✅ TestRail case 8041 updated successfully
+📊 Updated TestRail case 8041: 1 
+PASSED [ 38%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_date_preset_functionality 
+🔍 Processing test: test_date_preset_functionality
+✅ TestRail case 8042 updated successfully
+📊 Updated TestRail case 8042: 1 
+PASSED [ 38%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_no_data_states_handling 
+🔍 Processing test: test_no_data_states_handling
+✅ TestRail case 8044 updated successfully
+📊 Updated TestRail case 8044: 1 
+PASSED [ 39%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_dashboard_url_parameters 
+🔍 Processing test: test_dashboard_url_parameters
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 8045
+❌ Failed to update TestRail case 8045: 1 
+PASSED [ 39%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_complete_dashboard_workflow 
+🔍 Processing test: test_complete_dashboard_workflow
+✅ TestRail case 8046 updated successfully
+📊 Updated TestRail case 8046: 1 
+PASSED [ 40%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_dashboard_responsiveness 
+🔍 Processing test: test_dashboard_responsiveness
+✅ TestRail case 8047 updated successfully
+📊 Updated TestRail case 8047: 1 
+PASSED [ 40%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_kpi_data_consistency 
+🔍 Processing test: test_kpi_data_consistency
+✅ TestRail case 8040 updated successfully
+📊 Updated TestRail case 8040: 1 
+PASSED [ 40%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_period_filter_impact 
+🔍 Processing test: test_period_filter_impact
+✅ TestRail case 8043 updated successfully
+📊 Updated TestRail case 8043: 1 
+PASSED [ 41%]
+tests/e2e/ledger/test_ledger_operations.py::TestLedgerOperations::test_dashboard_edge_cases 
+🔍 Processing test: test_dashboard_edge_cases
+✅ TestRail case 8048 updated successfully
+📊 Updated TestRail case 8048: 1 
+PASSED [ 41%]
+tests/e2e/login/test_login.py::test_login 
+🔍 Processing test: test_login
+✅ TestRail case 7947 updated successfully
+📊 Updated TestRail case 7947: 1 
+PASSED                         [ 42%]
+tests/e2e/login/test_login_scenarios.py::TestLoginScenarios::test_scenario_1_valid_login 
+🔍 Processing test: test_scenario_1_valid_login
+✅ TestRail case 7948 updated successfully
+📊 Updated TestRail case 7948: 1 
+PASSED [ 42%]
+tests/e2e/login/test_login_scenarios.py::TestLoginScenarios::test_scenario_2_logout_user 
+🔍 Processing test: test_scenario_2_logout_user
+✅ TestRail case 7949 updated successfully
+📊 Updated TestRail case 7949: 1 
+PASSED [ 42%]
+tests/e2e/logout/test_logout.py::test_logout_after_2fa_login 
+🔍 Processing test: test_logout_after_2fa_login
+✅ TestRail case 7961 updated successfully
+📊 Updated TestRail case 7961: 1 
+PASSED      [ 43%]
+tests/e2e/logout/test_logout.py::test_logout_direct_method 
+🔍 Processing test: test_logout_direct_method
+✅ TestRail case 7962 updated successfully
+📊 Updated TestRail case 7962: 1 
+PASSED        [ 43%]
+tests/e2e/logout/test_logout.py::test_logout_via_menu 
+🔍 Processing test: test_logout_via_menu
+✅ TestRail case 7963 updated successfully
+📊 Updated TestRail case 7963: 1 
+PASSED             [ 44%]
+tests/e2e/logout/test_logout.py::test_logout_keyboard_method 
+🔍 Processing test: test_logout_keyboard_method
+✅ TestRail case 7964 updated successfully
+📊 Updated TestRail case 7964: 1 
+PASSED      [ 44%]
+tests/e2e/logout/test_logout.py::test_logout_comprehensive_workflow 
+🔍 Processing test: test_logout_comprehensive_workflow
+✅ TestRail case 7965 updated successfully
+📊 Updated TestRail case 7965: 1 
+PASSED [ 44%]
+tests/e2e/navigation/test_menu_pinning.py::TestMenuPinning::test_menu_pinning_and_navigation 
+🔍 Processing test: test_menu_pinning_and_navigation
+✅ TestRail case 7960 updated successfully
+📊 Updated TestRail case 7960: 1 
+PASSED [ 45%]
+tests/e2e/navigation/test_tabs_navigation.py::test_tab_navigation[text=Home-HomePage] 
+🔍 Processing test: test_tab_navigation[text=Home-HomePage]
+✅ TestRail case 7950 updated successfully
+📊 Updated TestRail case 7950: 1 
+PASSED [ 45%]
+tests/e2e/navigation/test_tabs_navigation.py::test_tab_navigation[text=Vizion AI-VizionAIPage] 
+🔍 Processing test: test_tab_navigation[text=Vizion AI-VizionAIPage]
+✅ TestRail case 7951 updated successfully
+📊 Updated TestRail case 7951: 1 
+PASSED [ 46%]
+tests/e2e/navigation/test_tabs_navigation.py::test_tab_navigation[text=Reconciliation-ReconciliationPage] 
+🔍 Processing test: test_tab_navigation[text=Reconciliation-ReconciliationPage]
+✅ TestRail case 7952 updated successfully
+📊 Updated TestRail case 7952: 1 
+PASSED [ 46%]
+tests/e2e/navigation/test_tabs_navigation.py::test_tab_navigation[text=Ledger-LedgerPage] 
+🔍 Processing test: test_tab_navigation[text=Ledger-LedgerPage]
+✅ TestRail case 7953 updated successfully
+📊 Updated TestRail case 7953: 1 
+PASSED [ 46%]
+tests/e2e/navigation/test_tabs_navigation.py::test_tab_navigation[text=BI Analysis-BIAnalysisPage] 
+🔍 Processing test: test_tab_navigation[text=BI Analysis-BIAnalysisPage]
+✅ TestRail case 7954 updated successfully
+📊 Updated TestRail case 7954: 1 
+PASSED [ 47%]
+tests/e2e/navigation/test_tabs_navigation.py::test_tab_navigation[text=Invoicing-InvoicingPage] 
+🔍 Processing test: test_tab_navigation[text=Invoicing-InvoicingPage]
+ℹ️ Test 'test_tab_navigation[text=Invoicing-InvoicingPage]' not mapped to TestRail or TestRail disabled
+PASSED [ 47%]
+tests/e2e/navigation/test_tabs_navigation_single_login.py::test_tabs_navigation_single_login 
+🔍 Processing test: test_tabs_navigation_single_login
+✅ TestRail case 7956 updated successfully
+📊 Updated TestRail case 7956: 1 
+PASSED [ 48%]
+tests/e2e/navigation/test_tabs_navigation_with_entity.py::test_tab_navigation_with_entity[text=Home-HomePage] 
+🔍 Processing test: test_tab_navigation_with_entity[text=Home-HomePage]
+✅ TestRail case 7957 updated successfully
+📊 Updated TestRail case 7957: 1 
+PASSED [ 48%]
+tests/e2e/navigation/test_tabs_navigation_with_entity.py::test_tab_navigation_with_entity[text=Vizion AI-VizionAIPage] 
+🔍 Processing test: test_tab_navigation_with_entity[text=Vizion AI-VizionAIPage]
+✅ TestRail case 7957 updated successfully
+📊 Updated TestRail case 7957: 1 
+PASSED [ 48%]
+tests/e2e/navigation/test_tabs_navigation_with_entity.py::test_tab_navigation_with_entity[text=Reconciliation-ReconciliationPage] 
+🔍 Processing test: test_tab_navigation_with_entity[text=Reconciliation-ReconciliationPage]
+✅ TestRail case 7957 updated successfully
+📊 Updated TestRail case 7957: 1 
+PASSED [ 49%]
+tests/e2e/navigation/test_tabs_navigation_with_entity.py::test_tab_navigation_with_entity[text=Ledger-LedgerPage] 
+🔍 Processing test: test_tab_navigation_with_entity[text=Ledger-LedgerPage]
+📸 Attempting to capture screenshot for failed test: test_tab_navigation_with_entity[text=Ledger-LedgerPage]
+✅ Screenshot captured: failure_test_tab_navigation_with_entity_text_Ledger_LedgerPage__2026-01-01_14-15-22.png
+✅ TestRail case 7957 updated successfully
+📊 Updated TestRail case 7957: 5 with screenshot
+FAILED [ 49%]
+tests/e2e/navigation/test_tabs_navigation_with_entity.py::test_tab_navigation_with_entity[text=BI Analysis-BIAnalysisPage] 
+🔍 Processing test: test_tab_navigation_with_entity[text=BI Analysis-BIAnalysisPage]
+✅ TestRail case 7957 updated successfully
+📊 Updated TestRail case 7957: 1 
+PASSED [ 50%]
+tests/e2e/navigation/test_tabs_navigation_with_entity.py::test_tab_navigation_with_entity[text=Invoicing-InvoicingPage] 
+🔍 Processing test: test_tab_navigation_with_entity[text=Invoicing-InvoicingPage]
+ℹ️ Test 'test_tab_navigation_with_entity[text=Invoicing-InvoicingPage]' not mapped to TestRail or TestRail disabled
+PASSED [ 50%]
+tests/e2e/navigation/test_tabs_navigation_with_entity.py::test_entity_selection_validation 
+🔍 Processing test: test_entity_selection_validation
+📸 Attempting to capture screenshot for failed test: test_entity_selection_validation
+✅ Screenshot captured: failure_test_entity_selection_validation_2026-01-01_14-16-18.png
+✅ TestRail case 7958 updated successfully
+📊 Updated TestRail case 7958: 5 with screenshot
+FAILED [ 51%]
+tests/e2e/navigation/test_tabs_navigation_with_entity.py::test_tabs_navigation_single_login_with_entity 
+🔍 Processing test: test_tabs_navigation_single_login_with_entity
+✅ TestRail case 7959 updated successfully
+📊 Updated TestRail case 7959: 1 
+PASSED [ 51%]
+tests/e2e/navigation/test_tabs_navigation_with_entity.py::test_navigate_to_invoicing 
+🔍 Processing test: test_navigate_to_invoicing
+ℹ️ Test 'test_navigate_to_invoicing' not mapped to TestRail or TestRail disabled
+PASSED [ 51%]
+tests/e2e/payables/test_invoice_file_upload.py::TestInvoiceFileUpload::test_upload_invoice_file 
+🔍 Processing test: test_upload_invoice_file
+✅ TestRail case 7988 updated successfully
+📊 Updated TestRail case 7988: 1 
+PASSED [ 52%]
+tests/e2e/payables/test_invoice_file_upload.py::TestInvoiceFileUpload::test_attempt_to_delete_invoice 
+🔍 Processing test: test_attempt_to_delete_invoice
+✅ TestRail case 8010 updated successfully
+📊 Updated TestRail case 8010: 1 
+PASSED [ 52%]
+tests/e2e/payables/test_invoice_file_upload.py::TestInvoiceFileUpload::test_upload_invalid_payable_file_type 
+🔍 Processing test: test_upload_invalid_payable_file_type
+✅ TestRail case 7989 updated successfully
+📊 Updated TestRail case 7989: 1 
+PASSED [ 53%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_verify_bank_page_loads 
+🔍 Processing test: test_verify_bank_page_loads
+✅ TestRail case 7966 updated successfully
+📊 Updated TestRail case 7966: 1 
+PASSED [ 53%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_verify_transactions_display 
+🔍 Processing test: test_verify_transactions_display
+✅ TestRail case 7967 updated successfully
+📊 Updated TestRail case 7967: 1 
+PASSED [ 53%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_bank_account_selection 
+🔍 Processing test: test_bank_account_selection
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 7970
+❌ Failed to update TestRail case 7970: 1 
+PASSED [ 54%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_transaction_filtering_by_date 
+🔍 Processing test: test_transaction_filtering_by_date
+✅ TestRail case 7974 updated successfully
+📊 Updated TestRail case 7974: 1 
+PASSED [ 54%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_transaction_search 
+🔍 Processing test: test_transaction_search
+✅ TestRail case 7975 updated successfully
+📊 Updated TestRail case 7975: 1 
+PASSED [ 55%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_verify_upload_area 
+🔍 Processing test: test_verify_upload_area
+✅ TestRail case 7979 updated successfully
+📊 Updated TestRail case 7979: 1 
+PASSED [ 55%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_upload_statement_file_validation 
+🔍 Processing test: test_upload_statement_file_validation
+✅ TestRail case 7980 updated successfully
+📊 Updated TestRail case 7980: 1 
+PASSED [ 55%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_reconciliation_status_display 
+🔍 Processing test: test_reconciliation_status_display
+✅ TestRail case 7983 updated successfully
+📊 Updated TestRail case 7983: 1 
+PASSED [ 56%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_transaction_reconciliation 
+🔍 Processing test: test_transaction_reconciliation
+✅ TestRail case 7984 updated successfully
+📊 Updated TestRail case 7984: 1 
+PASSED [ 56%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_transaction_action_buttons 
+🔍 Processing test: test_transaction_action_buttons
+✅ TestRail case 7978 updated successfully
+📊 Updated TestRail case 7978: 1 
+PASSED [ 57%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_complete_bank_workflow 
+🔍 Processing test: test_complete_bank_workflow
+✅ TestRail case 7986 updated successfully
+📊 Updated TestRail case 7986: 1 
+PASSED [ 57%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_empty_state_handling 
+🔍 Processing test: test_empty_state_handling
+✅ TestRail case 7969 updated successfully
+📊 Updated TestRail case 7969: 1 
+PASSED [ 57%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_bank_page_responsiveness 
+🔍 Processing test: test_bank_page_responsiveness
+✅ TestRail case 7968 updated successfully
+📊 Updated TestRail case 7968: 1 
+PASSED [ 58%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_check_bank_account_list_display 
+🔍 Processing test: test_check_bank_account_list_display
+✅ TestRail case 7971 updated successfully
+📊 Updated TestRail case 7971: 1 
+PASSED [ 58%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_view_bank_transactions_list 
+🔍 Processing test: test_view_bank_transactions_list
+✅ TestRail case 7976 updated successfully
+📊 Updated TestRail case 7976: 1 
+PASSED [ 59%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_sort_transactions_by_columns 
+🔍 Processing test: test_sort_transactions_by_columns
+✅ TestRail case 7977 updated successfully
+📊 Updated TestRail case 7977: 1 
+PASSED [ 59%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_handle_duplicate_uploads 
+🔍 Processing test: test_handle_duplicate_uploads
+✅ TestRail case 7981 updated successfully
+📊 Updated TestRail case 7981: 1 
+PASSED [ 59%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_process_uploaded_statements 
+🔍 Processing test: test_process_uploaded_statements
+✅ TestRail case 7982 updated successfully
+📊 Updated TestRail case 7982: 1 
+PASSED [ 60%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_handle_unmatched_transactions 
+🔍 Processing test: test_handle_unmatched_transactions
+✅ TestRail case 7985 updated successfully
+📊 Updated TestRail case 7985: 1 
+PASSED [ 60%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_view_account_balances 
+🔍 Processing test: test_view_account_balances
+✅ TestRail case 7972 updated successfully
+📊 Updated TestRail case 7972: 1 
+PASSED [ 61%]
+tests/e2e/reconciliation/bank/test_bank_operations.py::TestBankOperations::test_account_settings_configuration 
+🔍 Processing test: test_account_settings_configuration
+✅ TestRail case 7973 updated successfully
+📊 Updated TestRail case 7973: 1 
+PASSED [ 61%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_verify_credit_cards_page_loads_successfully 
+🔍 Processing test: test_verify_credit_cards_page_loads_successfully
+✅ TestRail case 51886 updated successfully
+📊 Updated TestRail case 51886: 1 
+PASSED [ 61%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_verify_credit_card_transactions_display 
+🔍 Processing test: test_verify_credit_card_transactions_display
+✅ TestRail case 51887 updated successfully
+📊 Updated TestRail case 51887: 1 
+PASSED [ 62%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_list_display 
+🔍 Processing test: test_credit_card_list_display
+✅ TestRail case 51900 updated successfully
+📊 Updated TestRail case 51900: 1 
+PASSED [ 62%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_selection_functionality 
+🔍 Processing test: test_credit_card_selection_functionality
+✅ TestRail case 51888 updated successfully
+📊 Updated TestRail case 51888: 1 
+PASSED [ 63%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_financial_information_display 
+🔍 Processing test: test_credit_card_financial_information_display
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 51889
+❌ Failed to update TestRail case 51889: 1 
+PASSED [ 63%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_account_balances 
+🔍 Processing test: test_credit_card_account_balances
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 52145
+❌ Failed to update TestRail case 52145: 1 
+PASSED [ 63%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_transaction_filtering_by_date 
+🔍 Processing test: test_credit_card_transaction_filtering_by_date
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 51890
+❌ Failed to update TestRail case 51890: 1 
+PASSED [ 64%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_transaction_search_functionality 
+🔍 Processing test: test_credit_card_transaction_search_functionality
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 51891
+❌ Failed to update TestRail case 51891: 1 
+PASSED [ 64%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_verify_credit_card_statement_upload_area 
+🔍 Processing test: test_verify_credit_card_statement_upload_area
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 51892
+❌ Failed to update TestRail case 51892: 1 
+PASSED [ 65%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_statement_file_upload_validation 
+🔍 Processing test: test_credit_card_statement_file_upload_validation
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 51893
+❌ Failed to update TestRail case 51893: 1 
+PASSED [ 65%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_handle_duplicate_credit_card_uploads 
+🔍 Processing test: test_handle_duplicate_credit_card_uploads
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 52142
+❌ Failed to update TestRail case 52142: 1 
+PASSED [ 65%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_process_uploaded_credit_card_statements 
+🔍 Processing test: test_process_uploaded_credit_card_statements
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 52143
+❌ Failed to update TestRail case 52143: 1 
+PASSED [ 66%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_reconciliation_status_display 
+🔍 Processing test: test_credit_card_reconciliation_status_display
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 51894
+❌ Failed to update TestRail case 51894: 1 
+PASSED [ 66%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_transaction_reconciliation 
+🔍 Processing test: test_credit_card_transaction_reconciliation
+✅ TestRail case 51895 updated successfully
+📊 Updated TestRail case 51895: 1 
+PASSED [ 67%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_handle_unmatched_credit_card_transactions 
+🔍 Processing test: test_handle_unmatched_credit_card_transactions
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 52144
+❌ Failed to update TestRail case 52144: 1 
+PASSED [ 67%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_transaction_action_buttons 
+🔍 Processing test: test_credit_card_transaction_action_buttons
+✅ TestRail case 51896 updated successfully
+📊 Updated TestRail case 51896: 1 
+PASSED [ 68%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_view_credit_card_transactions_list 
+🔍 Processing test: test_view_credit_card_transactions_list
+✅ TestRail case 52141 updated successfully
+📊 Updated TestRail case 52141: 1 
+PASSED [ 68%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_transaction_sorting 
+🔍 Processing test: test_credit_card_transaction_sorting
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 51901
+❌ Failed to update TestRail case 51901: 1 
+PASSED [ 68%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_card_settings_configuration 
+🔍 Processing test: test_credit_card_settings_configuration
+❌ Bad Request (400). Possible causes:
+   1. Test run is closed or doesn't exist
+   2. Case ID is invalid for this run
+   3. Invalid status ID or data format
+❌ Failed to update TestRail case 52146
+❌ Failed to update TestRail case 52146: 1 
+PASSED [ 69%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_cards_empty_state_handling 
+🔍 Processing test: test_credit_cards_empty_state_handling
+✅ TestRail case 51898 updated successfully
+📊 Updated TestRail case 51898: 1 
+PASSED [ 69%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_credit_cards_page_responsiveness 
+🔍 Processing test: test_credit_cards_page_responsiveness
+✅ TestRail case 51899 updated successfully
+📊 Updated TestRail case 51899: 1 
+PASSED [ 70%]
+tests/e2e/reconciliation/credit_cards/test_credit_card_operations.py::TestCreditCardOperations::test_complete_credit_cards_workflow 
+🔍 Processing test: test_complete_credit_cards_workflow
+✅ TestRail case 51897 updated successfully
+📊 Updated TestRail case 51897: 1 
+PASSED [ 70%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_verify_invoice_list_is_displayed 
+🔍 Processing test: test_verify_invoice_list_is_displayed
+✅ TestRail case 7987 updated successfully
+📊 Updated TestRail case 7987: 1 
+PASSED [ 70%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_upload_invoice_file 
+🔍 Processing test: test_upload_invoice_file
+✅ TestRail case 7988 updated successfully
+📊 Updated TestRail case 7988: 1 
+PASSED [ 71%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_upload_invalid_payable_file_type 
+🔍 Processing test: test_upload_invalid_payable_file_type
+✅ TestRail case 7989 updated successfully
+📊 Updated TestRail case 7989: 1 
+PASSED [ 71%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_payables_edit_delete_buttons 
+🔍 Processing test: test_payables_edit_delete_buttons
+✅ TestRail case 8006 updated successfully
+📊 Updated TestRail case 8006: 1 
+PASSED [ 72%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_payables_status_dropdowns 
+🔍 Processing test: test_payables_status_dropdowns
+✅ TestRail case 8007 updated successfully
+📊 Updated TestRail case 8007: 1 
+PASSED [ 72%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_payables_search_filter_options 
+🔍 Processing test: test_payables_search_filter_options
+✅ TestRail case 8008 updated successfully
+📊 Updated TestRail case 8008: 1 
+PASSED [ 72%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_upload_duplicate_invoice 
+🔍 Processing test: test_upload_duplicate_invoice
+✅ TestRail case 7990 updated successfully
+📊 Updated TestRail case 7990: 1 
+PASSED [ 73%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_menu_options_for_new_status 
+🔍 Processing test: test_menu_options_for_new_status
+✅ TestRail case 7994 updated successfully
+📊 Updated TestRail case 7994: 1 
+PASSED [ 73%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_menu_options_for_matched_status 
+🔍 Processing test: test_menu_options_for_matched_status
+✅ TestRail case 7995 updated successfully
+📊 Updated TestRail case 7995: 1 
+PASSED [ 74%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_menu_options_for_reconciled_status 
+🔍 Processing test: test_menu_options_for_reconciled_status
+✅ TestRail case 7996 updated successfully
+📊 Updated TestRail case 7996: 1 
+PASSED [ 74%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_open_edit_popup_layout 
+🔍 Processing test: test_open_edit_popup_layout
+✅ TestRail case 7997 updated successfully
+📊 Updated TestRail case 7997: 1 
+PASSED [ 74%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_mandatory_validation 
+🔍 Processing test: test_mandatory_validation
+✅ TestRail case 7998 updated successfully
+📊 Updated TestRail case 7998: 1 
+PASSED [ 75%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_line_totals_equal_before_validation 
+🔍 Processing test: test_line_totals_equal_before_validation
+✅ TestRail case 7999 updated successfully
+📊 Updated TestRail case 7999: 1 
+PASSED [ 75%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_gl_account_dropdown 
+🔍 Processing test: test_gl_account_dropdown
+✅ TestRail case 8001 updated successfully
+📊 Updated TestRail case 8001: 1 
+PASSED [ 76%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_recognition_timing_single_date 
+🔍 Processing test: test_recognition_timing_single_date
+✅ TestRail case 8002 updated successfully
+📊 Updated TestRail case 8002: 1 
+PASSED [ 76%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_recognition_timing_default 
+🔍 Processing test: test_recognition_timing_default
+📸 Attempting to capture screenshot for failed test: test_recognition_timing_default
+✅ Screenshot captured: failure_test_recognition_timing_default_2026-01-01_14-41-24.png
+✅ TestRail case 8003 updated successfully
+📊 Updated TestRail case 8003: 5 with screenshot
+FAILED [ 76%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_record_invoice_and_status 
+🔍 Processing test: test_record_invoice_and_status
+✅ TestRail case 8004 updated successfully
+📊 Updated TestRail case 8004: 1 
+PASSED [ 77%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_show_journal_entry_for_record 
+🔍 Processing test: test_show_journal_entry_for_record
+✅ TestRail case 8005 updated successfully
+📊 Updated TestRail case 8005: 1 
+PASSED [ 77%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_view_invoice_in_new_view 
+🔍 Processing test: test_view_invoice_in_new_view
+✅ TestRail case 7991 updated successfully
+📊 Updated TestRail case 7991: 1 
+PASSED [ 78%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_verify_je_amount_and_description 
+🔍 Processing test: test_verify_je_amount_and_description
+✅ TestRail case 8000 updated successfully
+📊 Updated TestRail case 8000: 1 
+PASSED [ 78%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_delete_invoice_dialog 
+🔍 Processing test: test_delete_invoice_dialog
+✅ TestRail case 8009 updated successfully
+📊 Updated TestRail case 8009: 1 
+PASSED [ 78%]
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_attempt_to_delete_invoice 
+🔍 Processing test: test_attempt_to_delete_invoice
+✅ TestRail case 8010 updated successfully
+📊 Updated TestRail case 8010: 1 
+PASSED [ 79%]
+tests/e2e/reconciliation/payables/test_payables_operations.py::TestPayablesOperations::test_verify_invoice_list_is_displayed 
+🔍 Processing test: test_verify_invoice_list_is_displayed
+📸 Attempting to capture screenshot for failed test: test_verify_invoice_list_is_displayed
+✅ Screenshot captured: failure_test_verify_invoice_list_is_displayed_2026-01-01_14-44-27.png
+✅ TestRail case 7987 updated successfully
+📊 Updated TestRail case 7987: 5 with screenshot
+FAILED [ 79%]
+tests/e2e/reconciliation/payables/test_payables_operations.py::TestPayablesOperations::test_upload_invoice_file 
+🔍 Processing test: test_upload_invoice_file
+✅ TestRail case 7988 updated successfully
+📊 Updated TestRail case 7988: 1 
+PASSED [ 80%]
+tests/e2e/reconciliation/payables/test_payables_operations.py::TestPayablesOperations::test_payables_menu_operations 
+🔍 Processing test: test_payables_menu_operations
+✅ TestRail case 7992 updated successfully
+📊 Updated TestRail case 7992: 1 
+PASSED [ 80%]
+tests/e2e/reconciliation/payables/test_payables_operations.py::TestPayablesOperations::test_payables_form_validation 
+🔍 Processing test: test_payables_form_validation
+✅ TestRail case 7993 updated successfully
+📊 Updated TestRail case 7993: 1 
+PASSED [ 80%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_verify_receivable_list_is_displayed 
+🔍 Processing test: test_verify_receivable_list_is_displayed
+✅ TestRail case 63962 updated successfully
+📊 Updated TestRail case 63962: 1 
+PASSED [ 81%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_upload_receivable_file 
+🔍 Processing test: test_upload_receivable_file
+✅ TestRail case 63963 updated successfully
+📊 Updated TestRail case 63963: 1 
+PASSED [ 81%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_upload_invalid_file_type 
+🔍 Processing test: test_upload_invalid_file_type
+✅ TestRail case 63964 updated successfully
+📊 Updated TestRail case 63964: 1 
+PASSED [ 82%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_upload_duplicate_receivable 
+🔍 Processing test: test_upload_duplicate_receivable
+✅ TestRail case 63965 updated successfully
+📊 Updated TestRail case 63965: 1 
+PASSED [ 82%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_edit_delete_buttons 
+🔍 Processing test: test_receivables_edit_delete_buttons
+✅ TestRail case 63966 updated successfully
+📊 Updated TestRail case 63966: 1 
+PASSED [ 82%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_status_dropdowns 
+🔍 Processing test: test_receivables_status_dropdowns
+✅ TestRail case 63967 updated successfully
+📊 Updated TestRail case 63967: 1 
+PASSED [ 83%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_search_filter_options 
+🔍 Processing test: test_receivables_search_filter_options
+✅ TestRail case 63968 updated successfully
+📊 Updated TestRail case 63968: 1 
+PASSED [ 83%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_open_edit_popup_layout 
+🔍 Processing test: test_receivables_open_edit_popup_layout
+✅ TestRail case 63969 updated successfully
+📊 Updated TestRail case 63969: 1 
+PASSED [ 84%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_mandatory_validation 
+🔍 Processing test: test_receivables_mandatory_validation
+✅ TestRail case 63969 updated successfully
+📊 Updated TestRail case 63969: 1 
+PASSED [ 84%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_line_totals_equal_before_validation 
+🔍 Processing test: test_receivables_line_totals_equal_before_validation
+✅ TestRail case 63970 updated successfully
+📊 Updated TestRail case 63970: 1 
+PASSED [ 85%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_gl_account_dropdown 
+🔍 Processing test: test_receivables_gl_account_dropdown
+✅ TestRail case 63970 updated successfully
+📊 Updated TestRail case 63970: 1 
+PASSED [ 85%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_recognition_timing_single_date 
+🔍 Processing test: test_receivables_recognition_timing_single_date
+✅ TestRail case 63970 updated successfully
+📊 Updated TestRail case 63970: 1 
+PASSED [ 85%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_recognition_timing_default 
+🔍 Processing test: test_receivables_recognition_timing_default
+✅ TestRail case 63970 updated successfully
+📊 Updated TestRail case 63970: 1 
+PASSED [ 86%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_record_receivable_and_status 
+🔍 Processing test: test_record_receivable_and_status
+✅ TestRail case 63971 updated successfully
+📊 Updated TestRail case 63971: 1 
+PASSED [ 86%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_show_journal_entry_for_record 
+🔍 Processing test: test_receivables_show_journal_entry_for_record
+✅ TestRail case 63971 updated successfully
+📊 Updated TestRail case 63971: 1 
+PASSED [ 87%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_verify_je_amount_and_description 
+🔍 Processing test: test_receivables_verify_je_amount_and_description
+✅ TestRail case 63971 updated successfully
+📊 Updated TestRail case 63971: 1 
+PASSED [ 87%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_delete_receivable_dialog 
+🔍 Processing test: test_delete_receivable_dialog
+✅ TestRail case 63972 updated successfully
+📊 Updated TestRail case 63972: 1 
+PASSED [ 87%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_attempt_to_delete_receivable 
+🔍 Processing test: test_attempt_to_delete_receivable
+✅ TestRail case 63972 updated successfully
+📊 Updated TestRail case 63972: 1 
+PASSED [ 88%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_view_receivable_in_new_view 
+🔍 Processing test: test_view_receivable_in_new_view
+✅ TestRail case 63973 updated successfully
+📊 Updated TestRail case 63973: 1 
+PASSED [ 88%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_menu_options_for_new_status 
+🔍 Processing test: test_receivables_menu_options_for_new_status
+✅ TestRail case 63974 updated successfully
+📊 Updated TestRail case 63974: 1 
+PASSED [ 89%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_menu_options_for_matched_status 
+🔍 Processing test: test_receivables_menu_options_for_matched_status
+✅ TestRail case 63974 updated successfully
+📊 Updated TestRail case 63974: 1 
+PASSED [ 89%]
+tests/e2e/reconciliation/receivables/test_complete_receivables_operations.py::TestCompleteReceivablesOperations::test_receivables_menu_options_for_reconciled_status 
+🔍 Processing test: test_receivables_menu_options_for_reconciled_status
+✅ TestRail case 63974 updated successfully
+📊 Updated TestRail case 63974: 1 
+PASSED [ 89%]
+tests/e2e/reconciliation/receivables/test_receivables_operations.py::TestReceivablesOperations::test_verify_receivable_list_is_displayed 
+🔍 Processing test: test_verify_receivable_list_is_displayed
+✅ TestRail case 63962 updated successfully
+📊 Updated TestRail case 63962: 1 
+PASSED [ 90%]
+tests/e2e/reconciliation/receivables/test_receivables_operations.py::TestReceivablesOperations::test_upload_receivable_file 
+🔍 Processing test: test_upload_receivable_file
+✅ TestRail case 63963 updated successfully
+📊 Updated TestRail case 63963: 1 
+PASSED [ 90%]
+tests/e2e/reconciliation/receivables/test_receivables_operations.py::TestReceivablesOperations::test_receivables_menu_operations 
+🔍 Processing test: test_receivables_menu_operations
+✅ TestRail case 63968 updated successfully
+📊 Updated TestRail case 63968: 1 
+PASSED [ 91%]
+tests/e2e/reconciliation/receivables/test_receivables_operations.py::TestReceivablesOperations::test_receivables_form_validation 
+🔍 Processing test: test_receivables_form_validation
+✅ TestRail case 63969 updated successfully
+📊 Updated TestRail case 63969: 1 
+PASSED [ 91%]
+tests/e2e/reconciliation/test_export_validation.py::TestExportValidation::test_payables_export_data_validation 
+🔍 Processing test: test_payables_export_data_validation
+✅ TestRail case 126311 updated successfully
+📊 Updated TestRail case 126311: 1 
+PASSED [ 91%]
+tests/e2e/reconciliation/test_export_validation.py::TestExportValidation::test_receivables_export_data_validation 
+🔍 Processing test: test_receivables_export_data_validation
+📸 Attempting to capture screenshot for failed test: test_receivables_export_data_validation
+✅ Screenshot captured: failure_test_receivables_export_data_validation_2026-01-01_14-53-29.png
+✅ TestRail case 126312 updated successfully
+📊 Updated TestRail case 126312: 5 with screenshot
+FAILED [ 92%]
+tests/e2e/reconciliation/test_export_validation.py::TestExportValidation::test_bank_transactions_export_data_validation 
+🔍 Processing test: test_bank_transactions_export_data_validation
+✅ TestRail case 129938 updated successfully
+📊 Updated TestRail case 129938: 1 
+PASSED [ 92%]
+tests/e2e/reconciliation/test_export_validation.py::TestExportValidation::test_credit_cards_export_data_validation 
+🔍 Processing test: test_credit_cards_export_data_validation
+📸 Attempting to capture screenshot for failed test: test_credit_cards_export_data_validation
+✅ Screenshot captured: failure_test_credit_cards_export_data_validation_2026-01-01_14-54-40.png
+✅ TestRail case 129939 updated successfully
+📊 Updated TestRail case 129939: 5 with screenshot
+FAILED [ 93%]
+tests/e2e/security/test_security_regression.py::TestSecurityRegression::test_invalid_login_attempts 
+🔍 Processing test: test_invalid_login_attempts
+✅ TestRail case 8049 updated successfully
+📊 Updated TestRail case 8049: 1 
+PASSED [ 93%]
+tests/e2e/security/test_security_regression.py::TestSecurityRegression::test_session_timeout_handling 
+🔍 Processing test: test_session_timeout_handling
+✅ TestRail case 8050 updated successfully
+📊 Updated TestRail case 8050: 1 
+PASSED [ 93%]
+tests/e2e/security/test_security_regression.py::TestSecurityRegression::test_xss_prevention 
+🔍 Processing test: test_xss_prevention
+✅ TestRail case 8052 updated successfully
+📊 Updated TestRail case 8052: 1 
+PASSED [ 94%]
+tests/e2e/security/test_security_regression.py::TestSecurityRegression::test_password_requirements 
+🔍 Processing test: test_password_requirements
+✅ TestRail case 8053 updated successfully
+📊 Updated TestRail case 8053: 1 
+PASSED [ 94%]
+tests/e2e/security/test_security_regression.py::TestSecurityRegression::test_csrf_protection 
+🔍 Processing test: test_csrf_protection
+✅ TestRail case 8054 updated successfully
+📊 Updated TestRail case 8054: 1 
+PASSED [ 95%]
+tests/e2e/security/test_security_regression.py::TestSecurityRegression::test_secure_headers 
+🔍 Processing test: test_secure_headers
+✅ TestRail case 8055 updated successfully
+📊 Updated TestRail case 8055: 1 
+PASSED [ 95%]
+tests/e2e/snapshot/test_snapshot_regression.py::TestSnapshotRegression::test_visual_snapshots_key_pages 
+🔍 Processing test: test_visual_snapshots_key_pages
+✅ TestRail case 12865 updated successfully
+📊 Updated TestRail case 12865: 1 
+PASSED [ 95%]
+tests/e2e/snapshot/test_snapshot_regression.py::TestSnapshotRegression::test_dom_snapshots_critical_elements 
+🔍 Processing test: test_dom_snapshots_critical_elements
+✅ TestRail case 12866 updated successfully
+📊 Updated TestRail case 12866: 1 
+PASSED [ 96%]
+tests/e2e/snapshot/test_snapshot_regression.py::TestSnapshotRegression::test_api_response_snapshots 
+🔍 Processing test: test_api_response_snapshots
+✅ TestRail case 12867 updated successfully
+📊 Updated TestRail case 12867: 1 
+PASSED [ 96%]
+tests/e2e/snapshot/test_snapshot_regression.py::TestSnapshotRegression::test_component_snapshots 
+🔍 Processing test: test_component_snapshots
+✅ TestRail case 12868 updated successfully
+📊 Updated TestRail case 12868: 1 
+PASSED [ 97%]
+tests/e2e/snapshot/test_snapshot_regression.py::TestSnapshotRegression::test_snapshot_comparison_workflow 
+🔍 Processing test: test_snapshot_comparison_workflow
+✅ TestRail case 12869 updated successfully
+📊 Updated TestRail case 12869: 1 
+PASSED [ 97%]
+tests/performance/test_performance_regression.py::TestPerformanceRegression::test_page_load_performance 
+🔍 Processing test: test_page_load_performance
+✅ TestRail case 8056 updated successfully
+📊 Updated TestRail case 8056: 1 
+PASSED [ 97%]
+tests/performance/test_performance_regression.py::TestPerformanceRegression::test_memory_usage_monitoring 
+🔍 Processing test: test_memory_usage_monitoring
+✅ TestRail case 8057 updated successfully
+📊 Updated TestRail case 8057: 1 
+PASSED [ 98%]
+tests/performance/test_performance_regression.py::TestPerformanceRegression::test_concurrent_user_simulation 
+🔍 Processing test: test_concurrent_user_simulation
+✅ TestRail case 8058 updated successfully
+📊 Updated TestRail case 8058: 1 
+PASSED [ 98%]
+tests/performance/test_performance_regression.py::TestPerformanceRegression::test_api_response_times 
+🔍 Processing test: test_api_response_times
+✅ TestRail case 8059 updated successfully
+📊 Updated TestRail case 8059: 1 
+PASSED [ 99%]
+tests/performance/test_performance_regression.py::TestPerformanceRegression::test_large_dataset_handling 
+🔍 Processing test: test_large_dataset_handling
+✅ TestRail case 8060 updated successfully
+📊 Updated TestRail case 8060: 1 
+PASSED [ 99%]
+tests/performance/test_performance_regression.py::TestPerformanceRegression::test_resource_usage_optimization 
+🔍 Processing test: test_resource_usage_optimization
+✅ TestRail case 8061 updated successfully
+📊 Updated TestRail case 8061: 1 
+PASSED [100%]⏳ Waiting for 26 pending results (attempt 1/5)
+✅ TestRail case 7937 updated successfully
+✅ TestRail case 7938 updated successfully
+✅ TestRail case 7939 updated successfully
+✅ TestRail case 7940 updated successfully
+✅ TestRail case 7941 updated successfully
+✅ TestRail case 7942 updated successfully
+✅ TestRail case 7943 updated successfully
+✅ TestRail case 7944 updated successfully
+✅ TestRail case 7945 updated successfully
+✅ TestRail case 7946 updated successfully
+✅ TestRail case 7970 updated successfully
+✅ TestRail case 8037 updated successfully
+✅ TestRail case 8045 updated successfully
+✅ TestRail case 52142 updated successfully
+✅ TestRail case 52143 updated successfully
+✅ TestRail case 52144 updated successfully
+✅ TestRail case 52145 updated successfully
+✅ TestRail case 51889 updated successfully
+✅ TestRail case 51890 updated successfully
+✅ TestRail case 51891 updated successfully
+✅ TestRail case 51892 updated successfully
+✅ TestRail case 51893 updated successfully
+✅ TestRail case 51894 updated successfully
+✅ TestRail case 52146 updated successfully
+✅ TestRail case 139375 updated successfully
+✅ TestRail case 51901 updated successfully
+Test run 799 closed successfully
+🏁 TestRail test run completed
+
+
+=================================== FAILURES ===================================
+_________ TestBrowserCompatibility.test_print_stylesheet_compatibility _________
+tests/e2e/compatibility/test_browser_compatibility.py:208: in test_print_stylesheet_compatibility
+    assert pages_tested >= 1, "Should successfully test print styles on at least one page"
+E   AssertionError: Should successfully test print styles on at least one page
+E   assert 0 >= 1
+---------------------------- Captured stdout setup -----------------------------
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 982379
+🔍 Waiting for 2FA page...
+✅ Found 2FA page: Two-Factor Authentication
+📝 Entering OTP: 982379
+✅ OTP filled via get_by_role('textbox')
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/login
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+⚠️ No entity selector found - entity selection may not be required
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/login
+❌ CRITICAL: Still on login page after fixture! Login failed.
+📸 Screenshot saved: debug_login_fixture_failure.png
+----------------------------- Captured stdout call -----------------------------
+🖨️ Testing print stylesheet compatibility...
+
+🖨️ Testing print styles for Home...
+⚠️ Home print test failed: Page.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("text=Home")
+
+
+🖨️ Testing print styles for Reconciliation...
+⚠️ Reconciliation print test failed: Page.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("text=Reconciliation")
+
+
+🖨️ Testing print styles for Ledger...
+⚠️ Ledger print test failed: Page.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("text=Ledger")
+
+
+🖨️ Print Compatibility Summary:
+   ❌ Home: Print test failed
+   ❌ Reconciliation: Print test failed
+   ❌ Ledger: Print test failed
+   📊 Total content areas: 0
+   📊 Pages successfully tested: 0/3
+___________ test_tab_navigation_with_entity[text=Ledger-LedgerPage] ____________
+tests/e2e/navigation/test_tabs_navigation_with_entity.py:57: in test_tab_navigation_with_entity
+    await page.click(f"text={text}")
+venv/lib/python3.12/site-packages/playwright/async_api/_generated.py:9861: in click
+    await self._impl_obj.click(
+venv/lib/python3.12/site-packages/playwright/_impl/_page.py:859: in click
+    return await self._main_frame.click(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv/lib/python3.12/site-packages/playwright/_impl/_frame.py:521: in click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:558: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Page.click: Timeout 30000ms exceeded.
+E   Call log:
+E     - waiting for locator("text=Ledger")
+---------------------------- Captured stdout setup -----------------------------
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 867140
+🔍 Waiting for 2FA page...
+✅ Found 2FA page: Two-Factor Authentication
+📝 Entering OTP: 867140
+✅ OTP filled via get_by_role('textbox')
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/login
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+⚠️ No entity selector found - entity selection may not be required
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/login
+❌ CRITICAL: Still on login page after fixture! Login failed.
+📸 Screenshot saved: debug_login_fixture_failure.png
+----------------------------- Captured stdout call -----------------------------
+🚀 Starting navigation test for Ledger tab (with entity selection)
+✅ Entity selection completed, proceeding with Ledger navigation
+❌ Failed to navigate to Ledger tab: Page.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("text=Ledger")
+
+_______________________ test_entity_selection_validation _______________________
+tests/e2e/navigation/test_tabs_navigation_with_entity.py:90: in test_entity_selection_validation
+    assert entity_verified, "Entity selection verification failed"
+E   AssertionError: Entity selection verification failed
+E   assert False
+---------------------------- Captured stdout setup -----------------------------
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 899807
+🔍 Waiting for 2FA page...
+✅ Found 2FA page: Two-Factor Authentication
+📝 Entering OTP: 899807
+✅ OTP filled via get_by_role('textbox')
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/login
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+⚠️ No entity selector found - entity selection may not be required
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/login
+❌ CRITICAL: Still on login page after fixture! Login failed.
+📸 Screenshot saved: debug_login_fixture_failure.png
+----------------------------- Captured stdout call -----------------------------
+🧪 Testing entity selection validation...
+⚠️ Could not verify entity selection: Viewz Demo INC
+________ TestCompletePayablesOperations.test_recognition_timing_default ________
+tests/e2e/reconciliation/payables/test_complete_payables_operations.py:804: in test_recognition_timing_default
+    assert buttons_found, "Edit buttons should be present for recognition timing Deferred Period testing"
+E   AssertionError: Edit buttons should be present for recognition timing Deferred Period testing
+E   assert False
+---------------------------- Captured stdout setup -----------------------------
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 696892
+🔍 Waiting for 2FA page...
+✅ Found 2FA page: Two-Factor Authentication
+📝 Entering OTP: 696892
+✅ OTP filled via get_by_role('textbox')
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/login
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+⚠️ No entity selector found - entity selection may not be required
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/login
+❌ CRITICAL: Still on login page after fixture! Login failed.
+📸 Screenshot saved: debug_login_fixture_failure.png
+📄 Navigating to Payables section...
+⚠️ Currently on login page, waiting for authentication...
+⚠️ UI navigation failed: Frame.is_visible() got an unexpected keyword argument 'timeout', trying direct URL...
+🔗 Navigating to: https://app.stage.viewz.co/reconciliation/payables
+⚠️ Redirected to login page - session may have been lost
+⚠️ Navigation to Payables section failed, but continuing with tests
+----------------------------- Captured stdout call -----------------------------
+🚀 Starting test: Recognition timing Deferred Period
+📸 Screenshot captured: test_recognition_timing_default_step_1.png
+📝 Step 1: Testing recognition timing Deferred Period option
+❌ Test failed: Recognition timing Deferred Period - Edit buttons should be present for recognition timing Deferred Period testing
+assert False
+📸 Screenshot captured: test_recognition_timing_default_failure.png
+⏱️ Test duration: 0.15s
+_________ TestPayablesOperations.test_verify_invoice_list_is_displayed _________
+tests/e2e/reconciliation/payables/test_payables_operations.py:71: in test_verify_invoice_list_is_displayed
+    assert result, "Invoice list or data table should be displayed"
+E   AssertionError: Invoice list or data table should be displayed
+E   assert False
+---------------------------- Captured stdout setup -----------------------------
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 710701
+🔍 Waiting for 2FA page...
+⚠️ Could not detect 2FA page, attempting OTP entry anyway
+📝 Entering OTP: 710701
+✅ OTP filled via input:visible
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/login
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+⚠️ No entity selector found - entity selection may not be required
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/login
+❌ CRITICAL: Still on login page after fixture! Login failed.
+📸 Screenshot saved: debug_login_fixture_failure.png
+📄 Navigating to Payables section...
+⚠️ Currently on login page, waiting for authentication...
+⚠️ UI navigation failed: Frame.is_visible() got an unexpected keyword argument 'timeout', trying direct URL...
+🔗 Navigating to: https://app.stage.viewz.co/reconciliation/payables
+⚠️ Redirected to login page - session may have been lost
+----------------------------- Captured stdout call -----------------------------
+🔍 Verifying preconditions for: Verify invoice list is displayed
+📋 Preconditions: User is logged in and on reconciliation page
+🚀 Starting test: Verify invoice list is displayed
+📝 Step 1: Navigate to Payables section within Reconciliation
+📸 Screenshot captured: test_verify_invoice_list_is_displayed_step_1.png
+⚠️ Not on reconciliation page, attempting navigation...
+📄 Navigating to Payables section...
+⚠️ Currently on login page, waiting for authentication...
+⚠️ UI navigation failed: Frame.is_visible() got an unexpected keyword argument 'timeout', trying direct URL...
+🔗 Navigating to: https://app.stage.viewz.co/reconciliation/payables
+⚠️ Redirected to login page - session may have been lost
+❌ No invoice list or data display found
+❌ Test failed: Verify invoice list is displayed - Invoice list or data table should be displayed
+assert False
+📸 Screenshot captured: test_verify_invoice_list_is_displayed_failure.png
+⏱️ Test duration: 9.57s
+_________ TestExportValidation.test_receivables_export_data_validation _________
+tests/e2e/reconciliation/test_export_validation.py:768: in test_receivables_export_data_validation
+    assert comparison["match_percentage"] >= 99.9, f"Data match too low: {comparison['match_percentage']:.1f}% - Expected 99.9%+"
+E   AssertionError: Data match too low: 61.7% - Expected 99.9%+
+E   assert 61.7037037037037 >= 99.9
+---------------------------- Captured stdout setup -----------------------------
+🔐 HTTP Basic Auth configured for: admin
+----------------------------- Captured stdout call -----------------------------
+
+============================================================
+🧪 TEST: Receivables Export Data Validation
+============================================================
+
+📍 Step 1: Navigating to Receivables...
+✅ On Receivables page: https://app.stage.viewz.co/reconciliation/receivables?entityId=1
+
+📅 Step 2: Setting date filter...
+📅 Setting date filter from: 01/01/2020
+📅 Found 3 inputs on page
+📅 Found date input with value: 11/01/2025
+✅ Date filter changed: 11/01/2025 -> 01/01/2020
+
+📥 Step 3: Exporting data...
+📥 Clicking export button...
+📍 Found 'Export' text element
+✅ Clicked Export
+✅ File downloaded: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/downloads/export_20260101_145314.xlsx (original: receivable-documents-2026-01-01.xlsx)
+
+📄 Step 4: Reading exported file...
+📄 Reading export file: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/downloads/export_20260101_145314.xlsx
+📊 Detected Excel format (.xlsx)
+✅ Excel has 10 columns and 135 data rows
+📊 Export has 135 rows
+
+📋 Step 5: Extracting all 135 UI rows...
+📊 Extracting table data from UI (target: 135 rows)...
+📊 Set rows per page to: 100
+📊 Extracting table data from UI...
+📋 Found 100 rows in table
+✅ Extracted 100 data rows
+📄 Page 1: collected 100 rows (total: 100)
+➡️ Clicked next page
+📊 Extracting table data from UI...
+📋 Found 35 rows in table
+✅ Extracted 35 data rows
+📄 Page 2: collected 35 rows (total: 135)
+✅ Total rows extracted from UI: 135
+
+🔍 Step 6: Comparing data...
+🔍 Comparing UI data with CSV data...
+📊 Sorted both datasets by date + description
+📊 UI first row (11 cols): ['Matched', '09/11/2025, 10:05', 'viewz K46983 Su...', 'D57AUBOW-0004', '09/10/2025']...
+📊 CSV first row (10 cols): ['Matched', '2025-09-11 10:05:00', 'viewz K46983 Sub 23832', 'D57AUBOW-0004', '2025-09-10 12:00:00']...
+✅ Row counts match: 135
+❌ Sample mismatches:
+   Row 3, Col 1: UI='01/01/2026, 09:51' vs CSV='2025-11-17 17:15:00'
+   Row 3, Col 2: UI='Try12' vs CSV='sharon test'
+   Row 3, Col 3: UI='50387' vs CSV='50088'
+   Row 3, Col 4: UI='01/01/2026' vs CSV='2025-11-17 12:00:00'
+   Row 3, Col 5: UI='₪75,000.00' vs CSV='2.75485'
+✅ Match percentage: 61.7%
+
+✅ Step 7: Validating results...
+📊 Row counts: UI=135, Export=135
+________ TestExportValidation.test_credit_cards_export_data_validation _________
+tests/e2e/reconciliation/test_export_validation.py:945: in test_credit_cards_export_data_validation
+    assert comparison["match_percentage"] >= 99.9, f"Data match too low: {comparison['match_percentage']:.1f}% - Expected 99.9%+"
+E   AssertionError: Data match too low: 98.4% - Expected 99.9%+
+E   assert 98.4 >= 99.9
+---------------------------- Captured stdout setup -----------------------------
+🔐 HTTP Basic Auth configured for: admin
+----------------------------- Captured stdout call -----------------------------
+
+============================================================
+🧪 TEST: Credit Cards Export Data Validation
+============================================================
+
+📍 Step 1: Navigating to Credit Cards...
+✅ On Credit Cards page: https://app.stage.viewz.co/reconciliation/credit-cards?entityId=1&selectedCreditCardAccount=%221%22
+
+📅 Step 2: Setting date filter...
+📅 Setting date filter from: 01/01/2020
+📅 Found 3 inputs on page
+📅 Found date input with value: 12/01/2025
+✅ Date filter changed: 12/01/2025 -> 01/01/2020
+
+📥 Step 3: Exporting data...
+📥 Clicking export button...
+📍 Found 'Export' text element
+✅ Clicked Export
+✅ File downloaded: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/downloads/export_20260101_145432.xlsx (original: credit-card-transactions-2026-01-01.xlsx)
+
+📄 Step 4: Reading exported file...
+📄 Reading export file: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/downloads/export_20260101_145432.xlsx
+📊 Detected Excel format (.xlsx)
+✅ Excel has 5 columns and 25 data rows
+📊 Export has 25 rows
+
+📋 Step 5: Extracting all 25 UI rows...
+📊 Extracting table data from UI (target: 25 rows)...
+📊 Set rows per page to: 100
+📊 Extracting table data from UI...
+📋 Found 25 rows in table
+✅ Extracted 25 data rows
+📄 Page 1: collected 25 rows (total: 25)
+✅ Total rows extracted from UI: 25
+
+🔍 Step 6: Comparing data...
+🔍 Comparing UI data with CSV data...
+📊 Sorted both datasets by date + description
+📊 UI first row (6 cols): ['11/09/2024', 'LINKEDIN JOB*022994383 LNKD.IN/BILL', '$970.00', '70905 - Payroll s...', 'Recorded']...
+📊 CSV first row (5 cols): ['2024-11-09 12:00:00', 'LINKEDIN JOB*022994383 LNKD.IN/BILL', '970', '', 'Recorded']...
+✅ Row counts match: 25
+❌ Sample mismatches:
+   Row 3, Col 3: UI='VZ15 - AR Test A...' vs CSV=''
+   Row 5, Col 3: UI='VZ9 - test' vs CSV=''
+✅ Match percentage: 98.4%
+
+✅ Step 7: Validating results...
+📊 Row counts: UI=25, Export=25
+=============================== warnings summary ===============================
+tests/api/test_security_otp_validation.py:311
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:311: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:312
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:312: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:346
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:346: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:347
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:347: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:369
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:369: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:370
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:370: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:392
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:392: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:393
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:393: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:415
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:415: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:416
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:416: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:438
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:438: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:439
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:439: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:473
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:473: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:474
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:474: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:509
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:509: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:510
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:510: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:543
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:543: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:544
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:544: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:598
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:598: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:599
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:599: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:639
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:639: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:640
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:640: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:681
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:681: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:682
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:682: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:767
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:767: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/api/test_security_otp_validation.py:768
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:768: PytestUnknownMarkWarning: Unknown pytest.mark.otp_validation - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.otp_validation
+
+tests/api/test_security_otp_validation.py:826
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/api/test_security_otp_validation.py:826: PytestUnknownMarkWarning: Unknown pytest.mark.security - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.security
+
+tests/e2e/payables/test_invoice_file_upload.py:1386
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/e2e/payables/test_invoice_file_upload.py:1386: PytestUnknownMarkWarning: Unknown pytest.mark.testrail_case - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.testrail_case(7988)
+
+tests/e2e/payables/test_invoice_file_upload.py:1556
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/e2e/payables/test_invoice_file_upload.py:1556: PytestUnknownMarkWarning: Unknown pytest.mark.testrail_case - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.testrail_case(8010)
+
+tests/e2e/payables/test_invoice_file_upload.py:1617
+  /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/tests/e2e/payables/test_invoice_file_upload.py:1617: PytestUnknownMarkWarning: Unknown pytest.mark.testrail_case - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.testrail_case(7989)  # Matches existing mapping
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/e2e/compatibility/test_browser_compatibility.py::TestBrowserCompatibility::test_print_stylesheet_compatibility - AssertionError: Should successfully test print styles on at least one page
+assert 0 >= 1
+FAILED tests/e2e/navigation/test_tabs_navigation_with_entity.py::test_tab_navigation_with_entity[text=Ledger-LedgerPage] - playwright._impl._errors.TimeoutError: Page.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("text=Ledger")
+FAILED tests/e2e/navigation/test_tabs_navigation_with_entity.py::test_entity_selection_validation - AssertionError: Entity selection verification failed
+assert False
+FAILED tests/e2e/reconciliation/payables/test_complete_payables_operations.py::TestCompletePayablesOperations::test_recognition_timing_default - AssertionError: Edit buttons should be present for recognition timing Deferred Period testing
+assert False
+FAILED tests/e2e/reconciliation/payables/test_payables_operations.py::TestPayablesOperations::test_verify_invoice_list_is_displayed - AssertionError: Invoice list or data table should be displayed
+assert False
+FAILED tests/e2e/reconciliation/test_export_validation.py::TestExportValidation::test_receivables_export_data_validation - AssertionError: Data match too low: 61.7% - Expected 99.9%+
+assert 61.7037037037037 >= 99.9
+FAILED tests/e2e/reconciliation/test_export_validation.py::TestExportValidation::test_credit_cards_export_data_validation - AssertionError: Data match too low: 98.4% - Expected 99.9%+
+assert 98.4 >= 99.9
+=========== 7 failed, 240 passed, 30 warnings in 6954.37s (1:55:54) ============

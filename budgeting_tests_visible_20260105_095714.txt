@@ -1,0 +1,243 @@
+
+🔗 TestRail integration enabled
+Created TestRail run: 825
+============================= test session starts ==============================
+platform darwin -- Python 3.12.3, pytest-8.4.1, pluggy-1.6.0 -- /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.12.3', 'Platform': 'macOS-15.6-arm64-arm-64bit', 'Packages': {'pytest': '8.4.1', 'pluggy': '1.6.0'}, 'Plugins': {'anyio': '4.9.0', 'html': '4.1.1', 'xdist': '3.8.0', 'json-report': '1.5.0', 'metadata': '3.1.1', 'typeguard': '4.4.4', 'asyncio': '1.0.0'}, 'CI': 'true'}
+rootdir: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework
+configfile: pytest.ini
+plugins: anyio-4.9.0, html-4.1.1, xdist-3.8.0, json-report-1.5.0, metadata-3.1.1, typeguard-4.4.4, asyncio-1.0.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 8 items
+
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_add_budget_group 
+🔍 Processing test: test_add_budget_group
+✅ TestRail case 168676 updated successfully
+📊 Updated TestRail case 168676: 1 
+PASSED [ 12%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_add_budget_group_with_custom_name 
+🔍 Processing test: test_add_budget_group_with_custom_name
+📸 Attempting to capture screenshot for failed test: test_add_budget_group_with_custom_name
+✅ Screenshot captured: failure_test_add_budget_group_with_custom_name_2026-01-05_09-58-31.png
+✅ TestRail case 168677 updated successfully
+📊 Updated TestRail case 168677: 5 with screenshot
+FAILED [ 25%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_open_budget_builder 
+🔍 Processing test: test_open_budget_builder
+✅ TestRail case 168678 updated successfully
+📊 Updated TestRail case 168678: 1 
+PASSED [ 37%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_budget_builder_add_line 
+🔍 Processing test: test_budget_builder_add_line
+📸 Attempting to capture screenshot for failed test: test_budget_builder_add_line
+✅ Screenshot captured: failure_test_budget_builder_add_line_2026-01-05_10-00-26.png
+✅ TestRail case 168679 updated successfully
+📊 Updated TestRail case 168679: 5 with screenshot
+FAILED [ 50%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_build_complete_budget 
+🔍 Processing test: test_build_complete_budget
+📸 Attempting to capture screenshot for failed test: test_build_complete_budget
+✅ Screenshot captured: failure_test_build_complete_budget_2026-01-05_10-01-30.png
+✅ TestRail case 168680 updated successfully
+📊 Updated TestRail case 168680: 5 with screenshot
+FAILED [ 62%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetToGLAccountIntegration::test_budget_appears_in_gl_account_dropdown 
+🔍 Processing test: test_budget_appears_in_gl_account_dropdown
+✅ TestRail case 168681 updated successfully
+📊 Updated TestRail case 168681: 1 
+PASSED [ 75%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingValidation::test_budgeting_page_elements 
+🔍 Processing test: test_budgeting_page_elements
+✅ TestRail case 168682 updated successfully
+📊 Updated TestRail case 168682: 1 
+PASSED [ 87%]
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingValidation::test_budget_group_list_display 
+🔍 Processing test: test_budget_group_list_display
+✅ TestRail case 168683 updated successfully
+📊 Updated TestRail case 168683: 1 
+PASSED [100%]Test run 825 closed successfully
+🏁 TestRail test run completed
+
+
+=================================== FAILURES ===================================
+________ TestBudgetingOperations.test_add_budget_group_with_custom_name ________
+tests/e2e/budgeting/test_budgeting_operations.py:111: in test_add_budget_group_with_custom_name
+    assert group_data['name'] == custom_name, f"Group name should be {custom_name}"
+E   AssertionError: Group name should be QA Test Budget 2026
+E   assert 'QA Budget B6SZ' == 'QA Test Budget 2026'
+E     
+E     - QA Test Budget 2026
+E     + QA Budget B6SZ
+---------------------------- Captured stdout setup -----------------------------
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 522894
+🔍 Waiting for 2FA page...
+✅ Found 2FA page: Two-Factor Authentication
+📝 Entering OTP: 522894
+✅ OTP filled via get_by_role('textbox')
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/home?entityId=1
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+✅ Entity 'Viewz Demo INC' already selected
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/home?entityId=1
+✅ Login verified successful - on page: https://app.stage.viewz.co/home?entityId=1
+📍 Using sidebar menu to navigate to Budgeting...
+📍 Navigated to Budgeting via sidebar: https://app.stage.viewz.co/budgeting/chart-of-budget?entityId=1
+----------------------------- Captured stdout call -----------------------------
+
+============================================================
+🧪 TEST: Add Budget Group with Custom Name
+============================================================
+
+📝 Creating Budget Group...
+✅ Clicked: button:has-text('Add Budget Group')
+✅ Budget ID: QA Test Budget 2026
+✅ Name: QA Budget B6SZ
+✅ Report Type: Balance Sheet
+✅ Account Type: selected option 0
+✅ Group: selected option 0
+✅ Clicked: button:has-text('Create Group')
+✅ Budget Group created: QA Budget B6SZ
+_____________ TestBudgetingOperations.test_budget_builder_add_line _____________
+tests/e2e/budgeting/test_budgeting_operations.py:214: in test_budget_builder_add_line
+    assert saved, "Budget should be saved"
+E   AssertionError: Budget should be saved
+E   assert False
+---------------------------- Captured stdout setup -----------------------------
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 960422
+🔍 Waiting for 2FA page...
+✅ Found 2FA page: Two-Factor Authentication
+📝 Entering OTP: 960422
+✅ OTP filled via get_by_role('textbox')
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/home?entityId=1
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+✅ Entity 'Viewz Demo INC' already selected
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/home?entityId=1
+✅ Login verified successful - on page: https://app.stage.viewz.co/home?entityId=1
+📍 Using sidebar menu to navigate to Budgeting...
+📍 Navigated to Budgeting via sidebar: https://app.stage.viewz.co/budgeting/chart-of-budget?entityId=1
+----------------------------- Captured stdout call -----------------------------
+
+============================================================
+🧪 TEST: Budget Builder - Add Line
+============================================================
+
+📝 Creating Budget Group...
+✅ Clicked: button:has-text('Add Budget Group')
+✅ Budget ID: QA-CT65
+✅ Name: QA Budget CT65
+✅ Report Type: Balance Sheet
+✅ Account Type: selected option 0
+✅ Group: selected option 0
+✅ Clicked: button:has-text('Create Group')
+✅ Budget Group created: QA Budget CT65
+✅ Selected budget group: QA Budget CT65
+✅ Opened Budget Builder: a:has-text('Budget Builder')
+
+💰 Adding budget line: Auto = $25,000.00
+📸 Screenshot: debug_budgeting_budget_line_added_095956.png
+✅ Added budget line: $25,000.00
+❌ Error saving budget: Locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("button:has-text('Save'), button:has-text('Apply'), button[type='submit']").first
+    - locator resolved to <button disabled class="inline-flex items-center justify-center gap-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-8 rounded-md px-3 text-xs bg-primary text-primary-foreground shadow hover:bg-primary/90">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+      - waiting 100ms
+    58 × waiting for element to be visible, enabled and stable
+       - element is not enabled
+     - retrying click action
+       - waiting 500ms
+
+______________ TestBudgetingOperations.test_build_complete_budget ______________
+tests/e2e/budgeting/test_budgeting_operations.py:263: in test_build_complete_budget
+    assert success, "Complete budget should be built"
+E   AssertionError: Complete budget should be built
+E   assert False
+---------------------------- Captured stdout setup -----------------------------
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 984852
+🔍 Waiting for 2FA page...
+✅ Found 2FA page: Two-Factor Authentication
+📝 Entering OTP: 984852
+✅ OTP filled via get_by_role('textbox')
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/home?entityId=1
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+✅ Entity 'Viewz Demo INC' already selected
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/home?entityId=1
+✅ Login verified successful - on page: https://app.stage.viewz.co/home?entityId=1
+📍 Using sidebar menu to navigate to Budgeting...
+📍 Navigated to Budgeting via sidebar: https://app.stage.viewz.co/budgeting/chart-of-budget?entityId=1
+----------------------------- Captured stdout call -----------------------------
+
+============================================================
+🧪 TEST: Build Complete Budget
+============================================================
+
+📝 Creating Budget Group...
+✅ Clicked: button:has-text('Add Budget Group')
+✅ Budget ID: Complete Budget Test
+✅ Name: QA Budget 31VL
+✅ Report Type: Balance Sheet
+✅ Account Type: selected option 0
+✅ Group: selected option 0
+✅ Clicked: button:has-text('Create Group')
+✅ Budget Group created: QA Budget 31VL
+
+🔨 Building budget for: QA Budget 31VL
+❌ Budget group not found: QA Budget 31VL
+❌ Error opening builder: Locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text('Budget Builder')").first
+    - locator resolved to <a value="budget_builder" href="/budgeting/budget-builder?entityId=1" class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">Budget Builder</a>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div data-state="open" aria-hidden="true" data-aria-hidden="true" class="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"></div> intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div data-state="open" aria-hidden="true" data-aria-hidden="true" class="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"></div> intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    57 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div data-state="open" aria-hidden="true" data-aria-hidden="true" class="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"></div> intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+
+📸 Screenshot: debug_budgeting_complete_budget_100130.png
+=========================== short test summary info ============================
+FAILED tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_add_budget_group_with_custom_name - AssertionError: Group name should be QA Test Budget 2026
+assert 'QA Budget B6SZ' == 'QA Test Budget 2026'
+  
+  - QA Test Budget 2026
+  + QA Budget B6SZ
+FAILED tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_budget_builder_add_line - AssertionError: Budget should be saved
+assert False
+FAILED tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_build_complete_budget - AssertionError: Complete budget should be built
+assert False
+=================== 3 failed, 5 passed in 377.87s (0:06:17) ====================

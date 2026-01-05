@@ -444,9 +444,10 @@ class BudgetingPage:
         
         Flow:
         1. Find the row for the budget group
-        2. Fill Annual Budget amount
-        3. Click "Distribute evenly across months"
-        4. Then save is enabled
+        2. Click on Annual Budget cell to edit
+        3. Enter amount value, press Enter
+        4. Click "Distribute evenly across months" button (first column)
+        5. Save Budget button becomes enabled
         """
         try:
             # Default values
@@ -455,96 +456,142 @@ class BudgetingPage:
             
             print(f"\n💰 Adding budget amount: ${amount:,.2f}")
             
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)  # Wait for table to fully load
             
-            # The Budget Builder table structure:
-            # Code | Budget Group | Annual Budget | Jan | Feb | ... | Dec | Status
+            # Table structure based on screenshot:
+            # [distribute btn] | Code | Budget Group | Annual Budget | Jan | Feb | ... | Dec | Status/checkmark
             
             amount_filled = False
+            target_row = None
             
-            # Find the row for our budget group if specified
+            # Find the row for our budget group
             if budget_group:
                 row = self.page.locator(f"tr:has-text('{budget_group}')").first
                 if await row.count() > 0:
+                    target_row = row
                     print(f"   Found row for: {budget_group}")
-                    # Click on the Annual Budget cell (3rd column)
-                    cells = row.locator("td")
-                    annual_cell = cells.nth(2)  # Annual Budget column
-                    await annual_cell.click()
-                    await asyncio.sleep(0.5)
-                    
-                    # Find the input that appeared
-                    input_el = row.locator("input").first
-                    if await input_el.count() > 0:
-                        await input_el.fill(str(int(amount)))
-                        await self.page.keyboard.press("Enter")
-                        print(f"✅ Filled Annual Budget: ${amount:,.2f}")
-                        amount_filled = True
             
-            # If no specific group, fill the first available input
-            if not amount_filled:
-                # Try clicking on any Annual Budget cell (3rd column in table)
-                annual_header = self.page.locator("th:has-text('Annual'), th:has-text('Budget')").first
-                if await annual_header.count() > 0:
-                    # Find cells in Annual Budget column
-                    table_rows = self.page.locator("table tbody tr")
-                    row_count = await table_rows.count()
-                    
-                    if row_count > 0:
-                        # Click on first row's Annual Budget cell
-                        first_row = table_rows.first
-                        cells = first_row.locator("td")
-                        if await cells.count() >= 3:
-                            await cells.nth(2).click()  # Annual Budget column
-                            await asyncio.sleep(0.5)
-                            
-                            input_el = self.page.locator("input:visible").first
-                            if await input_el.count() > 0:
-                                await input_el.fill(str(int(amount)))
-                                await self.page.keyboard.press("Enter")
-                                print(f"✅ Filled Annual Budget: ${amount:,.2f}")
-                                amount_filled = True
+            # If no specific group, use first row
+            if not target_row:
+                target_row = self.page.locator("table tbody tr").first
+                if await target_row.count() > 0:
+                    print("   Using first table row")
+            
+            if not target_row or await target_row.count() == 0:
+                print("❌ No table row found")
+                await self.take_screenshot("no_row_found")
+                return None
+            
+            # Get all cells in this row
+            cells = target_row.locator("td")
+            cell_count = await cells.count()
+            print(f"   Row has {cell_count} cells")
+            
+            # ========================================
+            # STEP 1: Enter amount in Annual Budget cell (index 3)
+            # ========================================
+            
+            # IMPORTANT: Scroll the row into view first!
+            await target_row.scroll_into_view_if_needed()
+            await asyncio.sleep(1)
+            
+            # Now get the cells from the visible row
+            cells = target_row.locator("td")
+            annual_cell = cells.nth(3)  # Annual Budget column
+            
+            print("   📝 Step 1: Clicking on Annual Budget cell...")
+            
+            # Double-click to edit
+            await annual_cell.dblclick()
+            await asyncio.sleep(1)
+            
+            # Find the input WITHIN THIS ROW (not any visible input!)
+            input_el = target_row.locator("input").first
+            if await input_el.count() > 0:
+                amount_str = str(int(amount))
+                
+                # Fill the amount
+                await input_el.fill(amount_str)
+                print(f"   Filled amount: {amount_str}")
+                
+                await asyncio.sleep(0.5)
+                
+                # Press Enter to commit the value
+                await self.page.keyboard.press("Enter")
+                print(f"   Pressed Enter to commit")
+                
+                await asyncio.sleep(2)  # Wait for value to be saved
+                
+                print(f"   ✅ Filled Annual Budget: ${amount:,.2f}")
+                amount_filled = True
+            else:
+                # Try clicking the cell again and typing directly
+                print("   No input in row, trying direct type...")
+                await annual_cell.click()
+                await asyncio.sleep(0.5)
+                await self.page.keyboard.type(str(int(amount)), delay=50)
+                await self.page.keyboard.press("Enter")
+                await asyncio.sleep(2)
+                amount_filled = True
             
             if not amount_filled:
                 print("⚠️ Could not fill Annual Budget")
-                await self.take_screenshot("annual_budget_not_filled")
+                return None
             
-            # Step 2: Click "Distribute evenly across months"
-            # First scroll to top to ensure buttons are visible
-            await self.page.evaluate("window.scrollTo(0, 0)")
-            await asyncio.sleep(1)
+            # ========================================
+            # STEP 2: Click "Distribute evenly" button (first cell)
+            # ========================================
+            print("   📍 Step 2: Clicking 'Distribute evenly' button in first column...")
             
-            distribute_selectors = [
-                "button:has-text('Distribute evenly')",
-                "button:has-text('Distribute')",
-                "text=Distribute evenly across months",
-                "text=Distribute evenly",
-                "button:has-text('Even')",  # Shortened version
-            ]
+            # Re-find the row (in case DOM changed after entering amount)
+            if budget_group:
+                target_row = self.page.locator(f"tr:has-text('{budget_group}')").first
+            else:
+                target_row = self.page.locator("table tbody tr").first
             
+            # Scroll the row into view
+            await target_row.scroll_into_view_if_needed()
+            await asyncio.sleep(0.5)
+            
+            cells = target_row.locator("td")
+            first_cell = cells.first
+            
+            # The button in the first cell - try to find it
             distribute_clicked = False
-            for selector in distribute_selectors:
-                try:
-                    distribute_btn = self.page.locator(selector).first
-                    if await distribute_btn.count() > 0 and await distribute_btn.is_visible():
-                        await distribute_btn.click()
-                        print(f"✅ Clicked 'Distribute evenly': {selector}")
-                        distribute_clicked = True
-                        await asyncio.sleep(1)
-                        break
-                except Exception as e:
-                    continue
             
-            if not distribute_clicked:
-                print("⚠️ 'Distribute evenly' button not found - checking if save is enabled anyway")
-                await self.take_screenshot("no_distribute_button")
+            # Try clicking the button inside the first cell
+            button_in_cell = first_cell.locator("button").first
+            if await button_in_cell.count() > 0:
+                print("   Found button in first cell")
+                await button_in_cell.click()
+                distribute_clicked = True
+                print("   ✅ Clicked distribute button")
+            else:
+                # Try clicking any clickable element in the first cell
+                clickable = first_cell.locator("div, span, svg").first
+                if await clickable.count() > 0:
+                    print("   Found clickable element in first cell")
+                    await clickable.click()
+                    distribute_clicked = True
+                    print("   ✅ Clicked element in first cell")
+                else:
+                    # Click the cell itself
+                    print("   Clicking first cell directly...")
+                    await first_cell.click()
+                    distribute_clicked = True
+                    print("   ✅ Clicked first cell")
             
-            await self.take_screenshot("budget_distributed")
+            await asyncio.sleep(2)  # Wait for distribution to apply
+            await self.take_screenshot("after_distribute_click")
+            
+            # Verify months got filled (they should show values now)
+            row_text = await target_row.text_content()
+            print(f"   Row after distribute: {row_text[:100]}...")
             
             return {
                 'budget_group': budget_group,
                 'amount': amount,
-                'distributed': True
+                'distributed': distribute_clicked
             }
             
         except Exception as e:

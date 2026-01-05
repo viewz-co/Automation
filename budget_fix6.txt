@@ -1,0 +1,111 @@
+
+🔗 TestRail integration enabled
+Created TestRail run: 831
+============================= test session starts ==============================
+platform darwin -- Python 3.12.3, pytest-8.4.1, pluggy-1.6.0 -- /Users/sharonhoffman/Desktop/Automation/playwright_python_framework/venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.12.3', 'Platform': 'macOS-15.6-arm64-arm-64bit', 'Packages': {'pytest': '8.4.1', 'pluggy': '1.6.0'}, 'Plugins': {'anyio': '4.9.0', 'html': '4.1.1', 'xdist': '3.8.0', 'json-report': '1.5.0', 'metadata': '3.1.1', 'typeguard': '4.4.4', 'asyncio': '1.0.0'}, 'CI': 'true'}
+rootdir: /Users/sharonhoffman/Desktop/Automation/playwright_python_framework
+configfile: pytest.ini
+plugins: anyio-4.9.0, html-4.1.1, xdist-3.8.0, json-report-1.5.0, metadata-3.1.1, typeguard-4.4.4, asyncio-1.0.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 1 item
+
+tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_build_complete_budget 
+🔍 Processing test: test_build_complete_budget
+📸 Attempting to capture screenshot for failed test: test_build_complete_budget
+✅ Screenshot captured: failure_test_build_complete_budget_2026-01-05_10-33-28.png
+✅ TestRail case 168680 updated successfully
+📊 Updated TestRail case 168680: 5 with screenshot
+FAILED [100%]Test run 831 closed successfully
+🏁 TestRail test run completed
+
+
+=================================== FAILURES ===================================
+______________ TestBudgetingOperations.test_build_complete_budget ______________
+tests/e2e/budgeting/test_budgeting_operations.py:259: in test_build_complete_budget
+    assert group_data is not None, "Budget group should be created"
+E   AssertionError: Budget group should be created
+E   assert None is not None
+---------------------------- Captured stdout setup -----------------------------
+🔄 Loaded STAGE environment config from configs/stage_env_config.json
+🔐 HTTP Basic Auth configured for: admin
+🔑 Using OTP secret from: config file
+🔐 Generated OTP: 140299
+🔍 Waiting for 2FA page...
+✅ Found 2FA page: Two-Factor Authentication
+📝 Entering OTP: 140299
+✅ OTP filled via get_by_role('textbox')
+🔍 Current URL after OTP entry: https://app.stage.viewz.co/home?entityId=1
+🏢 Starting entity selection...
+🏢 Attempting to select entity: Viewz Demo INC
+✅ Entity 'Viewz Demo INC' already selected
+✅ Entity selection completed successfully
+🔍 Final URL after login: https://app.stage.viewz.co/home?entityId=1
+✅ Login verified successful - on page: https://app.stage.viewz.co/home?entityId=1
+📍 Using sidebar menu to navigate to Budgeting...
+⚠️ Navigation error: Locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("button:has(svg.lucide-pin)")
+    - locator resolved to <button class="inline-flex items-center justify-center gap-2 font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-8 rounded-md px-3 text-xs hover:bg-accent hover:text-accent-foreground transition-all duration-200">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <path d="M90.19,31.92l-14,65.51H94.28l14-65.51Zm13.2-8.12a11.14,11.14,0,0,0,8.18-3.28A11,11,0,0,0,115,12.4a10.62,10.62,0,0,0-3.43-8A10.94,10.94,0,0,0,103.39,1a11.07,11.07,0,0,0-8,3.41,10.62,10.62,0,0,0-3.43,8,11,11,0,0,0,3.43,8.12A11.26,11.26,0,0,0,103.39,23.8ZM339.5,31.92H280.78l-3.43,16.25h27L262.83,97.43h61l3.43-16.25h-29.3Zm-85.47,0L233.57,62.71,223.28,30.48,199,62.71l-7.26-30.79H172.88l17.15,67,27.18-34.33,12.41,34.33,45.91-66.95ZM143.2,30.48q-16,0-25.74,10.35t-9.63,25.81q0,14.42,9.63,23.32t24.…></path> from <a aria-current="page" data-status="active" href="/home?entityId=1" class="relative flex items-center h-16 justify-center w-full cursor-pointer hover:opacity-80 transition-all duration-200 ease-linear active">…</a> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <path d="M90.19,31.92l-14,65.51H94.28l14-65.51Zm13.2-8.12a11.14,11.14,0,0,0,8.18-3.28A11,11,0,0,0,115,12.4a10.62,10.62,0,0,0-3.43-8A10.94,10.94,0,0,0,103.39,1a11.07,11.07,0,0,0-8,3.41,10.62,10.62,0,0,0-3.43,8,11,11,0,0,0,3.43,8.12A11.26,11.26,0,0,0,103.39,23.8ZM339.5,31.92H280.78l-3.43,16.25h27L262.83,97.43h61l3.43-16.25h-29.3Zm-85.47,0L233.57,62.71,223.28,30.48,199,62.71l-7.26-30.79H172.88l17.15,67,27.18-34.33,12.41,34.33,45.91-66.95ZM143.2,30.48q-16,0-25.74,10.35t-9.63,25.81q0,14.42,9.63,23.32t24.…></path> from <a aria-current="page" data-status="active" href="/home?entityId=1" class="relative flex items-center h-16 justify-center w-full cursor-pointer hover:opacity-80 transition-all duration-200 ease-linear active">…</a> subtree intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    57 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <path d="M90.19,31.92l-14,65.51H94.28l14-65.51Zm13.2-8.12a11.14,11.14,0,0,0,8.18-3.28A11,11,0,0,0,115,12.4a10.62,10.62,0,0,0-3.43-8A10.94,10.94,0,0,0,103.39,1a11.07,11.07,0,0,0-8,3.41,10.62,10.62,0,0,0-3.43,8,11,11,0,0,0,3.43,8.12A11.26,11.26,0,0,0,103.39,23.8ZM339.5,31.92H280.78l-3.43,16.25h27L262.83,97.43h61l3.43-16.25h-29.3Zm-85.47,0L233.57,62.71,223.28,30.48,199,62.71l-7.26-30.79H172.88l17.15,67,27.18-34.33,12.41,34.33,45.91-66.95ZM143.2,30.48q-16,0-25.74,10.35t-9.63,25.81q0,14.42,9.63,23.32t24.…></path> from <a aria-current="page" data-status="active" href="/home?entityId=1" class="relative flex items-center h-16 justify-center w-full cursor-pointer hover:opacity-80 transition-all duration-200 ease-linear active">…</a> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+
+----------------------------- Captured stdout call -----------------------------
+
+============================================================
+🧪 TEST: Build Complete Budget
+============================================================
+
+📝 Creating Budget Group...
+❌ Error clicking Add Budget Group: Locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("button:has(svg), button:has-text('+')").first
+    - locator resolved to <button class="inline-flex items-center justify-center gap-2 font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-8 rounded-md px-3 text-xs hover:bg-accent hover:text-accent-foreground transition-all duration-200">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <path d="M90.19,31.92l-14,65.51H94.28l14-65.51Zm13.2-8.12a11.14,11.14,0,0,0,8.18-3.28A11,11,0,0,0,115,12.4a10.62,10.62,0,0,0-3.43-8A10.94,10.94,0,0,0,103.39,1a11.07,11.07,0,0,0-8,3.41,10.62,10.62,0,0,0-3.43,8,11,11,0,0,0,3.43,8.12A11.26,11.26,0,0,0,103.39,23.8ZM339.5,31.92H280.78l-3.43,16.25h27L262.83,97.43h61l3.43-16.25h-29.3Zm-85.47,0L233.57,62.71,223.28,30.48,199,62.71l-7.26-30.79H172.88l17.15,67,27.18-34.33,12.41,34.33,45.91-66.95ZM143.2,30.48q-16,0-25.74,10.35t-9.63,25.81q0,14.42,9.63,23.32t24.…></path> from <a aria-current="page" data-status="active" href="/home?entityId=1" class="relative flex items-center h-16 justify-center w-full cursor-pointer hover:opacity-80 transition-all duration-200 ease-linear active">…</a> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <path d="M90.19,31.92l-14,65.51H94.28l14-65.51Zm13.2-8.12a11.14,11.14,0,0,0,8.18-3.28A11,11,0,0,0,115,12.4a10.62,10.62,0,0,0-3.43-8A10.94,10.94,0,0,0,103.39,1a11.07,11.07,0,0,0-8,3.41,10.62,10.62,0,0,0-3.43,8,11,11,0,0,0,3.43,8.12A11.26,11.26,0,0,0,103.39,23.8ZM339.5,31.92H280.78l-3.43,16.25h27L262.83,97.43h61l3.43-16.25h-29.3Zm-85.47,0L233.57,62.71,223.28,30.48,199,62.71l-7.26-30.79H172.88l17.15,67,27.18-34.33,12.41,34.33,45.91-66.95ZM143.2,30.48q-16,0-25.74,10.35t-9.63,25.81q0,14.42,9.63,23.32t24.…></path> from <a aria-current="page" data-status="active" href="/home?entityId=1" class="relative flex items-center h-16 justify-center w-full cursor-pointer hover:opacity-80 transition-all duration-200 ease-linear active">…</a> subtree intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    57 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <path d="M90.19,31.92l-14,65.51H94.28l14-65.51Zm13.2-8.12a11.14,11.14,0,0,0,8.18-3.28A11,11,0,0,0,115,12.4a10.62,10.62,0,0,0-3.43-8A10.94,10.94,0,0,0,103.39,1a11.07,11.07,0,0,0-8,3.41,10.62,10.62,0,0,0-3.43,8,11,11,0,0,0,3.43,8.12A11.26,11.26,0,0,0,103.39,23.8ZM339.5,31.92H280.78l-3.43,16.25h27L262.83,97.43h61l3.43-16.25h-29.3Zm-85.47,0L233.57,62.71,223.28,30.48,199,62.71l-7.26-30.79H172.88l17.15,67,27.18-34.33,12.41,34.33,45.91-66.95ZM143.2,30.48q-16,0-25.74,10.35t-9.63,25.81q0,14.42,9.63,23.32t24.…></path> from <a aria-current="page" data-status="active" href="/home?entityId=1" class="relative flex items-center h-16 justify-center w-full cursor-pointer hover:opacity-80 transition-all duration-200 ease-linear active">…</a> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+
+=========================== short test summary info ============================
+FAILED tests/e2e/budgeting/test_budgeting_operations.py::TestBudgetingOperations::test_build_complete_budget - AssertionError: Budget group should be created
+assert None is not None
+========================= 1 failed in 88.63s (0:01:28) =========================
