@@ -11,16 +11,20 @@ from pages.reconciliation_page import ReconciliationPage
 from pages.ledger_page import LedgerPage
 from pages.BI_analysis_page import BIAnalysisPage
 from pages.invoicing_page import InvoicingPage
+from pages.purchasing_page import PurchasingPage
+from pages.budgeting_page import BudgetingPage
 
 # Test data for parametrized tests
-# Note: Connections is disabled, Invoicing was added
+# Note: Connections is disabled, Purchasing and Budgeting were added
 tab_test_data = [
     ("Home", HomePage),
     ("Vizion AI", VizionAIPage),
     ("Reconciliation", ReconciliationPage),
     ("Ledger", LedgerPage),
-    ("BI Analysis", BIAnalysisPage),
     ("Invoicing", InvoicingPage),
+    ("Purchasing", PurchasingPage),
+    ("BI Analysis", BIAnalysisPage),
+    ("Budgeting", BudgetingPage),
 ]
 
 @pytest.mark.parametrize("text,page_class", tab_test_data, ids=[f"text={text}-{page_class.__name__}" for text, page_class in tab_test_data])
@@ -122,8 +126,10 @@ async def test_tabs_navigation_single_login_with_entity(perform_login_with_entit
         ("text=Vizion AI", VizionAIPage),
         ("text=Reconciliation", ReconciliationPage),
         ("text=Ledger", LedgerPage),
-        ("text=BI Analysis", BIAnalysisPage),
         ("text=Invoicing", InvoicingPage),
+        ("text=Purchasing", PurchasingPage),
+        ("text=BI Analysis", BIAnalysisPage),
+        ("text=Budgeting", BudgetingPage),
     ]
 
     results = []
@@ -230,4 +236,136 @@ async def test_navigate_to_invoicing(perform_login_with_entity):
     assert len(elements_found) >= 2, f"Expected at least 2 key elements, found: {elements_found}"
     
     print(f"✅ Invoicing page navigation successful!")
+    print(f"📋 Elements found: {elements_found}")
+
+
+@pytest.mark.asyncio
+async def test_navigate_to_purchasing(perform_login_with_entity):
+    """
+    Test dedicated navigation to Purchasing page
+    Verifies the Purchasing page loads correctly with all expected elements
+    """
+    page = perform_login_with_entity
+    
+    print("🧪 Testing dedicated Purchasing page navigation...")
+    
+    # Open menu if needed
+    await asyncio.sleep(3)
+    logo = page.locator("svg.viewz-logo")
+    box = await logo.bounding_box()
+    if box:
+        await page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+        await asyncio.sleep(1)
+    
+    pin_button = page.locator("button:has(svg.lucide-pin)")
+    if await pin_button.is_visible():
+        await pin_button.click()
+    
+    # Navigate to Purchasing
+    await page.click("text=Purchasing")
+    await asyncio.sleep(2)
+    
+    # Import and verify page loaded
+    from pages.purchasing_page import PurchasingPage
+    purchasing_page = PurchasingPage(page)
+    
+    is_loaded = await purchasing_page.is_loaded()
+    assert is_loaded, "Purchasing page should load successfully"
+    
+    # Verify URL contains purchasing
+    current_url = page.url
+    assert "purchasing" in current_url.lower(), f"URL should contain 'purchasing', got: {current_url}"
+    
+    # Check for key page elements
+    elements_found = []
+    
+    # Check for table
+    try:
+        table = page.locator("table")
+        if await table.is_visible():
+            elements_found.append("Data Table")
+            print("✅ Data table is visible")
+    except:
+        pass
+    
+    # Check for heading
+    try:
+        heading = page.get_by_role("heading", name="Purchasing")
+        if await heading.is_visible():
+            elements_found.append("Purchasing Heading")
+            print("✅ Purchasing heading is visible")
+    except:
+        pass
+    
+    # Take screenshot
+    await page.screenshot(path="test_navigate_to_purchasing.png")
+    print(f"📸 Screenshot saved: test_navigate_to_purchasing.png")
+    
+    print(f"✅ Purchasing page navigation successful!")
+    print(f"📋 Elements found: {elements_found}")
+
+
+@pytest.mark.asyncio
+async def test_navigate_to_budgeting(perform_login_with_entity):
+    """
+    Test dedicated navigation to Budgeting page
+    Verifies the Budgeting page loads correctly with all expected elements
+    """
+    page = perform_login_with_entity
+    
+    print("🧪 Testing dedicated Budgeting page navigation...")
+    
+    # Open menu if needed
+    await asyncio.sleep(3)
+    logo = page.locator("svg.viewz-logo")
+    box = await logo.bounding_box()
+    if box:
+        await page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+        await asyncio.sleep(1)
+    
+    pin_button = page.locator("button:has(svg.lucide-pin)")
+    if await pin_button.is_visible():
+        await pin_button.click()
+    
+    # Navigate to Budgeting
+    await page.click("text=Budgeting")
+    await asyncio.sleep(2)
+    
+    # Import and verify page loaded
+    from pages.budgeting_page import BudgetingPage
+    budgeting_page = BudgetingPage(page)
+    
+    is_loaded = await budgeting_page.is_loaded()
+    assert is_loaded, "Budgeting page should load successfully"
+    
+    # Verify URL contains budget
+    current_url = page.url
+    assert "budget" in current_url.lower(), f"URL should contain 'budget', got: {current_url}"
+    
+    # Check for key page elements
+    elements_found = []
+    
+    # Check for table
+    try:
+        table = page.locator("table")
+        if await table.is_visible():
+            elements_found.append("Data Table")
+            print("✅ Data table is visible")
+    except:
+        pass
+    
+    # Check for heading
+    try:
+        heading = page.get_by_role("heading", name="Budgeting")
+        if await heading.is_visible():
+            elements_found.append("Budgeting Heading")
+            print("✅ Budgeting heading is visible")
+    except:
+        pass
+    
+    # Take screenshot
+    await page.screenshot(path="test_navigate_to_budgeting.png")
+    print(f"📸 Screenshot saved: test_navigate_to_budgeting.png")
+    
+    print(f"✅ Budgeting page navigation successful!")
     print(f"📋 Elements found: {elements_found}")

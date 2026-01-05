@@ -6,6 +6,8 @@ from pages.reconciliation_page import ReconciliationPage
 from pages.ledger_page import LedgerPage
 from pages.BI_analysis_page import BIAnalysisPage
 from pages.invoicing_page import InvoicingPage
+from pages.purchasing_page import PurchasingPage
+from pages.budgeting_page import BudgetingPage
 
 @pytest.mark.asyncio
 async def test_tabs_navigation_single_login(perform_login_with_entity):
@@ -22,14 +24,16 @@ async def test_tabs_navigation_single_login(perform_login_with_entity):
     if await pin_button.is_visible():
         await pin_button.click()
 
-    # Note: Connections is disabled, Invoicing was added
+    # Note: Connections is disabled, Purchasing and Budgeting were added
     tabs = [
         ("text=Home", HomePage),
         ("text=Vizion AI", VizionAIPage),
         ("text=Reconciliation", ReconciliationPage),
         ("text=Ledger", LedgerPage),
-        ("text=BI Analysis", BIAnalysisPage),
         ("text=Invoicing", InvoicingPage),
+        ("text=Purchasing", PurchasingPage),
+        ("text=BI Analysis", BIAnalysisPage),
+        ("text=Budgeting", BudgetingPage),
     ]
 
     results = []
