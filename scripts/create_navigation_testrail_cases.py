@@ -316,12 +316,11 @@ def main():
     print("🧪 Creating Navigation Test Cases in TestRail Suite 139")
     print("=" * 70)
     
-    # Find or create Navigation section
-    section = find_or_create_section(
-        SUITE_ID,
-        'Navigation Tests',
-        'Tests for sidebar navigation including Purchasing and Budgeting pages'
-    )
+    # Use existing Navigation section (ID: 531) in Suite 139
+    # Don't create a new section - add to existing " Navigation" section
+    section_id = 531  # Existing Navigation section
+    print(f"📁 Using existing Navigation section (ID: {section_id})")
+    section = {'id': section_id}
     
     if not section:
         print("❌ Failed to find/create Navigation section")
