@@ -543,6 +543,14 @@ def pytest_runtest_makereport(item, call):
         'test_tab_navigation_with_entity[text=Reconciliation-ReconciliationPage]': 7957,  # C7957
         'test_tab_navigation_with_entity[text=Vizion AI-VizionAIPage]': 7957,  # C7957
 
+        # Purchasing & Budgeting Navigation (NEW - Jan 2026)
+        'test_navigate_to_purchasing': 165484,  # C165484
+        'test_navigate_to_budgeting': 165486,  # C165486
+        'test_tab_navigation[text=Purchasing-PurchasingPage]': 165485,  # C165485
+        'test_tab_navigation[text=Budgeting-BudgetingPage]': 165487,  # C165487
+        'test_tab_navigation_with_entity[text=Purchasing-PurchasingPage]': 165485,  # C165485
+        'test_tab_navigation_with_entity[text=Budgeting-BudgetingPage]': 165487,  # C165487
+
         # Logout Tests
         'test_logout_comprehensive_workflow': 7965,  # C7965
         'test_logout_direct_method': 7962,  # C7962
