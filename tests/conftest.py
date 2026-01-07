@@ -561,6 +561,29 @@ def pytest_runtest_makereport(item, call):
         'test_budget_group_list_display': 168683,  # C168683
         'test_tab_navigation_with_entity[text=Budgeting-BudgetingPage]': 165487,  # C165487
 
+        # Purchasing Operations (NEW - Jan 2026)
+        'test_purchasing_page_loads': 176676,  # C176676
+        'test_purchasing_navigation_elements': 176677,  # C176677
+        'test_vendor_form_visibility': 176678,  # C176678
+        'test_create_vendor': 176679,  # C176679
+        'test_vendor_validation': 176680,  # C176680
+        'test_vendor_list_display': 176681,  # C176681
+        'test_product_form_visibility': 176682,  # C176682
+        'test_create_product_for_vendor': 176683,  # C176683
+        'test_product_price_validation': 176684,  # C176684
+        'test_purchase_order_form_visibility': 176685,  # C176685
+        'test_purchase_order_list_display': 176686,  # C176686
+        'test_create_purchase_order': 176687,  # C176687
+        'test_complete_purchase_flow': 176688,  # C176688
+        'test_po_appears_in_payables': 176689,  # C176689
+        'test_duplicate_vendor_handling': 176690,  # C176690
+        'test_po_without_vendor': 176691,  # C176691
+        'test_po_with_zero_quantity': 176692,  # C176692
+        'test_purchasing_page_responsiveness': 176693,  # C176693
+        'test_purchasing_form_tab_navigation': 176694,  # C176694
+        'test_purchasing_page_elements': 176695,  # C176695
+        'test_vendor_search_functionality': 176696,  # C176696
+
         # Logout Tests
         'test_logout_comprehensive_workflow': 7965,  # C7965
         'test_logout_direct_method': 7962,  # C7962
@@ -756,6 +779,23 @@ def pytest_runtest_makereport(item, call):
         'test_all_sensitive_endpoints_require_auth': 139373,  # C139373 - SEC-012
         'test_endpoints_reject_manipulated_tokens': 139374,  # C139374 - SEC-013
         'test_generate_security_summary': 139375,  # C139375 - SEC-014
+
+        # DOM Structure Tests (NEW - Jan 2026)
+        'test_page_dom_structure[home-page_config0]': 194169,
+        'test_page_dom_structure[invoicing-page_config1]': 194170,
+        'test_page_dom_structure[purchasing-page_config2]': 194171,
+        'test_page_dom_structure[budgeting-page_config3]': 194172,
+        'test_page_dom_structure[ledger-page_config4]': 194173,
+        'test_page_dom_structure[reconciliation-page_config5]': 194174,
+        'test_page_dom_structure[payables-page_config6]': 194175,
+        'test_page_dom_structure[receivables-page_config7]': 194176,
+        'test_page_dom_structure[credit_cards-page_config8]': 194177,
+        'test_page_dom_structure[banks-page_config9]': 194178,
+        'test_page_dom_structure[bi_analysis-page_config10]': 194179,
+        'test_page_dom_structure[vizion_ai-page_config11]': 194180,
+        'test_page_dom_structure[journal_entries-page_config12]': 194181,
+        'test_page_dom_structure[chart_of_accounts-page_config13]': 194182,
+        'test_capture_all_pages_snapshot': 194183,
         }
         
         case_id = case_mapping.get(test_name)

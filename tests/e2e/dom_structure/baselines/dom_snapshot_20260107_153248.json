@@ -1,0 +1,418 @@
+{
+  "home": {
+    "page": "home",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:32:23.704860",
+    "elements": [
+      {
+        "name": "Viewz Logo",
+        "selector": "a[href*='/home'] svg",
+        "required": true,
+        "found": true,
+        "count": 2,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Sidebar Navigation",
+        "selector": "aside",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Entity Selector",
+        "selector": "button:has-text('Viewz')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Viewz Demo INC",
+        "issues": []
+      },
+      {
+        "name": "Main Dashboard Content",
+        "selector": "[class*='grid']",
+        "required": true,
+        "found": true,
+        "count": 17,
+        "text": "Viewz Demo INC",
+        "issues": []
+      },
+      {
+        "name": "Home Link",
+        "selector": "a[href*='/home']",
+        "required": true,
+        "found": true,
+        "count": 2,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Sidebar Navigation"
+    ],
+    "issues": [
+      "Sidebar Navigation: Required element not found"
+    ]
+  },
+  "invoicing": {
+    "page": "invoicing",
+    "url": "https://app.stage.viewz.co/invoicing?entityId=1",
+    "timestamp": "2026-01-07T15:32:26.576615",
+    "elements": [
+      {
+        "name": "Add Customer Button",
+        "selector": "button:has-text('Add Customer')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Add Customer",
+        "issues": []
+      },
+      {
+        "name": "Customer Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Try12\n\t\nVZ129 - Try12\n\tISRAEL\t\u2014\t\u2014\t\n\n\nReceivables Test ...\n\t\nVZ110 - AR Invoicing 7P...\n\tTanzania, Un",
+        "issues": []
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Export Button",
+        "selector": "button:has-text('Export')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Export",
+        "issues": []
+      },
+      {
+        "name": "Sidebar Invoicing Link",
+        "selector": "a[href*='/invoicing']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Invoicing",
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "purchasing": {
+    "page": "purchasing",
+    "url": "https://app.stage.viewz.co/purchasing?entityId=1",
+    "timestamp": "2026-01-07T15:32:29.242746",
+    "elements": [
+      {
+        "name": "Add Vendor Button",
+        "selector": "button:has-text('Add Vendor')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Add Vendor",
+        "issues": []
+      },
+      {
+        "name": "Vendor Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Product Test Ven...\n\t\nVZ127 - TRY4\n\tUSA\tCalifornia\tAction Required\t\n\n\nProduct Test Ven...\n\t\nVZ126 - ",
+        "issues": []
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Export Button",
+        "selector": "button:has-text('Export')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Export",
+        "issues": []
+      },
+      {
+        "name": "Sidebar Purchasing Link",
+        "selector": "a[href*='/purchasing']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Purchasing",
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "budgeting": {
+    "page": "budgeting",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:32:33.259158",
+    "elements": [
+      {
+        "name": "Sidebar Budgeting Link",
+        "selector": "a[href*='/budgeting']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Budgeting",
+        "issues": []
+      },
+      {
+        "name": "Add Group Button",
+        "selector": "button:has-text('Add Group')",
+        "required": false,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Page Content",
+        "selector": "[class*='content']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Page Content"
+    ],
+    "issues": [
+      "Page Content: Required element not found"
+    ]
+  },
+  "ledger": {
+    "page": "ledger",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:32:37.905426",
+    "elements": [
+      {
+        "name": "Add GL Account Button",
+        "selector": "button:has-text('Add GL Account')",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Accounts Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Sidebar Ledger Link",
+        "selector": "a[href*='/ledger']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Ledger",
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Add GL Account Button",
+      "Accounts Table",
+      "Search Input"
+    ],
+    "issues": [
+      "Add GL Account Button: Required element not found",
+      "Accounts Table: Required element not found",
+      "Search Input: Required element not found"
+    ]
+  },
+  "reconciliation": {
+    "page": "reconciliation",
+    "url": "https://app.stage.viewz.co/reconciliation?entityId=1",
+    "timestamp": "2026-01-07T15:32:40.583194",
+    "elements": [
+      {
+        "name": "Receivables Tab",
+        "selector": "text=Receivables",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Receivables",
+        "issues": []
+      },
+      {
+        "name": "Credit Cards Tab",
+        "selector": "text=Credit Cards",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Credit Cards",
+        "issues": []
+      },
+      {
+        "name": "Data Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Export Button",
+        "selector": "button:has-text('Export')",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Sidebar Reconciliation Link",
+        "selector": "a[href*='/reconciliation']",
+        "required": true,
+        "found": true,
+        "count": 5,
+        "text": "Reconciliation",
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Data Table",
+      "Export Button"
+    ],
+    "issues": [
+      "Data Table: Required element not found",
+      "Export Button: Required element not found"
+    ]
+  },
+  "connections": {
+    "page": "connections",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:32:44.391111",
+    "elements": [
+      {
+        "name": "Connections Content",
+        "selector": "[class*='connection']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Sidebar Connections Link",
+        "selector": "a[href*='/connections']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Connections Content",
+      "Sidebar Connections Link"
+    ],
+    "issues": [
+      "Connections Content: Required element not found",
+      "Sidebar Connections Link: Required element not found"
+    ]
+  },
+  "payables": {
+    "page": "payables",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:32:48.499432",
+    "elements": [
+      {
+        "name": "Payables Content",
+        "selector": "text=Payables",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "File Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Actions Column",
+        "selector": "text=Actions",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "All Transactions",
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Payables Content",
+      "File Table"
+    ],
+    "issues": [
+      "Payables Content: Required element not found",
+      "File Table: Required element not found"
+    ]
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "home": {
+    "page": "home",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:44:28.903444",
+    "elements": [
+      {
+        "name": "Viewz Logo",
+        "selector": "a[href*='/home'] svg",
+        "required": true,
+        "found": true,
+        "count": 2,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Entity Selector",
+        "selector": "button:has-text('Viewz')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Viewz Demo INC",
+        "issues": []
+      },
+      {
+        "name": "Main Dashboard Content",
+        "selector": "[class*='grid']",
+        "required": true,
+        "found": true,
+        "count": 17,
+        "text": "Viewz Demo INC",
+        "issues": []
+      },
+      {
+        "name": "Home Link",
+        "selector": "a[href*='/home']",
+        "required": true,
+        "found": true,
+        "count": 2,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Navigation Menu",
+        "selector": "nav, [class*='nav'], [class*='sidebar']",
+        "required": true,
+        "found": true,
+        "count": 16,
+        "text": "Home\nVizion AI\nReconciliation\nLedger\nInvoicing\nPurchasing\nBI Analysis\nBudgeting\nConnections\nViewz De",
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "invoicing": {
+    "page": "invoicing",
+    "url": "https://app.stage.viewz.co/invoicing?entityId=1",
+    "timestamp": "2026-01-07T15:44:41.839149",
+    "elements": [
+      {
+        "name": "Add Customer Button",
+        "selector": "button:has-text('Add Customer')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Add Customer",
+        "issues": []
+      },
+      {
+        "name": "Customer Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Try12\n\t\nVZ129 - Try12\n\tISRAEL\t\u2014\t\u2014\t\n\n\nReceivables Test ...\n\t\nVZ110 - AR Invoicing 7P...\n\tTanzania, Un",
+        "issues": []
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Export Button",
+        "selector": "button:has-text('Export')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Export",
+        "issues": []
+      },
+      {
+        "name": "Sidebar Invoicing Link",
+        "selector": "a[href*='/invoicing']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Invoicing",
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "purchasing": {
+    "page": "purchasing",
+    "url": "https://app.stage.viewz.co/purchasing?entityId=1",
+    "timestamp": "2026-01-07T15:44:54.581021",
+    "elements": [
+      {
+        "name": "Add Vendor Button",
+        "selector": "button:has-text('Add Vendor')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Add Vendor",
+        "issues": []
+      },
+      {
+        "name": "Vendor Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Product Test Ven...\n\t\nVZ127 - TRY4\n\tUSA\tCalifornia\tAction Required\t\n\n\nProduct Test Ven...\n\t\nVZ126 - ",
+        "issues": []
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Export Button",
+        "selector": "button:has-text('Export')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Export",
+        "issues": []
+      },
+      {
+        "name": "Sidebar Purchasing Link",
+        "selector": "a[href*='/purchasing']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Purchasing",
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "payables": {
+    "page": "payables",
+    "url": "https://app.stage.viewz.co/reconciliation/payables?entityId=1",
+    "timestamp": "2026-01-07T15:45:38.699705",
+    "elements": [
+      {
+        "name": "Payables Content",
+        "selector": "table, [class*='payable']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Status\n\tUploaded\n\tSupplier\n\tID\n\tDate\n\tPre Tax\n\tTaxes\n\tTotal\n\tCurrency\n\tPayment Status\n\t\nActions\n\nNew",
+        "issues": []
+      },
+      {
+        "name": "Status Filter",
+        "selector": "[class*='filter'], button:has-text('Status')",
+        "required": true,
+        "found": true,
+        "count": 4,
+        "text": "All Statuses",
+        "issues": []
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 32,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  }
+}

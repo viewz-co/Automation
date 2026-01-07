@@ -1,0 +1,558 @@
+{
+  "home": {
+    "page": "home",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:28:00.511330",
+    "elements": [
+      {
+        "name": "Logo",
+        "selector": "[class*='logo'], img[alt*='logo' i]",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Sidebar",
+        "selector": "[class*='sidebar'], nav",
+        "required": true,
+        "found": true,
+        "count": 16,
+        "text": "Home\nVizion AI\nReconciliation\nLedger\nInvoicing\nPurchasing\nBI Analysis\nBudgeting\nConnections\nViewz De",
+        "issues": []
+      },
+      {
+        "name": "User Menu",
+        "selector": "[class*='user'], [class*='avatar'], [class*='profile']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Main Content",
+        "selector": "main, [class*='main-content'], [class*='dashboard']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Viewz Demo INC\nSs\nFinancial Overview Dashboard\n\nReal-time insights into your financial performance, ",
+        "issues": []
+      },
+      {
+        "name": "Navigation Links",
+        "selector": "nav a, [class*='nav'] a",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "User Menu",
+      "Navigation Links"
+    ],
+    "issues": [
+      "User Menu: Required element not found",
+      "Navigation Links: Required element not found"
+    ]
+  },
+  "invoicing": {
+    "page": "invoicing",
+    "url": "https://app.stage.viewz.co/invoicing?entityId=1",
+    "timestamp": "2026-01-07T15:28:03.376400",
+    "elements": [
+      {
+        "name": "Page Title",
+        "selector": "h1, [class*='title']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Add Customer Button",
+        "selector": "button:has-text('Add'), button:has-text('Create')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Add Customer",
+        "issues": []
+      },
+      {
+        "name": "Customer Table",
+        "selector": "table, [class*='table'], [class*='list']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Customer Name\n\tTrade Receivables account\n\tCountry\n\tState\n\tStatus\n\t\nActions\n\n\nTry12\n\t\nVZ129 - Try12\n\t",
+        "issues": []
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='search' i], [class*='search']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Export Button",
+        "selector": "button:has-text('Export'), [class*='export']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Export",
+        "issues": []
+      },
+      {
+        "name": "Tabs",
+        "selector": "[role='tablist'], [class*='tabs']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Page Title",
+      "Tabs"
+    ],
+    "issues": [
+      "Page Title: Required element not found",
+      "Tabs: Required element not found"
+    ]
+  },
+  "purchasing": {
+    "page": "purchasing",
+    "url": "https://app.stage.viewz.co/purchasing?entityId=1",
+    "timestamp": "2026-01-07T15:28:05.964716",
+    "elements": [
+      {
+        "name": "Page Title",
+        "selector": "h1, [class*='title']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Add Vendor Button",
+        "selector": "button:has-text('Add Vendor'), button:has-text('Add')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Add Vendor",
+        "issues": []
+      },
+      {
+        "name": "Vendor Table",
+        "selector": "table, [class*='table'], [class*='list']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Vendor Name\n\tExpense Account\n\tCountry\n\tState\n\tStatus\n\t\nActions\n\n\nProduct Test Ven...\n\t\nVZ127 - TRY4\n",
+        "issues": []
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='search' i], [class*='search']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Export Button",
+        "selector": "button:has-text('Export'), [class*='export']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Export",
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Page Title"
+    ],
+    "issues": [
+      "Page Title: Required element not found"
+    ]
+  },
+  "budgeting": {
+    "page": "budgeting",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:28:09.959793",
+    "elements": [
+      {
+        "name": "Page Title",
+        "selector": "h1, [class*='title']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Financial Overview Dashboard",
+        "issues": []
+      },
+      {
+        "name": "Add Budget Group Button",
+        "selector": "button:has-text('Add'), button:has-text('Create')",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Budget Table",
+        "selector": "table, [class*='table'], [class*='list']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Add Budget Group Button",
+      "Budget Table"
+    ],
+    "issues": [
+      "Add Budget Group Button: Required element not found",
+      "Budget Table: Required element not found"
+    ]
+  },
+  "payables": {
+    "page": "payables",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:28:14.009316",
+    "elements": [
+      {
+        "name": "Page Title",
+        "selector": "h1, [class*='title']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Financial Overview Dashboard",
+        "issues": []
+      },
+      {
+        "name": "Upload Button",
+        "selector": "button:has-text('Upload'), [class*='upload']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Payables Table",
+        "selector": "table, [class*='table']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Status Filter",
+        "selector": "[class*='filter'], select, [class*='status']",
+        "required": true,
+        "found": true,
+        "count": 4,
+        "text": "Y",
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Upload Button",
+      "Payables Table"
+    ],
+    "issues": [
+      "Upload Button: Required element not found",
+      "Payables Table: Required element not found"
+    ]
+  },
+  "receivables": {
+    "page": "receivables",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:28:17.939402",
+    "elements": [
+      {
+        "name": "Page Title",
+        "selector": "h1, [class*='title']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Financial Overview Dashboard",
+        "issues": []
+      },
+      {
+        "name": "Receivables Table",
+        "selector": "table, [class*='table']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Search/Filter",
+        "selector": "input[placeholder*='search' i], [class*='filter']",
+        "required": true,
+        "found": true,
+        "count": 4,
+        "text": "Y",
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Receivables Table"
+    ],
+    "issues": [
+      "Receivables Table: Required element not found"
+    ]
+  },
+  "credit_cards": {
+    "page": "credit_cards",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:28:21.825780",
+    "elements": [
+      {
+        "name": "Page Title",
+        "selector": "h1, [class*='title']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Financial Overview Dashboard",
+        "issues": []
+      },
+      {
+        "name": "Credit Cards Table",
+        "selector": "table, [class*='table']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Add Card Button",
+        "selector": "button:has-text('Add'), button:has-text('Create')",
+        "required": false,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Credit Cards Table"
+    ],
+    "issues": [
+      "Credit Cards Table: Required element not found"
+    ]
+  },
+  "chart_of_accounts": {
+    "page": "chart_of_accounts",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:28:26.096297",
+    "elements": [
+      {
+        "name": "Page Title",
+        "selector": "h1, [class*='title']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Financial Overview Dashboard",
+        "issues": []
+      },
+      {
+        "name": "Add GL Account Button",
+        "selector": "button:has-text('Add'), button:has-text('GL')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Toggle Sidebar",
+        "issues": []
+      },
+      {
+        "name": "Accounts Table",
+        "selector": "table, [class*='table']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='search' i]",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Accounts Table",
+      "Search Input"
+    ],
+    "issues": [
+      "Accounts Table: Required element not found",
+      "Search Input: Required element not found"
+    ]
+  },
+  "journal_entries": {
+    "page": "journal_entries",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:28:30.128496",
+    "elements": [
+      {
+        "name": "Page Title",
+        "selector": "h1, [class*='title']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Financial Overview Dashboard",
+        "issues": []
+      },
+      {
+        "name": "Create Entry Button",
+        "selector": "button:has-text('Create'), button:has-text('Add')",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Entries Table",
+        "selector": "table, [class*='table']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Create Entry Button",
+      "Entries Table"
+    ],
+    "issues": [
+      "Create Entry Button: Required element not found",
+      "Entries Table: Required element not found"
+    ]
+  },
+  "reports": {
+    "page": "reports",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:28:34.178274",
+    "elements": [
+      {
+        "name": "Page Title",
+        "selector": "h1, [class*='title']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Financial Overview Dashboard",
+        "issues": []
+      },
+      {
+        "name": "Report Options",
+        "selector": "[class*='report'], [class*='card']",
+        "required": true,
+        "found": true,
+        "count": 6,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "settings": {
+    "page": "settings",
+    "url": "https://app.stage.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-07T15:28:38.357499",
+    "elements": [
+      {
+        "name": "Page Title",
+        "selector": "h1, [class*='title']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Financial Overview Dashboard",
+        "issues": []
+      },
+      {
+        "name": "Settings Form",
+        "selector": "form, [class*='settings']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Save Button",
+        "selector": "button:has-text('Save'), button[type='submit']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Settings Form",
+      "Save Button"
+    ],
+    "issues": [
+      "Settings Form: Required element not found",
+      "Save Button: Required element not found"
+    ]
+  }
+}
