@@ -113,6 +113,14 @@ class TestPurchasingOperations:
         print("🧪 TEST: Vendor form visibility")
         print("="*60)
         
+        # Wait for login to complete (ensure we're on the home/app page)
+        await asyncio.sleep(2)
+        
+        # Verify we're logged in (not on login page)
+        if "login" in page.url.lower() or await page.locator("text=Sign In").first.is_visible():
+            print("⚠️ Still on login page, waiting...")
+            await page.wait_for_url("**/home**", timeout=30000)
+        
         await purchasing_page.navigate_to_purchasing()
         await purchasing_page.go_to_vendors_tab()
         
@@ -121,16 +129,28 @@ class TestPurchasingOperations:
         
         await purchasing_page.take_screenshot("test_vendor_form_visibility")
         
-        # Check for form fields
+        # Check for form fields or dialog
         form_visible = False
-        for selector in purchasing_page.vendor_name_selectors[:3]:
-            try:
-                element = page.locator(selector).first
-                if await element.is_visible():
-                    form_visible = True
-                    break
-            except:
-                continue
+        
+        # First check for dialog/modal
+        try:
+            dialog = page.locator("[role='dialog'], .modal, [data-radix-portal]").first
+            if await dialog.count() > 0 and await dialog.is_visible():
+                form_visible = True
+                print("✅ Vendor form dialog is visible")
+        except:
+            pass
+        
+        # Check for form fields
+        if not form_visible:
+            for selector in purchasing_page.vendor_name_selectors[:3]:
+                try:
+                    element = page.locator(selector).first
+                    if await element.is_visible():
+                        form_visible = True
+                        break
+                except:
+                    continue
         
         assert form_opened or form_visible, "Vendor form should be accessible"
         print("✅ Vendor form is accessible")

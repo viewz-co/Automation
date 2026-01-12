@@ -1023,6 +1023,99 @@ class PurchasingPage:
             
             await asyncio.sleep(0.3)
             
+            # Select Product Type (might be required)
+            try:
+                type_dropdown = self.page.locator("button:has-text('Select type')").first
+                if await type_dropdown.count() > 0 and await type_dropdown.is_visible():
+                    await type_dropdown.click()
+                    await asyncio.sleep(1)
+                    
+                    # Click first option
+                    options = self.page.locator("[role='option'], [cmdk-item], [data-radix-collection-item]")
+                    if await options.count() > 0:
+                        opt = options.first
+                        opt_text = await opt.inner_text()
+                        await opt.click()
+                        filled_fields += 1
+                        print(f"   ✅ Product Type: {opt_text}")
+                    else:
+                        await self.page.keyboard.press("Escape")
+            except Exception as e:
+                print(f"   ⚠️ Product Type: {str(e)[:30]}")
+            
+            await asyncio.sleep(0.3)
+            
+            # Select Billing Period (might be required)
+            try:
+                period_dropdown = self.page.locator("button:has-text('Select period')").first
+                if await period_dropdown.count() > 0 and await period_dropdown.is_visible():
+                    await period_dropdown.click()
+                    await asyncio.sleep(1)
+                    
+                    # Click first option (e.g., "Monthly")
+                    options = self.page.locator("[role='option'], [cmdk-item], [data-radix-collection-item]")
+                    if await options.count() > 0:
+                        opt = options.first
+                        opt_text = await opt.inner_text()
+                        await opt.click()
+                        filled_fields += 1
+                        print(f"   ✅ Billing Period: {opt_text}")
+                    else:
+                        await self.page.keyboard.press("Escape")
+            except Exception as e:
+                print(f"   ⚠️ Billing Period: {str(e)[:30]}")
+            
+            await asyncio.sleep(0.3)
+            
+            # Select Start Date (REQUIRED for recurring products)
+            try:
+                # Find the "Pick a date" button for Start Date
+                start_date_btn = self.page.locator("button:has-text('Pick a date')").first
+                if await start_date_btn.count() > 0 and await start_date_btn.is_visible():
+                    await start_date_btn.click()
+                    await asyncio.sleep(1)
+                    
+                    # Wait for calendar to open
+                    calendar = self.page.locator("[role='dialog'] table, [class*='calendar'], [class*='picker']")
+                    if await calendar.count() > 0:
+                        # Click on a day (try multiple selectors)
+                        day_selectors = [
+                            "[role='gridcell'] button:not([disabled])",
+                            "button[name='day']",
+                            "[class*='day']:not([disabled])"
+                        ]
+                        
+                        for selector in day_selectors:
+                            try:
+                                day_btn = self.page.locator(selector).first
+                                if await day_btn.count() > 0 and await day_btn.is_visible():
+                                    await day_btn.click()
+                                    filled_fields += 1
+                                    print(f"   ✅ Start Date: Selected")
+                                    break
+                            except:
+                                continue
+                        else:
+                            # Try clicking today in footer
+                            today_btn = self.page.locator("button:has-text('Today')").first
+                            if await today_btn.count() > 0:
+                                await today_btn.click()
+                                filled_fields += 1
+                                print(f"   ✅ Start Date: Today")
+                            else:
+                                await self.page.keyboard.press("Escape")
+                                print(f"   ⚠️ Start Date: Could not select day")
+                    else:
+                        # Maybe it's a different date picker type
+                        await self.page.keyboard.press("Escape")
+                        print(f"   ⚠️ Start Date: Calendar not visible")
+                else:
+                    print(f"   ⚠️ Start Date: Button not found")
+            except Exception as e:
+                print(f"   ⚠️ Start Date: {str(e)[:40]}")
+            
+            await asyncio.sleep(0.3)
+            
             # Select Contract (REQUIRED - missing validation in UI but server requires it)
             contract_selected = False
             
@@ -1099,6 +1192,80 @@ class PurchasingPage:
             
             await asyncio.sleep(0.3)
             
+            # Select Product Income Account (GL Account) - REQUIRED
+            try:
+                gl_dropdown = self.page.locator("button:has-text('Select GL Account')").first
+                if await gl_dropdown.count() > 0 and await gl_dropdown.is_visible():
+                    await gl_dropdown.click()
+                    await asyncio.sleep(1)
+                    
+                    # Look for options
+                    options = self.page.locator("[role='option'], [cmdk-item], [data-radix-collection-item]")
+                    option_count = await options.count()
+                    print(f"   📋 Found {option_count} GL Account options")
+                    
+                    if option_count > 0:
+                        first_opt = options.first
+                        opt_text = await first_opt.inner_text()
+                        await first_opt.click()
+                        filled_fields += 1
+                        print(f"   ✅ Product Income Account: {opt_text[:30]}...")
+                    else:
+                        await self.page.keyboard.press("Escape")
+                        print(f"   ⚠️ Product Income Account: No options - GL accounts need to be set up")
+                else:
+                    print(f"   ⚠️ Product Income Account: Dropdown not found")
+            except Exception as e:
+                print(f"   ⚠️ Product Income Account: {str(e)[:40]}")
+            
+            await asyncio.sleep(0.3)
+            
+            # Select Currency (REQUIRED - has asterisk *)
+            currency_selected = False
+            currency = product_data.get('currency', 'US Dollar')
+            
+            try:
+                # Method 1: Click "Select currency" dropdown
+                currency_dropdown = self.page.locator("button:has-text('Select currency')").first
+                if await currency_dropdown.count() > 0 and await currency_dropdown.is_visible():
+                    await currency_dropdown.click()
+                    await asyncio.sleep(1)
+                    
+                    # Look for the currency option
+                    options = self.page.locator("[role='option'], [cmdk-item], [data-radix-collection-item]")
+                    option_count = await options.count()
+                    print(f"   📋 Found {option_count} currency options")
+                    
+                    if option_count > 0:
+                        # Try to find specific currency or use first
+                        for i in range(option_count):
+                            opt = options.nth(i)
+                            opt_text = await opt.inner_text()
+                            if currency.lower() in opt_text.lower():
+                                await opt.click()
+                                filled_fields += 1
+                                currency_selected = True
+                                print(f"   ✅ Currency: {opt_text}")
+                                break
+                        
+                        if not currency_selected:
+                            # Use first option
+                            first_opt = options.first
+                            opt_text = await first_opt.inner_text()
+                            await first_opt.click()
+                            filled_fields += 1
+                            currency_selected = True
+                            print(f"   ✅ Currency: {opt_text}")
+                    else:
+                        await self.page.keyboard.press("Escape")
+                        print(f"   ⚠️ Currency: No options found")
+                else:
+                    print(f"   ⚠️ Currency dropdown not found")
+            except Exception as e:
+                print(f"   ⚠️ Currency: {str(e)[:40]}")
+            
+            await asyncio.sleep(0.3)
+            
             print(f"   📝 Filled {filled_fields} product fields")
             return filled_fields > 0
             
@@ -1133,10 +1300,16 @@ class PurchasingPage:
             # Fill form
             await self.fill_product_form(product_data)
             
+            # Take screenshot before save
+            await self.take_screenshot("before_create_product")
+            
             # Save
             await self._click_save("Create Product")
             
             await asyncio.sleep(3)
+            
+            # Take screenshot after save to see any errors
+            await self.take_screenshot("after_create_product_click")
             
             # Check if form is still open (indicates error)
             form_open = await self.page.locator("text=Create Product").locator("visible=true").count() > 0
