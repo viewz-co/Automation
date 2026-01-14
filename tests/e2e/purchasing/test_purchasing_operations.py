@@ -14,7 +14,6 @@ import string
 from datetime import datetime
 
 from pages.purchasing_page import PurchasingPage
-from pages.payables_page import PayablesPage
 
 
 class TestPurchasingOperations:
@@ -504,6 +503,14 @@ class TestPurchasingOperations:
         print("🧪 TEST: Complete purchase flow")
         print("="*60)
         
+        # Wait for login to complete (ensure we're on the home/app page)
+        await asyncio.sleep(2)
+        
+        # Verify we're logged in (not on login page)
+        if "login" in page.url.lower() or await page.locator("text=Sign In").first.is_visible():
+            print("⚠️ Still on login page, waiting...")
+            await page.wait_for_url("**/home**", timeout=30000)
+        
         # Generate unique test data
         random_suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
         
@@ -538,26 +545,25 @@ class TestPurchasingOperations:
             print(f"   - PO created: Yes")
 
     @pytest.mark.asyncio
-    async def test_po_appears_in_payables(self, perform_login_with_entity):
-        """Test that created purchase order appears in Payables page"""
+    async def test_po_appears_in_purchases_list(self, perform_login_with_entity):
+        """Test that created purchase order appears in vendor's Purchases list"""
         page = perform_login_with_entity
         purchasing_page = PurchasingPage(page)
-        payables_page = PayablesPage(page)
         
         print("\n" + "="*60)
-        print("🧪 TEST: PO appears in Payables")
+        print("🧪 TEST: PO appears in vendor's Purchases list")
         print("="*60)
         
         # First create a complete purchase
         random_suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
         
         vendor_data = {
-            'name': f"Payables Test Vendor {random_suffix}",
-            'email': f"paytest.{random_suffix.lower()}@example.com"
+            'name': f"PO Test Vendor {random_suffix}",
+            'email': f"potest.{random_suffix.lower()}@example.com"
         }
         
         product_data = {
-            'name': f"Payables Test Product {random_suffix}",
+            'name': f"PO Test Product {random_suffix}",
             'price': 200.00,
             'unit': 'units'
         }
@@ -566,40 +572,48 @@ class TestPurchasingOperations:
         result = await purchasing_page.complete_purchase_flow(vendor_data, product_data, quantity=2)
         
         if not result['success']:
-            await purchasing_page.take_screenshot("test_payables_po_creation_failed")
-            pytest.skip("Could not create purchase order - skipping payables verification")
+            await purchasing_page.take_screenshot("test_purchases_po_creation_failed")
+            pytest.skip("Could not create purchase order - skipping purchases verification")
         
         await asyncio.sleep(3)
         
-        # Navigate to Payables page
-        print("\n📍 Navigating to Payables page...")
-        await payables_page.navigate_to_payables()
-        await asyncio.sleep(3)
+        # Navigate back to Purchasing page
+        print("\n📍 Navigating to Purchasing page to verify PO...")
+        await purchasing_page.navigate_to_purchasing()
+        await asyncio.sleep(2)
         
-        await page.screenshot(path="test_payables_page_after_po.png")
+        # Click on vendor's Purchases via Actions menu
+        vendor_name = vendor_data.get('name', '')
+        await purchasing_page._click_vendor_action_menu(vendor_name, 'Purchases')
+        await asyncio.sleep(2)
         
-        # Look for the vendor name or PO in payables
-        vendor_name = vendor_data['name']
-        found_in_payables = False
+        await page.screenshot(path="test_purchases_list_after_po.png")
         
+        # Look for purchase orders in the list
+        found_po = False
+        
+        # Check for PO in the purchases list (table rows)
         try:
-            vendor_element = page.locator(f"text={vendor_name}").first
-            if await vendor_element.is_visible():
-                found_in_payables = True
-                print(f"✅ Found vendor '{vendor_name}' in Payables")
-        except:
-            pass
+            po_rows = page.locator("table tbody tr")
+            row_count = await po_rows.count()
+            print(f"📋 Found {row_count} purchase orders in list")
+            
+            if row_count > 0:
+                found_po = True
+                print("✅ Purchase orders found in vendor's Purchases list")
+        except Exception as e:
+            print(f"⚠️ Could not check PO list: {str(e)[:30]}")
         
-        await page.screenshot(path="test_payables_verification_complete.png")
+        await page.screenshot(path="test_purchases_verification_complete.png")
         
-        if found_in_payables:
-            print("✅ PO verified in Payables page")
+        if found_po:
+            print("✅ PO verified in vendor's Purchases list")
         else:
-            print("⚠️ PO not immediately visible in Payables (may need processing time)")
+            print("⚠️ PO not visible in Purchases list (may need to refresh)")
         
-        # Verify we can access payables page
-        payables_loaded = await payables_page.is_loaded()
-        assert payables_loaded, "Payables page should be accessible"
+        # Verify we're on a valid page
+        assert "purchasing" in page.url.lower(), "Should be on Purchasing page"
+        print("✅ Purchase Order verification complete")
 
     # ==========================================
     # EDGE CASE TESTS

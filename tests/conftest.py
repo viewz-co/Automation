@@ -575,7 +575,7 @@ def pytest_runtest_makereport(item, call):
         'test_purchase_order_list_display': 176686,  # C176686
         'test_create_purchase_order': 176687,  # C176687
         'test_complete_purchase_flow': 176688,  # C176688
-        'test_po_appears_in_payables': 176689,  # C176689
+        'test_po_appears_in_purchases_list': 176689,  # C176689 - PO appears in vendor's Purchases list (not Payables)
         'test_duplicate_vendor_handling': 176690,  # C176690
         'test_po_without_vendor': 176691,  # C176691
         'test_po_with_zero_quantity': 176692,  # C176692
