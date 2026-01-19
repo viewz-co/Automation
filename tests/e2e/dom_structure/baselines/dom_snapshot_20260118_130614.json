@@ -1,0 +1,533 @@
+{
+  "home": {
+    "page": "home",
+    "url": "https://app.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-18T13:05:44.017995",
+    "elements": [
+      {
+        "name": "Viewz Logo",
+        "selector": "a[href*='/home'] svg",
+        "required": true,
+        "found": true,
+        "count": 2,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Entity Selector",
+        "selector": "button:has-text('Viewz')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Viewz Demo INC",
+        "issues": []
+      },
+      {
+        "name": "Main Dashboard Content",
+        "selector": "[class*='grid']",
+        "required": true,
+        "found": true,
+        "count": 17,
+        "text": "Viewz Demo INC",
+        "issues": []
+      },
+      {
+        "name": "Home Link",
+        "selector": "a[href*='/home']",
+        "required": true,
+        "found": true,
+        "count": 2,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Navigation Menu",
+        "selector": "nav, [class*='nav'], [class*='sidebar']",
+        "required": true,
+        "found": true,
+        "count": 16,
+        "text": "Home\nVizion AI\nReconciliation\nLedger\nInvoicing\nPurchasing\nBI Analysis\nBudgeting\nConnections\nViewz De",
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "invoicing": {
+    "page": "invoicing",
+    "url": "https://app.viewz.co/invoicing?entityId=1",
+    "timestamp": "2026-01-18T13:05:46.382139",
+    "elements": [
+      {
+        "name": "Add Customer Button",
+        "selector": "button:has-text('Add Customer')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Add Customer",
+        "issues": []
+      },
+      {
+        "name": "Customer Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Duplicate Test Cu...\n\t\nVZ6 - AR Invoicing 6LJEPQ\n\tTanzania, United Republic of\t\u2014\t\u2014\t\n\n\nReceivables Te",
+        "issues": []
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Export Button",
+        "selector": "button:has-text('Export')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Export",
+        "issues": []
+      },
+      {
+        "name": "Sidebar Invoicing Link",
+        "selector": "a[href*='/invoicing']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Invoicing",
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "purchasing": {
+    "page": "purchasing",
+    "url": "https://app.viewz.co/purchasing?entityId=1",
+    "timestamp": "2026-01-18T13:05:48.791131",
+    "elements": [
+      {
+        "name": "Add Vendor Button",
+        "selector": "button:has-text('Add Vendor')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Add Vendor",
+        "issues": []
+      },
+      {
+        "name": "Vendor Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "hugv\n\t\n20008 - Deel Inc\n\tUSA\tIdaho\t\u2014\t",
+        "issues": []
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Export Button",
+        "selector": "button:has-text('Export')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Export",
+        "issues": []
+      },
+      {
+        "name": "Sidebar Purchasing Link",
+        "selector": "a[href*='/purchasing']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Purchasing",
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "budgeting": {
+    "page": "budgeting",
+    "url": "https://app.viewz.co/budgeting/chart-of-budget?entityId=1",
+    "timestamp": "2026-01-18T13:05:50.885830",
+    "elements": [
+      {
+        "name": "Sidebar Budgeting Link",
+        "selector": "a[href*='/budgeting']",
+        "required": true,
+        "found": true,
+        "count": 3,
+        "text": "Budgeting",
+        "issues": []
+      },
+      {
+        "name": "Budget Content",
+        "selector": "table, [class*='budget'], [class*='chart']",
+        "required": true,
+        "found": true,
+        "count": 2,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 9,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "ledger": {
+    "page": "ledger",
+    "url": "https://app.viewz.co/ledger/general-ledger?entityId=1",
+    "timestamp": "2026-01-18T13:05:52.960450",
+    "elements": [
+      {
+        "name": "Sidebar Ledger Link",
+        "selector": "a[href*='/ledger']",
+        "required": true,
+        "found": true,
+        "count": 4,
+        "text": "Ledger",
+        "issues": []
+      },
+      {
+        "name": "Accounts Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "01/04/2026\t82\t\n10210 - Valley N...\n\t\ngfghfhj\n\t($1,500.00)\t(\u20ac100.00)\tmanual\trecorded\t\n\n01/04/2026\t82\t",
+        "issues": []
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 23,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "reconciliation": {
+    "page": "reconciliation",
+    "url": "https://app.viewz.co/reconciliation?entityId=1",
+    "timestamp": "2026-01-18T13:05:55.020316",
+    "elements": [
+      {
+        "name": "Sidebar Reconciliation Link",
+        "selector": "a[href*='/reconciliation']",
+        "required": true,
+        "found": true,
+        "count": 5,
+        "text": "Reconciliation",
+        "issues": []
+      },
+      {
+        "name": "Sub Navigation",
+        "selector": "a[href*='/reconciliation/']",
+        "required": true,
+        "found": true,
+        "count": 4,
+        "text": "51\nBanks",
+        "issues": []
+      },
+      {
+        "name": "Content Area",
+        "selector": "[class*='content'], main",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Viewz Demo INC\nSn\nReconciliation\n51\nBanks\nPayables\n10\nReceivables\nSalaries\nLoans\nContracts\n25\nCredit",
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "payables": {
+    "page": "payables",
+    "url": "https://app.viewz.co/reconciliation/payables?entityId=1",
+    "timestamp": "2026-01-18T13:05:57.354347",
+    "elements": [
+      {
+        "name": "Payables Content",
+        "selector": "table, [class*='payable']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Status\n\tUploaded\n\tSupplier\n\tID\n\tDate\n\tPre Tax\n\tTaxes\n\tTotal\n\tCurrency\n\tPayment Status\n\t\nActions\n\nMat",
+        "issues": []
+      },
+      {
+        "name": "Status Filter",
+        "selector": "[class*='filter'], button:has-text('Status')",
+        "required": true,
+        "found": true,
+        "count": 4,
+        "text": "All Statuses",
+        "issues": []
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 28,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "receivables": {
+    "page": "receivables",
+    "url": "https://app.viewz.co/reconciliation?entityId=1",
+    "timestamp": "2026-01-18T13:05:59.487759",
+    "elements": [
+      {
+        "name": "Data Content",
+        "selector": "table, [class*='data']",
+        "required": true,
+        "found": true,
+        "count": 17,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 7,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "credit_cards": {
+    "page": "credit_cards",
+    "url": "https://app.viewz.co/reconciliation?entityId=1",
+    "timestamp": "2026-01-18T13:06:01.537343",
+    "elements": [
+      {
+        "name": "Data Content",
+        "selector": "table, [class*='data']",
+        "required": true,
+        "found": true,
+        "count": 17,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 7,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "banks": {
+    "page": "banks",
+    "url": "https://app.viewz.co/reconciliation?entityId=1",
+    "timestamp": "2026-01-18T13:06:03.584361",
+    "elements": [
+      {
+        "name": "Banks Content",
+        "selector": "table, [class*='bank'], [class*='data']",
+        "required": true,
+        "found": true,
+        "count": 17,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 7,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "bi_analysis": {
+    "page": "bi_analysis",
+    "url": "https://app.viewz.co/bi-analysis?entityId=1",
+    "timestamp": "2026-01-18T13:06:05.626540",
+    "elements": [
+      {
+        "name": "BI Analysis Link",
+        "selector": "a[href*='/bi']",
+        "required": true,
+        "found": true,
+        "count": 2,
+        "text": "BI Analysis",
+        "issues": []
+      },
+      {
+        "name": "BI Content",
+        "selector": "[class*='bi'], [class*='analysis'], [class*='chart'], main",
+        "required": true,
+        "found": true,
+        "count": 6,
+        "text": null,
+        "issues": []
+      },
+      {
+        "name": "Dashboard Elements",
+        "selector": "[class*='dashboard'], [class*='widget'], [class*='card']",
+        "required": true,
+        "found": true,
+        "count": 10,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "vizion_ai": {
+    "page": "vizion_ai",
+    "url": "https://app.viewz.co/vizion-ai?entityId=1",
+    "timestamp": "2026-01-18T13:06:07.677776",
+    "elements": [
+      {
+        "name": "Vizion AI Link",
+        "selector": "a[href*='/vizion']",
+        "required": true,
+        "found": true,
+        "count": 4,
+        "text": "Vizion AI",
+        "issues": []
+      },
+      {
+        "name": "AI Content",
+        "selector": "[class*='vizion'], [class*='ai'], [class*='chat'], main",
+        "required": true,
+        "found": true,
+        "count": 2,
+        "text": "Viewz Demo INC\nSn\nVizion AI Assistant\nWelcome to Vizion AI\n\nAsk questions about your financial data,",
+        "issues": []
+      },
+      {
+        "name": "Input Area",
+        "selector": "input, textarea, [class*='input']",
+        "required": true,
+        "found": true,
+        "count": 3,
+        "text": "Toggle Sidebar",
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "journal_entries": {
+    "page": "journal_entries",
+    "url": "https://app.viewz.co/home?entityId=1",
+    "timestamp": "2026-01-18T13:06:11.935167",
+    "elements": [
+      {
+        "name": "Journal Content",
+        "selector": "table, [class*='journal'], main",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Viewz Demo INC\nSn\nFinancial Overview Dashboard\n\nReal-time insights into your financial performance, ",
+        "issues": []
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 17,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  },
+  "chart_of_accounts": {
+    "page": "chart_of_accounts",
+    "url": "https://app.viewz.co/ledger/chart-of-accounts?entityId=1",
+    "timestamp": "2026-01-18T13:06:14.267636",
+    "elements": [
+      {
+        "name": "Accounts Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "10200\n\t\nSVB Bank - 3312\n\t\nUSD\n\t\nBalance Sheet\n\t\nCurrent Assets\n\t\nCash and cash eq...\n\t\nNon-EBITDA\n\t\n",
+        "issues": []
+      },
+      {
+        "name": "Add GL Button",
+        "selector": "button:has-text('Add GL')",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Add GL Account",
+        "issues": []
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [],
+    "issues": []
+  }
+}

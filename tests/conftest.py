@@ -100,7 +100,7 @@ def headless_mode(request):
 def load_config():
     """Load configuration from environment variables or config files"""
     # Check for environment selection
-    test_env = os.getenv("TEST_ENV", "production").lower()
+    test_env = os.getenv("TEST_ENV", "prod").lower()
     
     if test_env == "stage":
         # Load stage configuration
@@ -122,17 +122,32 @@ def load_config():
         except FileNotFoundError:
             print(f"⚠️ Stage config file not found: {config_path}, falling back to env vars")
     
-    # Default to production (environment variables or production config)
-    print("🔄 Using PRODUCTION environment config")
-    return {
-        "base_url": os.getenv("BASE_URL", "https://app.viewz.co"),
-        "username": os.getenv("TEST_USERNAME", ""),
-        "password": os.getenv("TEST_PASSWORD", ""),
-        "otp_secret": os.getenv("TEST_TOTP_SECRET", ""),
-        "api_base_url": os.getenv("API_BASE_URL", "https://app.viewz.co"),
-        "jwt_token": os.getenv("JWT_TOKEN", ""),
-        "environment": "production"
-    }
+    # Load production configuration from JSON file
+    config_path = "configs/env_config.json"
+    try:
+        with open(config_path, 'r') as f:
+            config = json.load(f)
+        print(f"🔄 Loaded PRODUCTION environment config from {config_path}")
+        return {
+            "base_url": config.get("base_url", "https://app.viewz.co"),
+            "username": config.get("username", ""),
+            "password": config.get("password", ""),
+            "otp_secret": config.get("otp_secret", ""),
+            "api_base_url": config.get("api", {}).get("base_url", "https://app.viewz.co/api"),
+            "jwt_token": os.getenv("JWT_TOKEN", ""),
+            "environment": "production"
+        }
+    except FileNotFoundError:
+        print(f"⚠️ Production config file not found: {config_path}, falling back to env vars")
+        return {
+            "base_url": os.getenv("BASE_URL", "https://app.viewz.co"),
+            "username": os.getenv("TEST_USERNAME", ""),
+            "password": os.getenv("TEST_PASSWORD", ""),
+            "otp_secret": os.getenv("TEST_TOTP_SECRET", ""),
+            "api_base_url": os.getenv("API_BASE_URL", "https://app.viewz.co"),
+            "jwt_token": os.getenv("JWT_TOKEN", ""),
+            "environment": "production"
+        }
 
 @pytest.fixture(scope="session")
 def env_config():

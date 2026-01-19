@@ -1,0 +1,705 @@
+{
+  "home": {
+    "page": "home",
+    "url": "https://app.stage.viewz.co/login",
+    "timestamp": "2026-01-15T09:49:50.965868",
+    "elements": [
+      {
+        "name": "Viewz Logo",
+        "selector": "a[href*='/home'] svg",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Entity Selector",
+        "selector": "button:has-text('Viewz')",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Main Dashboard Content",
+        "selector": "[class*='grid']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Home Link",
+        "selector": "a[href*='/home']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Navigation Menu",
+        "selector": "nav, [class*='nav'], [class*='sidebar']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Viewz Logo",
+      "Entity Selector",
+      "Main Dashboard Content",
+      "Home Link",
+      "Navigation Menu"
+    ],
+    "issues": [
+      "Viewz Logo: Required element not found",
+      "Entity Selector: Required element not found",
+      "Main Dashboard Content: Required element not found",
+      "Home Link: Required element not found",
+      "Navigation Menu: Required element not found"
+    ]
+  },
+  "invoicing": {
+    "page": "invoicing",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:49:53.373008",
+    "elements": [
+      {
+        "name": "Add Customer Button",
+        "selector": "button:has-text('Add Customer')",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Customer Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Export Button",
+        "selector": "button:has-text('Export')",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Sidebar Invoicing Link",
+        "selector": "a[href*='/invoicing']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Add Customer Button",
+      "Customer Table",
+      "Search Input",
+      "Export Button",
+      "Sidebar Invoicing Link"
+    ],
+    "issues": [
+      "Add Customer Button: Required element not found",
+      "Customer Table: Required element not found",
+      "Search Input: Required element not found",
+      "Export Button: Required element not found",
+      "Sidebar Invoicing Link: Required element not found"
+    ]
+  },
+  "purchasing": {
+    "page": "purchasing",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:49:55.962848",
+    "elements": [
+      {
+        "name": "Add Vendor Button",
+        "selector": "button:has-text('Add Vendor')",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Vendor Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Export Button",
+        "selector": "button:has-text('Export')",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Sidebar Purchasing Link",
+        "selector": "a[href*='/purchasing']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Add Vendor Button",
+      "Vendor Table",
+      "Search Input",
+      "Export Button",
+      "Sidebar Purchasing Link"
+    ],
+    "issues": [
+      "Add Vendor Button: Required element not found",
+      "Vendor Table: Required element not found",
+      "Search Input: Required element not found",
+      "Export Button: Required element not found",
+      "Sidebar Purchasing Link: Required element not found"
+    ]
+  },
+  "budgeting": {
+    "page": "budgeting",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:49:55.997066",
+    "elements": [
+      {
+        "name": "Sidebar Budgeting Link",
+        "selector": "a[href*='/budgeting']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Budget Content",
+        "selector": "table, [class*='budget'], [class*='chart']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 3,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Sidebar Budgeting Link",
+      "Budget Content"
+    ],
+    "issues": [
+      "Sidebar Budgeting Link: Required element not found",
+      "Budget Content: Required element not found"
+    ]
+  },
+  "ledger": {
+    "page": "ledger",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:49:56.009256",
+    "elements": [
+      {
+        "name": "Sidebar Ledger Link",
+        "selector": "a[href*='/ledger']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Accounts Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 3,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Sidebar Ledger Link",
+      "Accounts Table",
+      "Search Input"
+    ],
+    "issues": [
+      "Sidebar Ledger Link: Required element not found",
+      "Accounts Table: Required element not found",
+      "Search Input: Required element not found"
+    ]
+  },
+  "reconciliation": {
+    "page": "reconciliation",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:49:56.020610",
+    "elements": [
+      {
+        "name": "Sidebar Reconciliation Link",
+        "selector": "a[href*='/reconciliation']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Sub Navigation",
+        "selector": "a[href*='/reconciliation/']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Content Area",
+        "selector": "[class*='content'], main",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Sidebar Reconciliation Link",
+      "Sub Navigation",
+      "Content Area"
+    ],
+    "issues": [
+      "Sidebar Reconciliation Link: Required element not found",
+      "Sub Navigation: Required element not found",
+      "Content Area: Required element not found"
+    ]
+  },
+  "payables": {
+    "page": "payables",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:49:58.399182",
+    "elements": [
+      {
+        "name": "Payables Content",
+        "selector": "table, [class*='payable']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Status Filter",
+        "selector": "[class*='filter'], button:has-text('Status')",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 3,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Payables Content",
+      "Status Filter"
+    ],
+    "issues": [
+      "Payables Content: Required element not found",
+      "Status Filter: Required element not found"
+    ]
+  },
+  "receivables": {
+    "page": "receivables",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:49:58.429536",
+    "elements": [
+      {
+        "name": "Data Content",
+        "selector": "table, [class*='data']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 3,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Data Content"
+    ],
+    "issues": [
+      "Data Content: Required element not found"
+    ]
+  },
+  "credit_cards": {
+    "page": "credit_cards",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:49:58.441830",
+    "elements": [
+      {
+        "name": "Data Content",
+        "selector": "table, [class*='data']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 3,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Data Content"
+    ],
+    "issues": [
+      "Data Content: Required element not found"
+    ]
+  },
+  "banks": {
+    "page": "banks",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:49:58.452044",
+    "elements": [
+      {
+        "name": "Banks Content",
+        "selector": "table, [class*='bank'], [class*='data']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 3,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Banks Content"
+    ],
+    "issues": [
+      "Banks Content: Required element not found"
+    ]
+  },
+  "bi_analysis": {
+    "page": "bi_analysis",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:49:58.460318",
+    "elements": [
+      {
+        "name": "BI Analysis Link",
+        "selector": "a[href*='/bi']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "BI Content",
+        "selector": "[class*='bi'], [class*='analysis'], [class*='chart'], main",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Dashboard Elements",
+        "selector": "[class*='dashboard'], [class*='widget'], [class*='card']",
+        "required": true,
+        "found": true,
+        "count": 1,
+        "text": "Login\n\nEnter your credentials to access your account\n\nUsername\nPassword\nSign In\nForgot Password?",
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "BI Analysis Link",
+      "BI Content"
+    ],
+    "issues": [
+      "BI Analysis Link: Required element not found",
+      "BI Content: Required element not found"
+    ]
+  },
+  "vizion_ai": {
+    "page": "vizion_ai",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:49:58.470112",
+    "elements": [
+      {
+        "name": "Vizion AI Link",
+        "selector": "a[href*='/vizion']",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "AI Content",
+        "selector": "[class*='vizion'], [class*='ai'], [class*='chat'], main",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Input Area",
+        "selector": "input, textarea, [class*='input']",
+        "required": true,
+        "found": true,
+        "count": 2,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Vizion AI Link",
+      "AI Content"
+    ],
+    "issues": [
+      "Vizion AI Link: Required element not found",
+      "AI Content: Required element not found"
+    ]
+  },
+  "journal_entries": {
+    "page": "journal_entries",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:50:00.815841",
+    "elements": [
+      {
+        "name": "Journal Content",
+        "selector": "table, [class*='journal'], main",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Action Buttons",
+        "selector": "button",
+        "required": true,
+        "found": true,
+        "count": 3,
+        "text": null,
+        "issues": []
+      }
+    ],
+    "missing_required": [
+      "Journal Content"
+    ],
+    "issues": [
+      "Journal Content: Required element not found"
+    ]
+  },
+  "chart_of_accounts": {
+    "page": "chart_of_accounts",
+    "url": "https://app.stage.viewz.co/login?entityId=1",
+    "timestamp": "2026-01-15T09:50:03.196679",
+    "elements": [
+      {
+        "name": "Accounts Table",
+        "selector": "table tbody",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Add GL Button",
+        "selector": "button:has-text('Add GL')",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      },
+      {
+        "name": "Search Input",
+        "selector": "input[placeholder*='Search' i]",
+        "required": true,
+        "found": false,
+        "count": 0,
+        "text": null,
+        "issues": [
+          "Required element not found"
+        ]
+      }
+    ],
+    "missing_required": [
+      "Accounts Table",
+      "Add GL Button",
+      "Search Input"
+    ],
+    "issues": [
+      "Accounts Table: Required element not found",
+      "Add GL Button: Required element not found",
+      "Search Input: Required element not found"
+    ]
+  }
+}

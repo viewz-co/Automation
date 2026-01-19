@@ -17,7 +17,12 @@ class PurchasingPage:
     def __init__(self, page: Page):
         self.page = page
         self.heading = 'Purchasing'
-        self.base_url = "https://app.stage.viewz.co/purchasing"
+        # Dynamic base_url - extract from current page or use default
+        current_url = page.url if hasattr(page, 'url') else ""
+        if "stage.viewz.co" in current_url:
+            self.base_url = "https://app.stage.viewz.co/purchasing"
+        else:
+            self.base_url = "https://app.viewz.co/purchasing"
         
         # Navigation selectors
         self.nav_selectors = [

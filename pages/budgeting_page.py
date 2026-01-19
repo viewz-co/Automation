@@ -13,7 +13,12 @@ class BudgetingPage:
     def __init__(self, page: Page):
         self.page = page
         self.heading = 'Budgeting'
-        self.base_url = "https://app.stage.viewz.co/budgeting"
+        # Dynamic base_url - extract from current page or use default
+        current_url = page.url if hasattr(page, 'url') else ""
+        if "stage.viewz.co" in current_url:
+            self.base_url = "https://app.stage.viewz.co/budgeting"
+        else:
+            self.base_url = "https://app.viewz.co/budgeting"
     
     async def is_loaded(self) -> bool:
         """Check if the Budgeting page is loaded"""
