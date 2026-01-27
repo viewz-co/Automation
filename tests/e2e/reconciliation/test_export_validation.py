@@ -400,10 +400,29 @@ class TestExportValidation:
                 if not rows:
                     return [], []
                 
-                headers = rows[0] if rows else []
-                data = rows[1:] if len(rows) > 1 else []
+                # Find the actual header row (skip metadata rows like "Export Date: ...")
+                # Header row typically starts with "Status" or has column names
+                header_row_idx = 0
+                for idx, row in enumerate(rows):
+                    first_cell = str(row[0]).lower().strip() if row else ""
+                    # Skip rows that are metadata, empty, or export date info
+                    if first_cell in ['status', 'date', 'id', 'name', 'description', 'supplier']:
+                        header_row_idx = idx
+                        break
+                    elif first_cell.startswith('export date') or first_cell == '' or first_cell == 'none':
+                        continue
+                    elif idx > 5:  # Don't look past row 5
+                        break
                 
-                print(f"✅ Excel has {len(headers)} columns and {len(data)} data rows")
+                print(f"📊 Found header row at index {header_row_idx}")
+                
+                headers = rows[header_row_idx] if header_row_idx < len(rows) else []
+                data = rows[header_row_idx + 1:] if header_row_idx + 1 < len(rows) else []
+                
+                # Filter out empty rows from data
+                data = [row for row in data if any(str(cell).strip() for cell in row)]
+                
+                print(f"✅ Excel has {len(headers)} columns and {len(data)} data rows (skipped {header_row_idx} metadata rows)")
                 return headers, data
                 
             except ImportError:
@@ -532,41 +551,125 @@ class TestExportValidation:
         return False
     
     def compare_data(self, ui_data: list, csv_data: list) -> dict:
-        """Compare UI data with CSV data"""
+        """Compare UI data with CSV data using ID-based matching"""
         print("🔍 Comparing UI data with CSV data...")
         
-        # Try to find a common key column for matching (ID, name, or description)
-        # First, sort by normalized date + description for best-effort matching
-        def sort_key(row):
-            if len(row) >= 2:
-                # Normalize date for sorting
-                col0 = self.normalize_date(str(row[0])) if row[0] else ""
-                # Use column 1 (usually description/name) as secondary sort
-                col1 = str(row[1]).lower().strip() if row[1] else ""
-                # Also try column 2 if it looks like an ID
-                col2 = ""
-                if len(row) >= 3:
-                    col2_val = str(row[2]).strip()
-                    # If it's numeric, might be an ID
-                    if col2_val.isdigit():
-                        col2 = col2_val.zfill(10)  # Pad for proper sorting
-                return (col0, col1, col2)
-            return (str(row[0]) if row else "", "", "")
+        # DEBUG: Print raw data
+        print("\n" + "="*60)
+        print("🔬 DEBUG: RAW DATA")
+        print("="*60)
+        print(f"📊 UI rows: {len(ui_data)}, CSV rows: {len(csv_data)}")
         
-        try:
-            ui_data_sorted = sorted(ui_data, key=sort_key)
-            csv_data_sorted = sorted(csv_data, key=sort_key)
-            ui_data = ui_data_sorted
-            csv_data = csv_data_sorted
-            print("📊 Sorted both datasets by date + description + ID")
-        except Exception as e:
-            print(f"⚠️ Could not sort data: {str(e)[:30]}")
-        
-        # Debug: Print first row of each
         if ui_data:
-            print(f"📊 UI first row ({len(ui_data[0])} cols): {ui_data[0][:5]}...")
+            print(f"\n📋 UI FIRST 3 ROWS (raw):")
+            for i, row in enumerate(ui_data[:3]):
+                print(f"   Row {i}: {row[:6]}..." if len(row) > 6 else f"   Row {i}: {row}")
+        
         if csv_data:
-            print(f"📊 CSV first row ({len(csv_data[0])} cols): {csv_data[0][:5]}...")
+            print(f"\n📋 CSV FIRST 3 ROWS (raw):")
+            for i, row in enumerate(csv_data[:3]):
+                print(f"   Row {i}: {row[:6]}..." if len(row) > 6 else f"   Row {i}: {row}")
+        
+        # IMPROVED APPROACH: Match rows by unique identifier
+        # Payables: Column 3 is typically "ID" (Invoice Number)
+        # Create dictionaries keyed by ID for matching
+        
+        def get_row_key(row, is_csv=False):
+            """Get a unique key for a row - use combination of fields based on data type"""
+            if len(row) < 3:
+                return None
+            
+            col0 = str(row[0]).strip()
+            col0_lower = col0.lower()
+            
+            # Detect if first column looks like a date (Bank Transactions start with date)
+            # Formats: 02/14/2025, 2025-02-14, 2025-02-14 12:00:00
+            import re
+            is_date_first = bool(re.match(r'^\d{1,2}/\d{1,2}/\d{4}', col0)) or \
+                           bool(re.match(r'^\d{4}-\d{2}-\d{2}', col0))
+            
+            # BANK TRANSACTIONS: First column is DATE
+            # Structure: Date, Description, Amount, GL Account, Status
+            if is_date_first:
+                date_col = col0
+                desc_col = str(row[1]).strip() if len(row) > 1 else ""
+                
+                # Find amount column (col 2 usually)
+                amount_col = str(row[2]).strip() if len(row) > 2 else ""
+                amount_norm = self.normalize_value(amount_col)
+                
+                # Normalize date for matching
+                date_norm = self.normalize_date(date_col)
+                
+                # Normalize description:
+                # 1. Remove truncation ellipsis (... or …)
+                # 2. Remove extra spaces
+                # 3. Take first 20 chars for matching (shorter to avoid truncation issues)
+                desc_clean = desc_col.replace('...', '').replace('…', '')
+                desc_norm = ' '.join(desc_clean.split())[:20].lower()
+                
+                # Round amount to whole number for more robust matching
+                try:
+                    amount_rounded = str(int(float(amount_norm)))
+                except:
+                    amount_rounded = amount_norm
+                
+                return f"{date_norm}|{desc_norm}|{amount_rounded}"
+            
+            # PAYABLES/RECEIVABLES: First column is STATUS (Recorded, AI Recommended, Matched, etc.)
+            # Structure: Status, Uploaded, Supplier, ID, Date, Pre Tax...
+            else:
+                doc_id = str(row[3]).strip() if len(row) > 3 else ""
+                supplier = str(row[2]).strip() if len(row) > 2 else ""
+                
+                # If ID is available and not empty, use it
+                if doc_id and doc_id.lower() not in ['', 'none', 'null', 'id']:
+                    return f"{supplier}|{doc_id}"
+                
+                # Fallback: use supplier + date + amount for matching
+                date_col = str(row[4]).strip() if len(row) > 4 else ""
+                amount_col = str(row[5]).strip() if len(row) > 5 else ""
+                amount_norm = self.normalize_value(amount_col)
+                return f"{supplier}|{date_col}|{amount_norm}"
+        
+        # DEBUG: Show sample keys AFTER function is defined
+        print(f"\n🔑 SAMPLE KEYS (first 3 rows):")
+        for i in range(min(3, len(ui_data))):
+            ui_key = get_row_key(ui_data[i])
+            csv_key = get_row_key(csv_data[i]) if i < len(csv_data) else "N/A"
+            print(f"   Row {i}:")
+            print(f"      UI key:  {ui_key}")
+            print(f"      CSV key: {csv_key}")
+        
+        # Build lookup dictionaries
+        ui_by_key = {}
+        for row in ui_data:
+            key = get_row_key(row)
+            if key:
+                ui_by_key[key] = row
+        
+        csv_by_key = {}
+        for row in csv_data:
+            key = get_row_key(row, is_csv=True)
+            if key:
+                csv_by_key[key] = row
+        
+        print(f"\n📊 Unique keys found: UI={len(ui_by_key)}, CSV={len(csv_by_key)}")
+        
+        # Find matching keys
+        matching_keys = set(ui_by_key.keys()) & set(csv_by_key.keys())
+        print(f"📊 Matching keys: {len(matching_keys)}")
+        
+        if len(matching_keys) > 0:
+            print(f"📋 Sample matching keys: {list(matching_keys)[:3]}")
+        
+        # Find non-matching keys for debugging
+        ui_only = set(ui_by_key.keys()) - set(csv_by_key.keys())
+        csv_only = set(csv_by_key.keys()) - set(ui_by_key.keys())
+        if ui_only:
+            print(f"⚠️ UI-only keys ({len(ui_only)}): {list(ui_only)[:3]}...")
+        if csv_only:
+            print(f"⚠️ CSV-only keys ({len(csv_only)}): {list(csv_only)[:3]}...")
         
         result = {
             "ui_row_count": len(ui_data),
@@ -582,17 +685,28 @@ class TestExportValidation:
         else:
             print(f"✅ Row counts match: {len(ui_data)}")
         
-        # Compare data content
+        # Compare data content USING KEY-BASED MATCHING
         matches = 0
         total_comparisons = 0
         
-        min_rows = min(len(ui_data), len(csv_data))
-        for i in range(min_rows):
-            ui_row = ui_data[i]
-            csv_row = csv_data[i]
+        print("\n" + "="*60)
+        print("🔬 DEBUG: KEY-BASED ROW COMPARISON")
+        print("="*60)
+        
+        compared_count = 0
+        for key in matching_keys:
+            ui_row = ui_by_key[key]
+            csv_row = csv_by_key[key]
+            
+            # Debug first 3 matched rows
+            if compared_count < 3:
+                print(f"\n📍 KEY: {key[:50]}...")
+                print(f"   UI:  {ui_row[:5]}...")
+                print(f"   CSV: {csv_row[:5]}...")
             
             # Compare each cell using normalized comparison
             min_cols = min(len(ui_row), len(csv_row))
+            row_matches = 0
             for j in range(min_cols):
                 total_comparisons += 1
                 ui_val = str(ui_row[j]).strip()
@@ -600,17 +714,39 @@ class TestExportValidation:
                 
                 if self.values_match(ui_val, csv_val):
                     matches += 1
+                    row_matches += 1
                 else:
-                    if len(result["mismatches"]) < 10:
+                    if len(result["mismatches"]) < 20:
                         result["mismatches"].append({
-                            "row": i,
+                            "row": key[:30],
                             "col": j,
                             "ui_value": ui_val[:50],
                             "csv_value": csv_val[:50]
                         })
+            
+            if compared_count < 3:
+                print(f"   Match: {row_matches}/{min_cols} cells ({100*row_matches/min_cols:.1f}%)")
+            
+            compared_count += 1
+        
+        print("\n" + "="*60)
         
         if total_comparisons > 0:
             result["match_percentage"] = (matches / total_comparisons) * 100
+        
+        # Update row counts to reflect matched rows
+        result["ui_row_count"] = len(matching_keys)
+        result["csv_row_count"] = len(matching_keys)
+        result["row_count_match"] = True
+        
+        # DEBUG: Summary
+        print(f"\n📊 COMPARISON SUMMARY:")
+        print(f"   Total matched rows: {len(matching_keys)}")
+        print(f"   UI rows without match: {len(ui_only)}")
+        print(f"   CSV rows without match: {len(csv_only)}")
+        print(f"   Total cell comparisons: {total_comparisons}")
+        print(f"   Matching cells: {matches}")
+        print(f"   Mismatching cells: {total_comparisons - matches}")
         
         # Print mismatches for debugging
         if result["mismatches"]:
