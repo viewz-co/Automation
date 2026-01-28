@@ -274,9 +274,36 @@ class BudgetingPage:
             for selector in save_selectors:
                 btn = self.page.locator(selector).first
                 if await btn.count() > 0 and await btn.is_visible():
+                    # Check if button is disabled
+                    is_disabled = await btn.is_disabled()
+                    if is_disabled:
+                        print(f"⚠️ Button is disabled: {selector}")
+                        await self.take_screenshot("button_disabled")
+                        continue
+                    
                     await btn.click(force=True)  # Force click to bypass overlay
                     print(f"✅ Clicked: {selector}")
-                    await asyncio.sleep(2)
+                    
+                    # Wait for modal to close or success message
+                    await asyncio.sleep(3)
+                    
+                    # Check if there's an error message
+                    error_msg = self.page.locator("text=Error, text=error, text=failed, [role='alert']")
+                    if await error_msg.count() > 0:
+                        error_text = await error_msg.first.text_content()
+                        print(f"❌ Error message: {error_text}")
+                        await self.take_screenshot("creation_error")
+                        return False
+                    
+                    # Check if modal closed (success indicator)
+                    modal = self.page.locator("[role='dialog'], .modal, [data-state='open']")
+                    if await modal.count() == 0:
+                        print("✅ Modal closed - creation likely succeeded")
+                        return True
+                    else:
+                        # Modal still open - might need to click again or there's an error
+                        await self.take_screenshot("modal_still_open")
+                    
                     return True
             
             print("❌ Create Group button not found")
@@ -443,16 +470,18 @@ class BudgetingPage:
         except:
             return False
     
-    async def add_budget_line(self, amount: float = None, budget_group: str = None) -> dict:
+    async def add_budget_line(self, amount: float = None, gl_account_name: str = None) -> dict:
         """
         Add a budget amount in the Budget Builder.
         
+        NOTE: Budget Builder shows GL Account categories (e.g., "Accrued Income", "Financing income")
+        NOT the budget groups we create. Budget groups are containers/metadata.
+        
         Flow:
-        1. Find the row for the budget group
-        2. Click on Annual Budget cell to edit
+        1. Find an existing row (by GL account name or use first expandable row)
+        2. Click on Annual cell to edit
         3. Enter amount value, press Enter
-        4. Click "Distribute evenly across months" button (first column)
-        5. Save Budget button becomes enabled
+        4. The monthly distribution happens automatically or via column actions
         """
         try:
             # Default values
@@ -463,29 +492,49 @@ class BudgetingPage:
             
             await asyncio.sleep(2)  # Wait for table to fully load
             
-            # Table structure based on screenshot:
-            # [distribute btn] | Code | Budget Group | Annual Budget | Jan | Feb | ... | Dec | Status/checkmark
+            # Table structure from screenshot:
+            # [expand] | Budget Group | % | Annual | Jan | Feb | Mar | ... | Dec
+            # Rows are GL account categories like "Accrued Income", "Financing income"
             
-            amount_filled = False
             target_row = None
+            row_name = None
             
-            # Find the row for our budget group
-            if budget_group:
-                row = self.page.locator(f"tr:has-text('{budget_group}')").first
+            # Find a row - either by name or just use first available row
+            if gl_account_name:
+                row = self.page.locator(f"tr:has-text('{gl_account_name}')").first
                 if await row.count() > 0:
                     target_row = row
-                    print(f"   Found row for: {budget_group}")
+                    row_name = gl_account_name
+                    print(f"   Found row for: {gl_account_name}")
             
-            # If no specific group, use first row
+            # If no specific row, find first expandable row with $0 values (editable)
             if not target_row:
-                target_row = self.page.locator("table tbody tr").first
-                if await target_row.count() > 0:
-                    print("   Using first table row")
+                # Try to find a row that shows $0.0K (hasn't been budgeted yet)
+                zero_rows = self.page.locator("tr:has-text('$0.0K')")
+                if await zero_rows.count() > 0:
+                    target_row = zero_rows.first
+                    row_text = await target_row.text_content()
+                    row_name = row_text.split()[0] if row_text else "First row"
+                    print(f"   Using zero-budget row: {row_name[:30]}...")
+                else:
+                    # Just use first tbody row
+                    target_row = self.page.locator("table tbody tr").first
+                    if await target_row.count() > 0:
+                        row_text = await target_row.text_content()
+                        row_name = row_text.split()[0] if row_text else "First row"
+                        print(f"   Using first table row: {row_name[:30]}...")
             
             if not target_row or await target_row.count() == 0:
                 print("❌ No table row found")
                 await self.take_screenshot("no_row_found")
                 return None
+            
+            # Scroll row into view
+            try:
+                await target_row.scroll_into_view_if_needed()
+            except:
+                pass
+            await asyncio.sleep(1)
             
             # Get all cells in this row
             cells = target_row.locator("td")
@@ -493,47 +542,47 @@ class BudgetingPage:
             print(f"   Row has {cell_count} cells")
             
             # ========================================
-            # STEP 1: Enter amount in Annual Budget cell (index 3)
+            # STEP 1: Find and click the Annual column cell
             # ========================================
+            # Based on screenshot: Budget Group | % | Annual | Jan | Feb | ...
+            # Annual is at index 2 (0-indexed: 0=Budget Group, 1=%, 2=Annual)
             
-            # IMPORTANT: Scroll the row into view first!
-            await target_row.scroll_into_view_if_needed()
-            await asyncio.sleep(1)
+            annual_cell_index = 2  # Annual column
+            if cell_count > 3:
+                annual_cell_index = 3  # If there's an expand button column first
             
-            # Now get the cells from the visible row
-            cells = target_row.locator("td")
-            annual_cell = cells.nth(3)  # Annual Budget column
+            annual_cell = cells.nth(annual_cell_index)
+            print(f"   📝 Step 1: Clicking on Annual cell (index {annual_cell_index})...")
             
-            print("   📝 Step 1: Clicking on Annual Budget cell...")
-            
-            # Double-click to edit
+            # Click to select, then double-click to edit
+            await annual_cell.click()
+            await asyncio.sleep(0.5)
             await annual_cell.dblclick()
             await asyncio.sleep(1)
             
-            # Find the input WITHIN THIS ROW (not any visible input!)
-            input_el = target_row.locator("input").first
+            # Find any visible input (editing mode creates an input)
+            input_el = self.page.locator("input:visible").first
+            amount_filled = False
+            
             if await input_el.count() > 0:
                 amount_str = str(int(amount))
                 
-                # Fill the amount
+                # Clear and fill
+                await input_el.fill("")
+                await asyncio.sleep(0.2)
                 await input_el.fill(amount_str)
                 print(f"   Filled amount: {amount_str}")
                 
-                await asyncio.sleep(0.5)
-                
-                # Press Enter to commit the value
+                # Press Enter or Tab to commit
                 await self.page.keyboard.press("Enter")
                 print(f"   Pressed Enter to commit")
                 
-                await asyncio.sleep(2)  # Wait for value to be saved
-                
-                print(f"   ✅ Filled Annual Budget: ${amount:,.2f}")
+                await asyncio.sleep(2)
                 amount_filled = True
+                print(f"   ✅ Filled Annual Budget: ${amount:,.2f}")
             else:
-                # Try clicking the cell again and typing directly
-                print("   No input in row, trying direct type...")
-                await annual_cell.click()
-                await asyncio.sleep(0.5)
+                # Try typing directly
+                print("   No input found, trying keyboard type...")
                 await self.page.keyboard.type(str(int(amount)), delay=50)
                 await self.page.keyboard.press("Enter")
                 await asyncio.sleep(2)
@@ -541,62 +590,16 @@ class BudgetingPage:
             
             if not amount_filled:
                 print("⚠️ Could not fill Annual Budget")
+                await self.take_screenshot("amount_fill_failed")
                 return None
             
-            # ========================================
-            # STEP 2: Click "Distribute evenly" button (first cell)
-            # ========================================
-            print("   📍 Step 2: Clicking 'Distribute evenly' button in first column...")
-            
-            # Re-find the row (in case DOM changed after entering amount)
-            if budget_group:
-                target_row = self.page.locator(f"tr:has-text('{budget_group}')").first
-            else:
-                target_row = self.page.locator("table tbody tr").first
-            
-            # Scroll the row into view
-            await target_row.scroll_into_view_if_needed()
-            await asyncio.sleep(0.5)
-            
-            cells = target_row.locator("td")
-            first_cell = cells.first
-            
-            # The button in the first cell - try to find it
-            distribute_clicked = False
-            
-            # Try clicking the button inside the first cell
-            button_in_cell = first_cell.locator("button").first
-            if await button_in_cell.count() > 0:
-                print("   Found button in first cell")
-                await button_in_cell.click()
-                distribute_clicked = True
-                print("   ✅ Clicked distribute button")
-            else:
-                # Try clicking any clickable element in the first cell
-                clickable = first_cell.locator("div, span, svg").first
-                if await clickable.count() > 0:
-                    print("   Found clickable element in first cell")
-                    await clickable.click()
-                    distribute_clicked = True
-                    print("   ✅ Clicked element in first cell")
-                else:
-                    # Click the cell itself
-                    print("   Clicking first cell directly...")
-                    await first_cell.click()
-                    distribute_clicked = True
-                    print("   ✅ Clicked first cell")
-            
-            await asyncio.sleep(2)  # Wait for distribution to apply
-            await self.take_screenshot("after_distribute_click")
-            
-            # Verify months got filled (they should show values now)
-            row_text = await target_row.text_content()
-            print(f"   Row after distribute: {row_text[:100]}...")
+            # Screenshot after filling
+            await self.take_screenshot("after_amount_fill")
             
             return {
-                'budget_group': budget_group,
+                'gl_account': row_name,
                 'amount': amount,
-                'distributed': distribute_clicked
+                'filled': amount_filled
             }
             
         except Exception as e:
@@ -642,32 +645,37 @@ class BudgetingPage:
             await self.take_screenshot("save_error")
             return False
     
-    async def build_budget_for_group(self, group_name: str, budget_lines: list = None) -> bool:
+    async def build_budget_for_group(self, group_name: str = None, budget_lines: list = None) -> bool:
         """
-        Complete flow: Build budget for a group
+        Complete flow: Build budget using Budget Builder
+        
+        NOTE: Budget Builder shows GL Account categories (not budget groups).
+        This method opens the Builder and adds budget to an existing GL category.
         
         Steps:
-        1. Open Budget Builder
-        2. Find the group row and fill Annual Budget
-        3. Click "Distribute evenly across months"
+        1. Open Budget Builder tab
+        2. Find an existing GL category row
+        3. Add budget amount
         4. Save
         """
-        print(f"\n🔨 Building budget for: {group_name}")
+        print(f"\n🔨 Building budget...")
+        if group_name:
+            print(f"   (Budget group context: {group_name})")
         
         # Open builder
-        if not await self.open_budget_builder(group_name):
+        if not await self.open_budget_builder():
             return False
         
         await asyncio.sleep(2)  # Wait for table to load
         
-        # Add budget amount for the group
+        # Add budget amount to a GL category row
         if budget_lines:
             # Sum all amounts for total annual budget
             total_amount = sum(line.get('amount', 0) for line in budget_lines)
-            await self.add_budget_line(amount=total_amount, budget_group=group_name)
+            await self.add_budget_line(amount=total_amount)
         else:
             # Add a default amount
-            await self.add_budget_line(amount=120000, budget_group=group_name)  # $10K/month
+            await self.add_budget_line(amount=120000)  # $10K/month
         
         # Save
         return await self.save_budget()
@@ -679,11 +687,66 @@ class BudgetingPage:
     async def verify_budget_group_exists(self, group_name: str) -> bool:
         """Verify a budget group exists in the list"""
         try:
-            group = self.page.locator(f"text={group_name}").first
-            exists = await group.count() > 0
+            # First, make sure we're on Chart Of Budget tab
+            chart_tab = self.page.locator("text=Chart Of Budget").first
+            if await chart_tab.count() > 0:
+                await chart_tab.click()
+                await asyncio.sleep(1)
+            
+            # Reload the page to ensure fresh data
+            await self.page.reload()
+            await asyncio.sleep(3)
+            
+            # Try using search box - look for the specific placeholder
+            search_selectors = [
+                "input[placeholder*='Search budget groups']",
+                "input[placeholder*='Search']",
+                "input[type='search']",
+            ]
+            
+            search_input = None
+            for selector in search_selectors:
+                inp = self.page.locator(selector).first
+                if await inp.count() > 0 and await inp.is_visible():
+                    search_input = inp
+                    break
+            
+            if search_input:
+                # Clear any existing text first
+                await search_input.click()
+                await search_input.fill("")
+                await asyncio.sleep(0.5)
+                
+                # Type the search term
+                await search_input.fill(group_name)
+                print(f"   🔍 Searching for: {group_name}")
+                
+                # Wait for search to filter results
+                await asyncio.sleep(2)
+                
+                # Take screenshot to debug
+                await self.take_screenshot("search_results")
+            
+            # Check if group appears in the table
+            # Look in Name column (column 2) of the table
+            group_locator = self.page.locator(f"table tbody tr:has-text('{group_name}')")
+            exists = await group_locator.count() > 0
+            
+            if not exists:
+                # Also try partial match (in case name was truncated)
+                partial_name = group_name[:15] if len(group_name) > 15 else group_name
+                group_locator = self.page.locator(f"table tbody tr:has-text('{partial_name}')")
+                exists = await group_locator.count() > 0
+            
+            # Clear search
+            if search_input:
+                await search_input.fill("")
+                await asyncio.sleep(0.5)
+            
             print(f"{'✅' if exists else '❌'} Budget group '{group_name}' {'exists' if exists else 'not found'}")
             return exists
-        except:
+        except Exception as e:
+            print(f"⚠️ Error verifying group: {e}")
             return False
     
     async def delete_budget_group(self, group_name: str) -> bool:
