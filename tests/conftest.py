@@ -575,6 +575,18 @@ def pytest_runtest_makereport(item, call):
         'test_budgeting_page_elements': 168682,  # C168682
         'test_budget_group_list_display': 168683,  # C168683
         'test_tab_navigation_with_entity[text=Budgeting-BudgetingPage]': 165487,  # C165487
+        
+        # Budget Builder Features (NEW - Jan 2026)
+        'test_fiscal_year_filter': 211173,  # C211173 - Fiscal Year Filter
+        'test_version_selection': 211174,  # C211174 - Version Selection
+        'test_search_budget_lines': 211175,  # C211175 - Search Budget Lines
+        'test_balance_indicator': 211176,  # C211176 - Balance Indicator Display
+        'test_summary_statistics': 211177,  # C211177 - Summary Statistics Display
+        'test_row_expansion': 211178,  # C211178 - Row Expansion/Collapse
+        'test_monthly_value_edit': 211179,  # C211179 - Monthly Value Edit
+        'test_negative_budget_display': 211180,  # C211180 - Negative Budget Display
+        'test_bulk_actions': 211181,  # C211181 - Bulk Actions Functionality
+        'test_table_horizontal_scroll': 211182,  # C211182 - Table Horizontal Scroll
 
         # Purchasing Operations (NEW - Jan 2026)
         'test_purchasing_page_loads': 176676,  # C176676

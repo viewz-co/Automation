@@ -48,28 +48,47 @@ class BudgetingPage:
             # If URL didn't work, use sidebar menu
             print("📍 Using sidebar menu to navigate to Budgeting...")
             
-            # Hover over logo to expand menu
-            logo = self.page.locator("svg.viewz-logo, [class*='logo']").first
-            if await logo.count() > 0:
-                box = await logo.bounding_box()
-                if box:
-                    await self.page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
-                    await asyncio.sleep(1)
+            # Try clicking Budgeting link directly first
+            budgeting_selectors = [
+                "a[href*='/budgeting']",
+                "a:has-text('Budgeting')",
+                "[data-testid*='budgeting']",
+                "nav >> text=Budgeting",
+                "aside >> text=Budgeting",
+            ]
             
-            # Pin menu if possible
-            pin_button = self.page.locator("button:has(svg.lucide-pin)")
-            if await pin_button.count() > 0 and await pin_button.is_visible():
-                await pin_button.click()
-                await asyncio.sleep(0.5)
+            for selector in budgeting_selectors:
+                try:
+                    link = self.page.locator(selector).first
+                    if await link.count() > 0:
+                        # Use force click to bypass any overlays
+                        await link.click(force=True, timeout=5000)
+                        await asyncio.sleep(2)
+                        if 'budget' in self.page.url.lower():
+                            print(f"📍 Navigated to Budgeting via: {selector}")
+                            return
+                except Exception as e:
+                    continue
             
-            # Click Budgeting in sidebar
-            budgeting_link = self.page.locator("text=Budgeting").first
-            if await budgeting_link.count() > 0:
-                await budgeting_link.click()
-                await asyncio.sleep(2)
-                print(f"📍 Navigated to Budgeting via sidebar: {self.page.url}")
-            else:
-                print("⚠️ Budgeting link not found in sidebar")
+            # Fallback: hover to expand sidebar
+            try:
+                logo = self.page.locator("svg.viewz-logo, [class*='logo']").first
+                if await logo.count() > 0:
+                    box = await logo.bounding_box()
+                    if box:
+                        await self.page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+                        await asyncio.sleep(1)
+                
+                # Click Budgeting in expanded sidebar
+                budgeting_link = self.page.locator("text=Budgeting").first
+                if await budgeting_link.count() > 0:
+                    await budgeting_link.click(force=True)
+                    await asyncio.sleep(2)
+                    print(f"📍 Navigated to Budgeting via sidebar: {self.page.url}")
+                else:
+                    print("⚠️ Budgeting link not found in sidebar")
+            except Exception as sidebar_error:
+                print(f"⚠️ Sidebar navigation failed: {sidebar_error}")
                 
         except Exception as e:
             print(f"⚠️ Navigation error: {e}")
@@ -777,4 +796,522 @@ class BudgetingPage:
             
         except Exception as e:
             print(f"❌ Error deleting group: {e}")
+            return False
+    
+    # ==========================================
+    # BUDGET BUILDER FEATURES
+    # ==========================================
+    
+    async def change_fiscal_year(self, year: str) -> bool:
+        """Change the Fiscal Year dropdown in Budget Builder"""
+        try:
+            # Find Fiscal Year dropdown
+            fiscal_year_dropdown = self.page.locator("button:has-text('Fiscal Year'), [class*='select']:near(:text('Fiscal Year'))").first
+            if await fiscal_year_dropdown.count() == 0:
+                # Try by finding text "Fiscal Year" and the adjacent dropdown
+                fiscal_year_dropdown = self.page.locator("button:right-of(:text('Fiscal Year'))").first
+            
+            if await fiscal_year_dropdown.count() > 0:
+                await fiscal_year_dropdown.click()
+                await asyncio.sleep(0.5)
+                
+                # Select the year
+                year_option = self.page.locator(f"[role='option']:has-text('{year}'), [role='menuitem']:has-text('{year}')").first
+                if await year_option.count() > 0:
+                    await year_option.click()
+                    print(f"✅ Changed Fiscal Year to: {year}")
+                    await asyncio.sleep(1)
+                    return True
+                    
+                # Close dropdown if year not found
+                await self.page.keyboard.press("Escape")
+                print(f"⚠️ Year {year} not found in dropdown")
+                return False
+            
+            print("❌ Fiscal Year dropdown not found")
+            return False
+            
+        except Exception as e:
+            print(f"❌ Error changing fiscal year: {e}")
+            return False
+    
+    async def get_current_fiscal_year(self) -> str:
+        """Get the currently selected fiscal year"""
+        try:
+            # Find the dropdown button near "Fiscal Year" text
+            dropdown = self.page.locator("button:right-of(:text('Fiscal Year'))").first
+            if await dropdown.count() > 0:
+                text = await dropdown.text_content()
+                return text.strip() if text else ""
+            return ""
+        except:
+            return ""
+    
+    async def change_version(self, version_name: str) -> bool:
+        """Change the budget Version dropdown"""
+        try:
+            # Find Version dropdown
+            version_dropdown = self.page.locator("button:has-text('Version'), button:right-of(:text('Version'))").first
+            
+            if await version_dropdown.count() > 0:
+                await version_dropdown.click()
+                await asyncio.sleep(0.5)
+                
+                # Select the version
+                version_option = self.page.locator(f"[role='option']:has-text('{version_name}'), [role='menuitem']:has-text('{version_name}')").first
+                if await version_option.count() > 0:
+                    await version_option.click()
+                    print(f"✅ Changed Version to: {version_name}")
+                    await asyncio.sleep(1)
+                    return True
+                
+                await self.page.keyboard.press("Escape")
+                print(f"⚠️ Version {version_name} not found")
+                return False
+            
+            print("❌ Version dropdown not found")
+            return False
+            
+        except Exception as e:
+            print(f"❌ Error changing version: {e}")
+            return False
+    
+    async def get_available_versions(self) -> list:
+        """Get list of available budget versions"""
+        try:
+            versions = []
+            # Click version dropdown to open options
+            version_dropdown = self.page.locator("button:right-of(:text('Version'))").first
+            if await version_dropdown.count() > 0:
+                await version_dropdown.click()
+                await asyncio.sleep(0.5)
+                
+                # Get all options
+                options = self.page.locator("[role='option'], [role='menuitem']")
+                count = await options.count()
+                for i in range(count):
+                    text = await options.nth(i).text_content()
+                    if text:
+                        versions.append(text.strip())
+                
+                await self.page.keyboard.press("Escape")
+            
+            return versions
+        except:
+            return []
+    
+    async def search_budget_lines(self, search_term: str) -> int:
+        """Search for budget lines and return count of results"""
+        try:
+            # Find search input
+            search_input = self.page.locator("input[placeholder*='Search budget'], input[placeholder*='Search'], input[type='search']").first
+            
+            if await search_input.count() > 0:
+                await search_input.click()
+                await search_input.fill("")
+                await asyncio.sleep(0.3)
+                await search_input.fill(search_term)
+                print(f"🔍 Searching: {search_term}")
+                await asyncio.sleep(1)
+                
+                # Count visible rows
+                rows = self.page.locator("table tbody tr:visible")
+                count = await rows.count()
+                print(f"   Found {count} matching rows")
+                return count
+            
+            print("❌ Search input not found")
+            return -1
+            
+        except Exception as e:
+            print(f"❌ Error searching: {e}")
+            return -1
+    
+    async def clear_search(self):
+        """Clear the search input"""
+        try:
+            search_input = self.page.locator("input[placeholder*='Search budget'], input[placeholder*='Search'], input[type='search']").first
+            if await search_input.count() > 0:
+                await search_input.fill("")
+                await asyncio.sleep(0.5)
+        except:
+            pass
+    
+    async def get_balance_indicator(self) -> dict:
+        """Get the balance indicator status (e.g., '79% Balanced')"""
+        try:
+            # Look for balance indicator near the search box
+            balance_indicator = self.page.locator("text=Balanced, text=% Balanced").first
+            
+            if await balance_indicator.count() > 0:
+                text = await balance_indicator.text_content()
+                # Parse percentage
+                import re
+                match = re.search(r'(\d+)%', text or "")
+                percentage = int(match.group(1)) if match else 0
+                
+                # Check if it's green (fully balanced) or other color
+                parent = balance_indicator.locator("..")
+                class_attr = await parent.get_attribute("class") or ""
+                is_balanced = "green" in class_attr.lower() or percentage >= 100
+                
+                return {
+                    'text': text.strip() if text else "",
+                    'percentage': percentage,
+                    'is_balanced': is_balanced
+                }
+            
+            return {'text': '', 'percentage': 0, 'is_balanced': False}
+            
+        except Exception as e:
+            print(f"⚠️ Error getting balance: {e}")
+            return {'text': '', 'percentage': 0, 'is_balanced': False}
+    
+    async def get_summary_statistics(self) -> dict:
+        """Get summary statistics (Total, Avg/mo, Lines, Top)"""
+        try:
+            stats = {
+                'total': '',
+                'avg_monthly': '',
+                'lines_count': 0,
+                'top_item': ''
+            }
+            
+            # Total: $31,560.1K USD
+            total_el = self.page.locator("text=Total:").first
+            if await total_el.count() > 0:
+                parent_text = await total_el.locator("..").text_content()
+                if parent_text:
+                    import re
+                    total_match = re.search(r'Total:\s*([\$\d,\.]+\w*)', parent_text)
+                    if total_match:
+                        stats['total'] = total_match.group(1)
+            
+            # Avg/mo: $2,630.0K
+            avg_el = self.page.locator("text=Avg/mo:").first
+            if await avg_el.count() > 0:
+                parent_text = await avg_el.locator("..").text_content()
+                if parent_text:
+                    import re
+                    avg_match = re.search(r'Avg/mo:\s*([\$\d,\.]+\w*)', parent_text)
+                    if avg_match:
+                        stats['avg_monthly'] = avg_match.group(1)
+            
+            # Lines: 63
+            lines_el = self.page.locator("text=Lines:").first
+            if await lines_el.count() > 0:
+                parent_text = await lines_el.locator("..").text_content()
+                if parent_text:
+                    import re
+                    lines_match = re.search(r'Lines:\s*(\d+)', parent_text)
+                    if lines_match:
+                        stats['lines_count'] = int(lines_match.group(1))
+            
+            # Top: fgdgf ($30,000.0K)
+            top_el = self.page.locator("text=Top:").first
+            if await top_el.count() > 0:
+                parent_text = await top_el.locator("..").text_content()
+                if parent_text:
+                    import re
+                    top_match = re.search(r'Top:\s*(.+?)(?:\s*\||\s*$)', parent_text)
+                    if top_match:
+                        stats['top_item'] = top_match.group(1).strip()
+            
+            print(f"📊 Stats: Total={stats['total']}, Avg={stats['avg_monthly']}, Lines={stats['lines_count']}")
+            return stats
+            
+        except Exception as e:
+            print(f"⚠️ Error getting stats: {e}")
+            return {}
+    
+    async def expand_budget_row(self, row_name: str) -> bool:
+        """Expand a budget category row to see sub-items"""
+        try:
+            # Find the row
+            row = self.page.locator(f"tr:has-text('{row_name}')").first
+            if await row.count() == 0:
+                print(f"❌ Row not found: {row_name}")
+                return False
+            
+            # Find expand button (usually first cell with arrow/chevron)
+            expand_btn = row.locator("button, [class*='expand'], svg[class*='chevron'], td:first-child").first
+            if await expand_btn.count() > 0:
+                await expand_btn.click()
+                print(f"✅ Expanded row: {row_name}")
+                await asyncio.sleep(1)
+                return True
+            
+            # Try clicking the row itself
+            await row.click()
+            await asyncio.sleep(1)
+            return True
+            
+        except Exception as e:
+            print(f"❌ Error expanding row: {e}")
+            return False
+    
+    async def collapse_budget_row(self, row_name: str) -> bool:
+        """Collapse an expanded budget row"""
+        try:
+            row = self.page.locator(f"tr:has-text('{row_name}')").first
+            if await row.count() > 0:
+                expand_btn = row.locator("button, [class*='expand'], svg[class*='chevron'], td:first-child").first
+                if await expand_btn.count() > 0:
+                    await expand_btn.click()
+                    print(f"✅ Collapsed row: {row_name}")
+                    await asyncio.sleep(0.5)
+                    return True
+            return False
+        except:
+            return False
+    
+    async def is_row_expanded(self, row_name: str) -> bool:
+        """Check if a budget row is expanded"""
+        try:
+            # Look for sub-rows that are indented/nested under this row
+            row = self.page.locator(f"tr:has-text('{row_name}')").first
+            if await row.count() == 0:
+                return False
+            
+            # Check for expanded state indicator
+            chevron = row.locator("svg[class*='chevron-down'], [class*='expanded']").first
+            if await chevron.count() > 0:
+                return True
+            
+            # Check if next row is a sub-item (indented)
+            next_row = row.locator("+ tr")
+            if await next_row.count() > 0:
+                class_attr = await next_row.get_attribute("class") or ""
+                if "sub" in class_attr.lower() or "child" in class_attr.lower():
+                    return True
+            
+            return False
+        except:
+            return False
+    
+    async def edit_monthly_value(self, row_name: str, month: str, amount: float) -> bool:
+        """Edit a specific month's value for a budget line"""
+        try:
+            # Month column mapping
+            month_map = {
+                'Jan': 4, 'Feb': 5, 'Mar': 6, 'Apr': 7, 
+                'May': 8, 'Jun': 9, 'Jul': 10, 'Aug': 11,
+                'Sep': 12, 'Oct': 13, 'Nov': 14, 'Dec': 15
+            }
+            
+            col_index = month_map.get(month, 4)  # Default to Jan
+            
+            # Find the row
+            row = self.page.locator(f"tr:has-text('{row_name}')").first
+            if await row.count() == 0:
+                print(f"❌ Row not found: {row_name}")
+                return False
+            
+            # Find the month cell
+            cells = row.locator("td")
+            cell_count = await cells.count()
+            
+            if col_index < cell_count:
+                month_cell = cells.nth(col_index)
+                
+                # Double-click to edit
+                await month_cell.dblclick()
+                await asyncio.sleep(0.5)
+                
+                # Find and fill input
+                input_el = self.page.locator("input:visible").first
+                if await input_el.count() > 0:
+                    await input_el.fill(str(int(amount)))
+                    await self.page.keyboard.press("Enter")
+                    print(f"✅ Set {month} = ${amount:,.0f} for {row_name}")
+                    await asyncio.sleep(1)
+                    return True
+                else:
+                    # Try keyboard typing
+                    await self.page.keyboard.type(str(int(amount)))
+                    await self.page.keyboard.press("Enter")
+                    return True
+            
+            print(f"❌ Month column {month} not found")
+            return False
+            
+        except Exception as e:
+            print(f"❌ Error editing monthly value: {e}")
+            return False
+    
+    async def get_monthly_values(self, row_name: str) -> dict:
+        """Get all monthly values for a budget line"""
+        try:
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            values = {}
+            
+            row = self.page.locator(f"tr:has-text('{row_name}')").first
+            if await row.count() == 0:
+                return values
+            
+            cells = row.locator("td")
+            cell_count = await cells.count()
+            
+            # Monthly values start around index 4 (after Budget Group, %, Annual)
+            start_index = 4
+            for i, month in enumerate(months):
+                idx = start_index + i
+                if idx < cell_count:
+                    cell = cells.nth(idx)
+                    text = await cell.text_content()
+                    values[month] = text.strip() if text else "$0"
+            
+            return values
+            
+        except Exception as e:
+            print(f"⚠️ Error getting monthly values: {e}")
+            return {}
+    
+    async def has_negative_values(self) -> list:
+        """Find rows with negative budget values"""
+        try:
+            negative_rows = []
+            
+            # Negative values often shown with parentheses or minus sign, often in red
+            rows = self.page.locator("table tbody tr")
+            count = await rows.count()
+            
+            for i in range(count):
+                row = rows.nth(i)
+                row_text = await row.text_content() or ""
+                
+                # Check for negative indicators: ($xxx) or -$xxx
+                if '(' in row_text and ')' in row_text and '$' in row_text:
+                    # Get row name from first cell
+                    first_cell = row.locator("td").first
+                    name = await first_cell.text_content()
+                    negative_rows.append(name.strip() if name else f"Row {i}")
+            
+            print(f"📉 Found {len(negative_rows)} rows with negative values")
+            return negative_rows
+            
+        except Exception as e:
+            print(f"⚠️ Error finding negative values: {e}")
+            return []
+    
+    async def click_bulk_actions(self) -> bool:
+        """Click the Bulk Actions button"""
+        try:
+            bulk_btn = self.page.locator("button:has-text('Bulk Actions'), button:has-text('Bulk')").first
+            if await bulk_btn.count() > 0:
+                await bulk_btn.click()
+                print("✅ Clicked Bulk Actions")
+                await asyncio.sleep(0.5)
+                return True
+            
+            print("❌ Bulk Actions button not found")
+            return False
+            
+        except Exception as e:
+            print(f"❌ Error clicking Bulk Actions: {e}")
+            return False
+    
+    async def get_bulk_action_options(self) -> list:
+        """Get available bulk action options"""
+        try:
+            options = []
+            
+            # Click to open menu
+            if await self.click_bulk_actions():
+                # Get menu options
+                menu_items = self.page.locator("[role='menuitem'], [role='option']")
+                count = await menu_items.count()
+                
+                for i in range(count):
+                    text = await menu_items.nth(i).text_content()
+                    if text:
+                        options.append(text.strip())
+                
+                # Close menu
+                await self.page.keyboard.press("Escape")
+            
+            return options
+            
+        except Exception as e:
+            print(f"⚠️ Error getting bulk options: {e}")
+            return []
+    
+    async def select_multiple_rows(self, row_names: list) -> int:
+        """Select multiple rows for bulk actions"""
+        try:
+            selected_count = 0
+            
+            for row_name in row_names:
+                row = self.page.locator(f"tr:has-text('{row_name}')").first
+                if await row.count() > 0:
+                    # Look for checkbox in the row
+                    checkbox = row.locator("input[type='checkbox'], [role='checkbox']").first
+                    if await checkbox.count() > 0:
+                        await checkbox.click()
+                        selected_count += 1
+                    else:
+                        # Try Ctrl+click for multi-select
+                        await row.click(modifiers=["Control"])
+                        selected_count += 1
+            
+            print(f"✅ Selected {selected_count}/{len(row_names)} rows")
+            return selected_count
+            
+        except Exception as e:
+            print(f"❌ Error selecting rows: {e}")
+            return 0
+    
+    async def scroll_to_month(self, month: str) -> bool:
+        """Scroll the table horizontally to show a specific month"""
+        try:
+            # Find month header
+            month_header = self.page.locator(f"th:has-text('{month}'), td:has-text('{month}')").first
+            
+            if await month_header.count() > 0:
+                await month_header.scroll_into_view_if_needed()
+                print(f"✅ Scrolled to {month}")
+                await asyncio.sleep(0.5)
+                return True
+            
+            print(f"⚠️ Month header {month} not found")
+            return False
+            
+        except Exception as e:
+            print(f"❌ Error scrolling: {e}")
+            return False
+    
+    async def get_visible_months(self) -> list:
+        """Get list of currently visible month columns"""
+        try:
+            visible_months = []
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            
+            for month in months:
+                header = self.page.locator(f"th:has-text('{month}')").first
+                if await header.count() > 0 and await header.is_visible():
+                    visible_months.append(month)
+            
+            return visible_months
+            
+        except Exception as e:
+            print(f"⚠️ Error getting visible months: {e}")
+            return []
+    
+    async def click_customize_button(self) -> bool:
+        """Click the Customize button to show column options"""
+        try:
+            customize_btn = self.page.locator("button:has-text('Customize'), button:has-text('Cust')").first
+            if await customize_btn.count() > 0:
+                await customize_btn.click()
+                print("✅ Clicked Customize")
+                await asyncio.sleep(0.5)
+                return True
+            
+            print("❌ Customize button not found")
+            return False
+            
+        except Exception as e:
+            print(f"❌ Error clicking Customize: {e}")
             return False
