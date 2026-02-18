@@ -350,11 +350,20 @@ class InvoicingPage:
     # NAVIGATION METHODS
     # ==========================================
     
-    async def navigate_to_invoicing(self):
+    async def navigate_to_invoicing(self, preserve_entity: bool = True):
         """Navigate to the Invoicing page"""
         try:
             current_url = self.page.url
             print(f"📍 Current URL: {current_url}")
+            
+            # Extract entityId from current URL to preserve it
+            entity_id = None
+            if preserve_entity and "entityId=" in current_url:
+                import re
+                match = re.search(r'entityId=(\d+)', current_url)
+                if match:
+                    entity_id = match.group(1)
+                    print(f"🏢 Preserving entityId: {entity_id}")
             
             # Check if already on invoicing page
             if "invoicing" in current_url.lower() or "invoice" in current_url.lower():
@@ -363,11 +372,14 @@ class InvoicingPage:
             
             # Try direct URL navigation first
             base_url = current_url.split('/')[0] + '//' + current_url.split('/')[2]
+            
+            # Build URLs with entityId preserved
+            entity_param = f"?entityId={entity_id}" if entity_id else ""
             invoicing_urls = [
-                f"{base_url}/invoicing",
-                f"{base_url}/invoices",
-                f"{base_url}/billing/invoicing",
-                f"{base_url}/billing/invoices"
+                f"{base_url}/invoicing{entity_param}",
+                f"{base_url}/invoices{entity_param}",
+                f"{base_url}/billing/invoicing{entity_param}",
+                f"{base_url}/billing/invoices{entity_param}"
             ]
             
             for url in invoicing_urls:
@@ -539,102 +551,113 @@ class InvoicingPage:
                 if not filled:
                     await self._fill_field(self.customer_name_selectors, customer_data['name'])
             
-            # Select Receivable GL Account / Income Account (required dropdown)
-            # This is a CRITICAL required field - use multiple robust approaches
-            print("🔽 Selecting Income Account...")
+            # Select Customer Type (required dropdown)
+            print("🔽 Selecting Customer Type...")
+            customer_type_selected = False
+            try:
+                # Try multiple approaches for Customer Type dropdown
+                customer_type_selectors = [
+                    "text=Select customer t",
+                    "button:has-text('Select customer')",
+                    "[role='combobox']:has-text('Select customer')",
+                    "text=Customer Type >> xpath=../following-sibling::* >> button",
+                ]
+                
+                for selector in customer_type_selectors:
+                    try:
+                        dropdown = self.page.locator(selector).first
+                        if await dropdown.is_visible():
+                            await dropdown.click()
+                            await asyncio.sleep(0.5)
+                            # Select first option (usually "Business" or similar)
+                            option = self.page.locator("[role='option']").first
+                            if await option.is_visible():
+                                await option.click()
+                                customer_type_selected = True
+                                print("✅ Customer Type selected")
+                                break
+                    except:
+                        continue
+                
+                # Fallback: try labeled dropdown approach
+                if not customer_type_selected:
+                    result = await self._select_labeled_dropdown("Customer Type", "Select customer")
+                    if result:
+                        customer_type_selected = True
+                        print("✅ Customer Type selected via labeled dropdown")
+                        
+            except Exception as e:
+                print(f"⚠️ Customer Type selection failed: {str(e)[:40]}")
+            
+            if not customer_type_selected:
+                print("⚠️ Could not select Customer Type - this is a required field!")
+            
+            # Handle GL Account - Use the "Create GL Account Automatically" checkbox
+            # This is much more reliable than trying to select from the dropdown
+            print("🔽 Handling GL Account...")
             
             # Wait for the form to be fully loaded
-            await asyncio.sleep(2)
+            await asyncio.sleep(1)
             
-            income_selected = False
+            gl_handled = False
             
-            # Helper function to verify selection worked
-            async def verify_income_selected():
-                try:
-                    # Check if "Select income account" text is no longer visible
-                    placeholder = self.page.get_by_text("Select income account", exact=True)
-                    if not await placeholder.is_visible():
-                        return True
-                    # Also check if error message is gone
-                    error = self.page.get_by_text("please add gl account", exact=False)
-                    if not await error.is_visible():
-                        return True
-                except:
-                    pass
-                return False
-            
-            # Helper function to click first option with proper waiting
-            async def click_first_option():
-                await asyncio.sleep(0.5)  # Wait for dropdown to open
-                options = self.page.locator("[role='option']")
-                count = await options.count()
-                if count > 0:
-                    # Get the first option and click it
-                    first = options.first
-                    await first.scroll_into_view_if_needed()
-                    await asyncio.sleep(0.3)
-                    await first.click(force=True)
-                    await asyncio.sleep(0.5)
-                    return True
-                return False
-            
-            # Approach 1: Direct click on "Select income account" text
+            # BEST APPROACH: Check the "Create GL Account Automatically" checkbox
             try:
-                income_dropdown = self.page.get_by_text("Select income account", exact=False).first
-                await income_dropdown.wait_for(state="visible", timeout=5000)
-                await income_dropdown.click(force=True)
-                await click_first_option()
-                if await verify_income_selected():
-                    income_selected = True
-                    print("✅ Income Account selected via direct text click")
+                # Try multiple selectors for the checkbox
+                checkbox_selectors = [
+                    "text=Create GL Account Automatically",
+                    "label:has-text('Create GL Account Automatically')",
+                    "input[type='checkbox'] >> xpath=../.. >> text=Create GL Account",
+                    "[role='checkbox']:near(:text('Create GL Account'))",
+                ]
+                
+                for selector in checkbox_selectors:
+                    try:
+                        checkbox = self.page.locator(selector).first
+                        if await checkbox.is_visible():
+                            # Check if it's already checked
+                            is_checked = await checkbox.is_checked() if hasattr(checkbox, 'is_checked') else False
+                            if not is_checked:
+                                await checkbox.click()
+                                await asyncio.sleep(0.5)
+                            gl_handled = True
+                            print("✅ Checked 'Create GL Account Automatically' checkbox")
+                            break
+                    except:
+                        continue
+                
+                # Also try clicking directly on the checkbox input
+                if not gl_handled:
+                    checkbox_input = self.page.locator("input[type='checkbox']").first
+                    if await checkbox_input.is_visible():
+                        parent_text = await checkbox_input.locator("xpath=./..").text_content()
+                        if parent_text and "gl account" in parent_text.lower():
+                            await checkbox_input.check()
+                            gl_handled = True
+                            print("✅ Checked GL Account checkbox via input element")
             except Exception as e:
-                print(f"⚠️ Direct text click failed: {str(e)[:40]}")
+                print(f"⚠️ Checkbox approach failed: {str(e)[:40]}")
             
-            # Approach 2: Use the labeled dropdown method
-            if not income_selected:
-                result = await self._select_labeled_dropdown("Receivable GL Account", "Select income account")
-                if result and await verify_income_selected():
-                    income_selected = True
-            
-            # Approach 3: Click by finding the dropdown near the label
-            if not income_selected:
+            # Fallback: Try to select from dropdown if checkbox didn't work
+            if not gl_handled:
+                print("⚠️ Checkbox not found, trying dropdown selection...")
                 try:
-                    print("⚠️ Trying approach 3: sibling dropdown...")
-                    # Find the Receivable GL Account section
-                    label_section = self.page.locator("text=Receivable GL Account").first
-                    await label_section.wait_for(state="visible", timeout=3000)
-                    # Find the closest button/combobox after the label
-                    section_parent = label_section.locator("xpath=./parent::*")
-                    dropdown_btn = section_parent.locator("button, [role='combobox'], [class*='trigger']").first
-                    if await dropdown_btn.is_visible():
-                        await dropdown_btn.click(force=True)
-                        await click_first_option()
-                        if await verify_income_selected():
-                            income_selected = True
-                            print("✅ Income Account selected via sibling approach")
+                    # Click on the Receivables GL Account dropdown
+                    dropdown = self.page.locator("text=Select receivable, button:has-text('Select receivable')").first
+                    if await dropdown.is_visible():
+                        await dropdown.click()
+                        await asyncio.sleep(0.5)
+                        # Select first available option
+                        option = self.page.locator("[role='option']").first
+                        if await option.is_visible():
+                            await option.click()
+                            gl_handled = True
+                            print("✅ Selected GL Account from dropdown")
                 except Exception as e:
-                    print(f"⚠️ Sibling approach failed: {str(e)[:40]}")
+                    print(f"⚠️ Dropdown selection failed: {str(e)[:40]}")
             
-            # Approach 4: Keyboard navigation
-            if not income_selected:
-                try:
-                    print("⚠️ Trying approach 4: keyboard navigation...")
-                    income_dropdown = self.page.get_by_text("Select income account", exact=False).first
-                    await income_dropdown.click(force=True)
-                    await asyncio.sleep(0.5)
-                    # Use keyboard to navigate and select
-                    await self.page.keyboard.press("ArrowDown")
-                    await asyncio.sleep(0.2)
-                    await self.page.keyboard.press("Enter")
-                    await asyncio.sleep(0.5)
-                    if await verify_income_selected():
-                        income_selected = True
-                        print("✅ Income Account selected via keyboard navigation")
-                except Exception as e:
-                    print(f"⚠️ Keyboard navigation failed: {str(e)[:40]}")
-            
-            if not income_selected:
-                print("❌ WARNING: Income Account dropdown may not be selected - this is a required field!")
+            if not gl_handled:
+                print("⚠️ Could not handle GL Account - form may fail validation")
                 # Take a debug screenshot
                 try:
                     await self.page.screenshot(path="debug_income_account_failed.png")
@@ -1236,6 +1259,46 @@ class InvoicingPage:
             
             await asyncio.sleep(2)
             
+            # Check for form-specific error messages (inside the dialog)
+            # NOTE: Be very careful here - don't catch required field labels (e.g., "Field *") as errors
+            error_detected = False
+            
+            # Only look for ACTUAL error messages, not labels or notifications
+            dialog = self.page.locator("[role='dialog']")
+            if await dialog.is_visible():
+                # Look for specific error message patterns - these are actual validation errors
+                error_selectors = [
+                    "[role='dialog'] >> text=This field is required",
+                    "[role='dialog'] >> text=is required",
+                    "[role='dialog'] >> text=Invalid email",
+                    "[role='dialog'] >> text=Invalid format",
+                    "[role='dialog'] >> text=Please enter a valid",
+                    "[role='dialog'] >> text=must be at least",
+                    "[role='dialog'] >> text=cannot be empty",
+                    "[role='dialog'] [role='alert']",
+                ]
+                
+                for selector in error_selectors:
+                    try:
+                        error_element = self.page.locator(selector).first
+                        if await error_element.is_visible():
+                            error_text = await error_element.text_content()
+                            # Skip labels that just have asterisks for required fields
+                            if error_text and len(error_text) > 2 and error_text.strip() != '*':
+                                # Skip if it's just a field label (ends with just *)
+                                if not error_text.strip().endswith('*') or 'required' in error_text.lower():
+                                    print(f"❌ Form validation error: {error_text[:100]}")
+                                    error_detected = True
+                                    await self.page.screenshot(path="debug_customer_form_error.png")
+                                    break
+                    except:
+                        continue
+            
+            if error_detected:
+                print("❌ Customer creation failed due to form errors")
+                await self._ensure_dialog_closed()
+                return None
+            
             # Check for success or if we're back on the list page
             success = await self._check_success_message()
             
@@ -1247,11 +1310,32 @@ class InvoicingPage:
             except:
                 pass
             
+            # Check if dialog is still open (means creation likely failed)
+            dialog_still_open = False
+            try:
+                dialog = self.page.locator("[role='dialog']")
+                dialog_still_open = await dialog.is_visible()
+            except:
+                pass
+            
             if success or form_closed:
                 print(f"✅ Customer created successfully: {customer_data.get('name', 'Unknown')}")
                 # Ensure dialog is fully closed
                 await self._ensure_dialog_closed()
                 return customer_data
+            
+            if dialog_still_open:
+                print("⚠️ Dialog still open - checking for issues...")
+                await self.page.screenshot(path="debug_customer_dialog_still_open.png")
+                # Try clicking Create Customer again
+                try:
+                    create_btn = self.page.get_by_role("button", name="Create Customer")
+                    if await create_btn.is_visible():
+                        await create_btn.click()
+                        await asyncio.sleep(2)
+                        print("🔄 Retried Create Customer click")
+                except:
+                    pass
             
             print("⚠️ Customer may have been created (checking form state)")
             # Try to close any open dialog
@@ -1784,11 +1868,32 @@ class InvoicingPage:
             # Step 3: Navigate to Products for this customer and create product
             print("\n📦 STEP 3: Create Product for Customer")
             
-            # After customer creation, ensure we're back on the Invoicing page
+            # After customer creation, ensure we're back on the Invoicing page with correct entity
             current_url = self.page.url
+            
+            # Store the entityId from before customer creation to preserve it
+            import re
+            entity_match = re.search(r'entityId=(\d+)', current_url)
+            entity_id = entity_match.group(1) if entity_match else None
+            
             if "/invoicing" not in current_url:
                 print(f"⚠️ Current URL is {current_url}, navigating back to Invoicing...")
-                await self.navigate_to_invoicing()
+                # Reload the invoicing page with the preserved entity context
+                if entity_id:
+                    base_url = current_url.split('/')[0] + '//' + current_url.split('/')[2]
+                    await self.page.goto(f"{base_url}/invoicing?entityId={entity_id}")
+                else:
+                    await self.navigate_to_invoicing()
+                await asyncio.sleep(2)
+                
+            # Verify we're on the right page and customer exists
+            await self.page.screenshot(path="debug_before_products.png")
+            
+            # Check if we can see the customer in the table (use .first to handle multiple matches)
+            customer_visible = await self.page.locator(f"text={customer_name[:20]}").first.is_visible()
+            if not customer_visible:
+                print(f"⚠️ Customer '{customer_name}' not visible, refreshing page...")
+                await self.page.reload()
                 await asyncio.sleep(2)
             
             # First, click the Actions menu → Products for our customer
@@ -2034,6 +2139,118 @@ class InvoicingPage:
             print("🔽 Selecting Contract...")
             await self._select_labeled_dropdown("Contract", "Select Contract")
             
+            # Select Billing Period (REQUIRED for recurring products)
+            print("🔽 Selecting Billing Period...")
+            billing_period_selected = False
+            
+            # Try multiple approaches for Billing Period
+            billing_selectors = [
+                "text=Select billing period",
+                "text=Select period",
+                "button:has-text('Select billing')",
+                "[role='combobox']:has-text('billing')",
+            ]
+            
+            for selector in billing_selectors:
+                try:
+                    dropdown = self.page.locator(selector).first
+                    if await dropdown.is_visible():
+                        await dropdown.click()
+                        await asyncio.sleep(0.5)
+                        # Select first option (usually "Monthly")
+                        option = self.page.locator("[role='option']").first
+                        if await option.is_visible():
+                            await option.click()
+                            billing_period_selected = True
+                            print("✅ Billing Period selected")
+                            break
+                except:
+                    continue
+            
+            # Fallback: try labeled dropdown approach
+            if not billing_period_selected:
+                result = await self._select_labeled_dropdown("Billing Period", "Select billing period")
+                if result:
+                    billing_period_selected = True
+                    print("✅ Billing Period selected via labeled dropdown")
+            
+            # Another fallback: try selecting "Monthly" or "One-time" directly
+            if not billing_period_selected:
+                try:
+                    # Look for a Billing Period section and click any dropdown in it
+                    billing_label = self.page.locator("text=Billing Period").first
+                    if await billing_label.is_visible():
+                        parent = billing_label.locator("xpath=./parent::*")
+                        btn = parent.locator("button, [role='combobox']").first
+                        if await btn.is_visible():
+                            await btn.click()
+                            await asyncio.sleep(0.5)
+                            # Try to select "Monthly"
+                            monthly = self.page.locator("[role='option']:has-text('Monthly')").first
+                            if await monthly.is_visible():
+                                await monthly.click()
+                                billing_period_selected = True
+                                print("✅ Billing Period: Monthly")
+                            else:
+                                # Just select first option
+                                option = self.page.locator("[role='option']").first
+                                if await option.is_visible():
+                                    await option.click()
+                                    billing_period_selected = True
+                                    print("✅ Billing Period selected (first option)")
+                except:
+                    pass
+            
+            if not billing_period_selected:
+                print("⚠️ Could not select Billing Period - this may be required!")
+            
+            await asyncio.sleep(0.5)
+            
+            # Select Currency (REQUIRED dropdown)
+            print("🔽 Selecting Currency...")
+            currency_selected = False
+            
+            # Try multiple approaches for Currency
+            currency_selectors = [
+                "text=Select currency",
+                "button:has-text('Select currency')",
+                "[role='combobox']:has-text('currency')",
+            ]
+            
+            for selector in currency_selectors:
+                try:
+                    dropdown = self.page.locator(selector).first
+                    if await dropdown.is_visible():
+                        await dropdown.click()
+                        await asyncio.sleep(0.5)
+                        # Select USD or first option
+                        usd_option = self.page.locator("[role='option']:has-text('USD'), [role='option']:has-text('Dollar')").first
+                        if await usd_option.is_visible():
+                            await usd_option.click()
+                            currency_selected = True
+                            print("✅ Currency: USD selected")
+                        else:
+                            option = self.page.locator("[role='option']").first
+                            if await option.is_visible():
+                                await option.click()
+                                currency_selected = True
+                                print("✅ Currency selected (first option)")
+                        break
+                except:
+                    continue
+            
+            # Fallback: try labeled dropdown approach
+            if not currency_selected:
+                result = await self._select_labeled_dropdown("Currency", "Select currency")
+                if result:
+                    currency_selected = True
+                    print("✅ Currency selected via labeled dropdown")
+            
+            if not currency_selected:
+                print("⚠️ Could not select Currency - this may be required!")
+            
+            await asyncio.sleep(0.5)
+            
             # Select Product Income Account (REQUIRED dropdown)
             print("🔽 Selecting Product Income Account...")
             await self._select_labeled_dropdown("Product Income Account", "Select GL Account")
@@ -2043,17 +2260,92 @@ class InvoicingPage:
             print("📸 Screenshot: debug_product_form_filled.png")
             
             # Click Create/Save button
+            save_clicked = False
             if await self._click_save("Create Product"):
-                await asyncio.sleep(2)
-                print(f"✅ Product created: {product_data.get('name', 'Unknown')}")
+                save_clicked = True
             else:
                 # Try generic save
                 if await self._click_save():
-                    await asyncio.sleep(2)
+                    save_clicked = True
+            
+            if not save_clicked:
+                print("❌ Could not click Create Product button")
+                return None
+            
+            await asyncio.sleep(2)
+            
+            # Check for form validation errors BEFORE declaring success
+            error_selectors = [
+                "[role='dialog'] >> text=required",
+                "[role='dialog'] >> text=is required",
+                "[role='dialog'] >> text=Please select",
+                "[role='dialog'] >> text=Invalid",
+                "[role='alert']",
+                ".text-red-500",
+                ".text-destructive",
+            ]
+            
+            for selector in error_selectors:
+                try:
+                    error_el = self.page.locator(selector).first
+                    if await error_el.is_visible():
+                        error_text = await error_el.text_content()
+                        if error_text and len(error_text) > 2:
+                            print(f"❌ Product form error: {error_text[:100]}")
+                            await self.page.screenshot(path="debug_product_form_error.png")
+                            return None
+                except:
+                    continue
+            
+            # Check if dialog is still open (form didn't submit)
+            dialog = self.page.locator("[role='dialog']")
+            if await dialog.is_visible():
+                print("⚠️ Dialog still open after clicking Create - checking for errors...")
+                await self.page.screenshot(path="debug_product_dialog_still_open.png")
+                
+                # Try clicking Create Product again
+                try:
+                    create_btn = self.page.get_by_role("button", name="Create Product")
+                    if await create_btn.is_visible():
+                        await create_btn.click()
+                        await asyncio.sleep(2)
+                        print("🔄 Clicked Create Product again")
+                except:
+                    pass
+            
+            # Check for success message
+            success_found = False
+            try:
+                success = self.page.locator("text=successfully, text=created, text=Product added").first
+                if await success.is_visible():
+                    success_found = True
                     print(f"✅ Product created: {product_data.get('name', 'Unknown')}")
+            except:
+                pass
+            
+            if not success_found:
+                # Check if dialog closed (indicates success)
+                await asyncio.sleep(1)
+                if not await dialog.is_visible():
+                    print(f"✅ Product created (dialog closed): {product_data.get('name', 'Unknown')}")
+                else:
+                    print("⚠️ Product creation uncertain - dialog still visible")
+                    await self.page.screenshot(path="debug_product_uncertain.png")
             
             # Close any dialogs that might be open
             await self._close_any_dialogs()
+            
+            # Verify product exists in list
+            await asyncio.sleep(1)
+            product_name = product_data.get('name', '')
+            try:
+                product_in_list = self.page.locator(f"text={product_name[:20]}").first
+                if await product_in_list.is_visible():
+                    print(f"✅ Verified: Product '{product_name}' visible in list")
+                else:
+                    print(f"⚠️ Product '{product_name}' not visible in list - may not have been created")
+            except:
+                pass
             
             return product_data
             
@@ -2173,32 +2465,100 @@ class InvoicingPage:
             print("🧾 Creating invoice...")
             await asyncio.sleep(2)
             
-            # Step 1: Click "Generate Invoice" button
-            button_clicked = False
-            
+            # Take screenshot to debug what's on the page
             try:
-                add_button = self.page.get_by_role("button", name="Generate Invoice")
-                await add_button.wait_for(state="visible", timeout=5000)
-                await add_button.click()
-                await asyncio.sleep(1)
-                button_clicked = True
-                print("✅ Clicked Generate Invoice button")
-            except Exception as e:
-                print(f"⚠️ get_by_role failed: {str(e)[:50]}")
+                await self.page.screenshot(path="debug_invoices_page.png")
+                print("📸 Screenshot: debug_invoices_page.png")
+            except:
+                pass
             
-            if not button_clicked:
+            # Step 1: Click invoice button - try multiple button names
+            button_clicked = False
+            button_names = [
+                "Generate Invoice",
+                "Add Invoice",
+                "Create Invoice",
+                "New Invoice",
+                "+ Add Invoice",
+                "+ Invoice",
+                "Generate",
+            ]
+            
+            # First, list all buttons for debugging
+            buttons = self.page.locator("button")
+            btn_count = await buttons.count()
+            print(f"📋 Found {btn_count} buttons on page")
+            
+            for button_name in button_names:
+                if button_clicked:
+                    break
+                    
+                # Try get_by_role first with wait_for
                 try:
-                    add_btn = self.page.locator("button:has-text('Generate Invoice')").first
-                    await add_btn.click()
+                    add_button = self.page.get_by_role("button", name=button_name)
+                    await add_button.wait_for(state="visible", timeout=3000)
+                    await add_button.click()
                     await asyncio.sleep(1)
                     button_clicked = True
-                    print("✅ Clicked Generate Invoice via locator")
+                    print(f"✅ Clicked '{button_name}' button via get_by_role")
+                    break
                 except Exception as e:
-                    print(f"❌ Could not click Generate Invoice: {str(e)[:50]}")
-                    return None
+                    print(f"⚠️ get_by_role for '{button_name}': {str(e)[:30]}")
+                
+                # Try locator with force click
+                try:
+                    add_btn = self.page.locator(f"button:has-text('{button_name}')").first
+                    await add_btn.click(timeout=3000)
+                    await asyncio.sleep(1)
+                    button_clicked = True
+                    print(f"✅ Clicked '{button_name}' button via locator")
+                    break
+                except Exception as e:
+                    print(f"⚠️ locator for '{button_name}': {str(e)[:30]}")
+                    continue
+            
+            # Fallback: click button by index (we know "Generate Invoice" is often button 6)
+            if not button_clicked:
+                print("⚠️ Trying button by index fallback...")
+                for i in range(btn_count):
+                    try:
+                        btn = buttons.nth(i)
+                        btn_text = await btn.text_content()
+                        if btn_text and "generate" in btn_text.lower():
+                            # Try scrolling into view first
+                            await btn.scroll_into_view_if_needed()
+                            await asyncio.sleep(0.5)
+                            # Try force click
+                            await btn.click(force=True, timeout=5000)
+                            await asyncio.sleep(1)
+                            button_clicked = True
+                            print(f"✅ Clicked button {i}: '{btn_text}' (force click)")
+                            break
+                    except Exception as e:
+                        print(f"⚠️ Failed to click button {i}: {str(e)[:30]}")
+                        continue
+            
+            # Last resort: try clicking the 6th button directly (index 6 based on observation)
+            if not button_clicked:
+                print("⚠️ Trying direct button 6 click...")
+                try:
+                    btn = buttons.nth(6)
+                    await btn.scroll_into_view_if_needed()
+                    await asyncio.sleep(0.5)
+                    await btn.click(force=True)
+                    button_clicked = True
+                    print("✅ Clicked button 6 directly (force click)")
+                except Exception as e:
+                    print(f"❌ Direct button 6 click failed: {str(e)[:50]}")
             
             if not button_clicked:
-                print("❌ Failed to click Generate Invoice button")
+                print("❌ Failed to click any invoice button")
+                for i in range(min(btn_count, 10)):
+                    try:
+                        btn_text = await buttons.nth(i).text_content()
+                        print(f"   - Button {i}: '{btn_text[:50] if btn_text else 'no text'}'")
+                    except:
+                        pass
                 return None
             
             await asyncio.sleep(1)
